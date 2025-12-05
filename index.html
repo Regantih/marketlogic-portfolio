@@ -277,24 +277,53 @@
         </div>
     </nav>
 
-    <!-- Om Audio with Mute Toggle (432Hz Calming Frequency) -->
-    <audio id="omAudio" loop preload="auto">
-        <source src="https://ia600201.us.archive.org/29/items/om-mantra-chanting/Om%20Mantra%20Chanting.mp3" type="audio/mpeg">
-    </audio>
-    <button id="audioToggle" onclick="toggleOm()" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full glass border border-electric-cyan/30 flex items-center justify-center hover:bg-electric-cyan/10 transition-all group" title="Toggle Om Chanting">
-        <svg id="soundOnIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-electric-cyan hidden"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-        <svg id="soundOffIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-neutral-dim"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
-        <span class="absolute -top-8 right-0 text-[10px] font-mono text-neutral-dim opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">? OM</span>
+    <!-- Om Audio with Mute Toggle (136.1Hz - Sacred Om Frequency) -->
+    <button id="audioToggle" onclick="toggleOm()"
+        class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full glass border border-electric-cyan/30 flex items-center justify-center hover:bg-electric-cyan/10 transition-all group"
+        title="Toggle Om Chanting (136.1Hz)">
+        <svg id="soundOnIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="text-electric-cyan hidden">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+        </svg>
+        <svg id="soundOffIcon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="text-neutral-dim">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+            <line x1="22" y1="9" x2="16" y2="15" />
+            <line x1="16" y1="9" x2="22" y2="15" />
+        </svg>
+        <span
+            class="absolute -top-8 right-0 text-[10px] font-mono text-neutral-dim opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">ॐ
+            136.1Hz</span>
     </button>
     <script>
-        const omAudio = document.getElementById('omAudio');
-        const soundOnIcon = document.getElementById('soundOnIcon');
-        const soundOffIcon = document.getElementById('soundOffIcon');
-        let omPlaying = false;
-        omAudio.volume = 0.25;
+        let audioCtx, oscillator, gainNode, omPlaying = false;
+        function createOm() {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            oscillator = audioCtx.createOscillator();
+            gainNode = audioCtx.createGain();
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 136.1;
+            gainNode= 0;
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.start();
+        }
         function toggleOm() {
-            if (omPlaying) { omAudio.pause(); soundOnIcon.classList.add('hidden'); soundOffIcon.classList.remove('hidden'); }
-            else { omAudio.play().catch(()=>{}); soundOnIcon.classList.remove('hidden'); soundOffIcon.classList.add('hidden'); }
+            const onIcon = document.getElementById('soundOnIcon');
+            const offIcon = document.getElementById('soundOffIcon');
+            if (!audioCtx) createOm();
+            if (omPlaying) {
+                gainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
+                onIcon.classList.add('hidden'); offIcon.cLise('hidden');
+            } else {
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                gainNode.gain.setTargetAtTime(0.15, audioCtx.currentTime, 0.5);
+                onIcon.classList.remove('hidden'); offIcon.classList.add('hidden');
+            }
             omPlaying = !omPlaying;
         }
     </script>
