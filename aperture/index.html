@@ -61,33 +61,234 @@
         .card-glow:hover {
             box-shadow: 0 0 50px rgba(34, 211, 238, 0.2);
             transform: translateY(-5px);
-        }
+            < !DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Aperture - Space-to-Earth Analytics Platform</title><meta name="description"
+            content="Aperture transforms satellite data into predictive business intelligence. Next-generation space-to-earth analytics platform powered by NVIDIA ARC-Pro Edge Computing."><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
 
-        .stat-glow {
-            text-shadow: 0 0 20px rgba(34, 211, 238, 0.8);
-        }
+            rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script>tailwind.config= {
+                theme: {
+                    extend: {
+                        colors: {
+                            space: {
+                                bg: '#0a1628', card: '#0f2744', border: '#1e4976', hover: '#164066', text: '#e2e8f0', muted: '#94a3b8'
+                            }
 
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.3), transparent);
-        }
+                            ,
+                            accent: {
+                                cyan: '#22d3ee', blue: '#38bdf8', teal: '#2dd4bf', glow: '#00e5ff'
+                            }
+                        }
+
+                        ,
+                        fontFamily: {
+                            sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace']
+                        }
+
+                        ,
+                        animation: {
+                            'fade-in': 'fadeIn 0.8s ease-out', 'slide-up': 'slideUp 0.6s ease-out', 'pulse-glow': 'pulseGlow 2s infinite'
+                        }
+
+                        ,
+                        keyframes: {
+                            fadeIn: {
+                                '0%': {
+                                    opacity: '0'
+                                }
+
+                                ,
+                                '100%': {
+                                    opacity: '1'
+                                }
+                            }
+
+                            ,
+                            slideUp: {
+                                '0%': {
+                                    transform: 'translateY(30px)', opacity: '0'
+                                }
+
+                                ,
+                                '100%': {
+                                    transform: 'translateY(0)', opacity: '1'
+                                }
+                            }
+
+                            ,
+                            pulseGlow: {
+                                '0%, 100%': {
+                                    boxShadow: '0 0 20px rgba(34, 211, 238, 0.3)'
+                                }
+
+                                ,
+                                '50%': {
+                                    boxShadow: '0 0 40px rgba(34, 211, 238, 0.6)'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            </script><style>body {
+                background: linear-gradient(180deg, #0a1628 0%, #0f2744 50%, #0a1628 100%);
+                color: #e2e8f0;
+                min-height: 100vh;
+            }
+
+            .glass-panel {
+                background: rgba(15, 39, 68, 0.8);
+                backdrop-filter: blur(12px);
+                border: 1px solid rgba(30, 73, 118, 0.5);
+            }
+
+            .glow-text {
+                text-shadow: 0 0 30px rgba(34, 211, 238, 0.5);
+            }
+
+            .hero-gradient {
+                background: radial-gradient(ellipse at 50% 0%, rgba(34, 211, 238, 0.15) 0%, transparent 60%);
+            }
+
+            .card-glow {
+                box-shadow: 0 0 30px rgba(34, 211, 238, 0.1);
+                transition: all 0.3s ease;
+            }
+
+            .card-glow:hover {
+                box-shadow: 0 0 50px rgba(34, 211, 238, 0.2);
+                transform: translateY(-5px);
+            }
+
+            .stat-glow {
+                text-shadow: 0 0 20px rgba(34, 211, 238, 0.8);
+            }
+
+            .section-divider {
+                height: 1px;
+                background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.3), transparent);
+            }
+
+            /* Video Background */
+            .video-hero {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                z-index: -1;
+                overflow: hidden;
+            }
+
+            .video-container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 100vw;
+                height: 100vh;
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+            }
+
+            .video-container iframe {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 100vw;
+                height: 56.25vw;
+                min-height: 100vh;
+                min-width: 177.78vh;
+                transform: translate(-50%, -50%);
+                opacity: 0.6;
+                /* Adjust visibility */
+            }
+
+            .video-overlay {
+                position: absolute;
+                inset: 0;
+                background: radial-gradient(circle at center, rgba(10, 22, 40, 0.4) 0%, rgba(10, 22, 40, 0.9) 100%);
+                pointer-events: none;
+            }
+
+            /* NVIDIA Badge */
+            .nvidia-badge {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                z-index: 40;
+                display: flex;
+                align-items: center;
+                gap: 0.8rem;
+                padding: 0.8rem 1.2rem;
+                background: rgba(0, 0, 0, 0.6);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(118, 185, 0, 0.3);
+                /* NVIDIA Green */
+                border-radius: 9999px;
+                color: #fff;
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 0.75rem;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                animation: pulse-green 3s infinite;
+            }
+
+            .nvidia-dot {
+                width: 8px;
+                height: 8px;
+                background-color: #76b900;
+                border-radius: 50%;
+                box-shadow: 0 0 10px #76b900;
+            }
+
+            @keyframes pulse-green {
+
+                0%,
+                100% {
+                    box-shadow: 0 0 0 rgba(118, 185, 0, 0);
+                    border-color: rgba(118, 185, 0, 0.3);
+                }
+
+                50% {
+                    box-shadow: 0 0 15px rgba(118, 185, 0, 0.3);
+                    border-color: rgba(118, 185, 0, 0.8);
+                }
+            }
     </style>
 </head>
 
 <body>
+    <div class="video-hero">
+        <div class="video-container">
+            <iframe
+                src="https://www.youtube.com/embed/sgc2TZf3JTs?autoplay=1&mute=1&controls=0&loop=1&playlist=sgc2TZf3JTs&showinfo=0&rel=0&iv_load_policy=3&disablekb=1"
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+        <div class="video-overlay"></div>
+    </div>
+
+    <div class="nvidia-badge">
+        <div class="nvidia-dot"></div>
+        Powered by NVIDIA ARC-Pro
+    </div>
     <!-- Navigation -->
-        <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4 glass-panel">
+    <nav class="fixed top-0 left-0 right-0 z-50 px-6 py-4 glass-panel">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <a href="../" class="flex items-center gap-3 group">
                 <div class="w-10 h-10 relative flex items-center justify-center">
-                    <div class="absolute inset-0 border border-accent-cyan/30 rotate-45 group-hover:rotate-[135deg] transition-transform duration-500"></div>
-                    <div class="absolute inset-2 border border-accent-cyan/50 rotate-45 group-hover:rotate-[135deg] transition-transform duration-700"></div>
+                    <div
+                        class="absolute inset-0 border border-accent-cyan/30 rotate-45 group-hover:rotate-[135deg] transition-transform duration-500">
+                    </div>
+                    <div
+                        class="absolute inset-2 border border-accent-cyan/50 rotate-45 group-hover:rotate-[135deg] transition-transform duration-700">
+                    </div>
                     <div class="w-2 h-2 bg-accent-cyan rounded-full"></div>
                 </div>
                 <span class="font-bold text-xl tracking-wide text-white">MARKETLOGIC</span>
             </a>
             <div class="hidden md:flex items-center gap-8 text-sm">
-                <a href="../hemanthreganti/" class="text-space-muted hover:text-accent-cyan transition-colors uppercase tracking-wider">Know Me</a>
+                <a href="../hemanthreganti/"
+                    class="text-space-muted hover:text-accent-cyan transition-colors uppercase tracking-wider">Know
+                    Me</a>
                 <a href="#agents" class="text-space-muted hover:text-accent-cyan transition-colors">AI Agents</a>
                 <a href="#nisar" class="text-space-muted hover:text-accent-cyan transition-colors">NISAR</a>
                 <a href="#roi" class="text-space-muted hover:text-accent-cyan transition-colors">ROI</a>
