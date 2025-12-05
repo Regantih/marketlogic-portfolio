@@ -245,6 +245,7 @@
 </head>
 
 <body>
+    <div class="loading-screen" id="loader"><div class="loading-spinner"></div></div>
     <!-- Navbar -->
     <nav class="fixed top-0 left-0 right-0 z-50 glass">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -276,6 +277,12 @@
             </a>
         </div>
     </nav>
+    <!-- Om Audio 136.1Hz -->
+    <button id="omBtn" onclick="playOm()" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full border border-cyan-400/30 bg-black/50 backdrop-blur flex items-center justify-center hover:bg-cyan-400/10 transition-all" title="Om 136.1Hz">
+        <svg id="sOn" class="text-cyan-400 hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <svg id="sOff" class="text-gray-500" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
+    </button>
+    <script>var ctx,osc,gn,on=0;function playOm(){if(!ctx){ctx=new AudioContext();osc=ctx.createOscillator();gn=ctx.createGain();osc.frequency.value=136.1;osc.connect(gn);gn.connect(ctx.destination);osc.start();}if(on){gn.gain.value=0;document.getElementById("sOn").classList.add("hidden");document.getElementById("sOff").classList.remove("hidden");}else{ctx.resume();gn.gain.value=0.1;document.getElementById("sOn").classList.remove("hidden");document.getElementById("sOff").classList.add("hidden");}on=!on;}</script>
     <!-- Om Audio 136.1Hz -->
     <button id="omBtn" onclick="playOm()" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full border border-cyan-400/30 bg-black/50 backdrop-blur flex items-center justify-center hover:bg-cyan-400/10 transition-all" title="Om 136.1Hz">
         <svg id="sOn" class="text-cyan-400 hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
@@ -631,8 +638,110 @@
                 </div>
             </div>
         </div>
+        <!-- Real-Time Global Intelligence Section -->
+    <section id="realtime" class="py-32 px-6 bg-obsidian relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-graphite-900/50 to-obsidian pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="reveal mb-16 text-center">
+                <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// LIVE FEEDS</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-4 tracking-tight">Real-Time <span class="text-gradient">Global Intelligence</span></h2>
+                <p class="text-neutral-muted mt-4 max-w-2xl mx-auto">Monitoring planetary systems in real-time.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <!-- Energy Grid -->
+                <div class="glass-card rounded-2xl p-6 reveal">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-yellow-400"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                            </div>
+                            <div><h3 class="font-semibold text-neutral-text">Global Energy</h3><span class="text-xs text-neutral-dim font-mono">GRID_STATUS</span></div>
+                        </div>
+                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">World Consumption</span><span class="text-sm font-mono text-yellow-400" id="energyConsumption">23.4 TW</span></div>
+                        <div class="w-full bg-graphite-700 rounded-full h-2"><div class="bg-gradient-to-r from-yellow-500 to-orange-500 h-2 rounded-full" style="width: 67%"></div></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Renewable Share</span><span class="text-sm font-mono text-green-400" id="renewableShare">31.2%</span></div>
+                        <div class="w-full bg-graphite-700 rounded-full h-2"><div class="bg-gradient-to-r from-green-500 to-emerald-400 h-2 rounded-full" style="width: 31%"></div></div>
+                    </div>
+                </div>
+                <!-- Cyber Threats -->
+                <div class="glass-card rounded-2xl p-6 reveal" style="transition-delay: 0.1s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-red-400"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+                            </div>
+                            <div><h3 class="font-semibold text-neutral-text">Cyber Threats</h3><span class="text-xs text-neutral-dim font-mono">THREAT_MONITOR</span></div>
+                        </div>
+                        <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Attacks Today</span><span class="text-sm font-mono text-red-400" id="attacksToday">2.4M</span></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">DDoS Active</span><span class="text-sm font-mono text-orange-400" id="ddosActive">847</span></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Malware Detected</span><span class="text-sm font-mono text-yellow-400" id="malwareDetected">12.3K</span></div>
+                        <div class="pt-3 border-t border-graphite-700"><div class="text-xs text-neutral-dim mb-2">Top Origins</div><div class="flex gap-2"><span class="px-2 py-1 rounded bg-graphite-700 text-xs font-mono">CN 23%</span><span class="px-2 py-1 rounded bg-graphite-700 text-xs font-mono">RU 18%</span><span class="px-2 py-1 rounded bg-graphite-700 text-xs font-mono">US 12%</span></div></div>
+                    </div>
+                </div>
+                <!-- Climate -->
+                <div class="glass-card rounded-2xl p-6 reveal" style="transition-delay: 0.2s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-cyan-400"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                            </div>
+                            <div><h3 class="font-semibold text-neutral-text">Climate Monitor</h3><span class="text-xs text-neutral-dim font-mono">EARTH_STATUS</span></div>
+                        </div>
+                        <div class="w-2 h-2 bg-cyan-500 rounded-full animate-pulse"></div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">CO2 Level</span><span class="text-sm font-mono text-orange-400">423 ppm</span></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Global Temp</span><span class="text-sm font-mono text-red-400">+1.2C</span></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Sea Level</span><span class="text-sm font-mono text-blue-400">+101mm</span></div>
+                        <div class="pt-3 border-t border-graphite-700 flex justify-between"><span class="text-xs text-neutral-dim">Arctic Ice</span><span class="text-xs font-mono text-cyan-400">4.2M km2</span></div>
+                    </div>
+                </div>
+                <!-- Crypto Markets -->
+                <div class="glass-card rounded-2xl p-6 reveal" style="transition-delay: 0.3s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-orange-500/20 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-orange-400"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.29 4.26m5.908 1.042.348-1.97"/><circle cx="12" cy="12" r="10"/></svg>
+                            </div>
+                            <div><h3 class="font-semibold text-neutral-text">Crypto Markets</h3><span class="text-xs text-neutral-dim font-mono">BLOCKCHAIN</span></div>
+                        </div>
+                        <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">BTC</span><span class="text-sm font-mono text-orange-400" id="btcPrice">$97,234</span></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">ETH</span><span class="text-sm font-mono text-blue-400" id="ethPrice">$3,847</span></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Total Cap</span><span class="text-sm font-mono text-green-400" id="totalCap">$3.4T</span></div>
+                        <div class="pt-3 border-t border-graphite-700 flex justify-between"><span class="text-xs text-neutral-dim">24h Vol</span><span class="text-xs font-mono text-neutral-muted">$142B</span></div>
+                    </div>
+                </div>
+                <!-- Quantum Computing -->
+                <div class="glass-card rounded-2xl p-6 reveal" style="transition-delay: 0.4s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-purple-400"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.6 4.6l2.8 2.8M16.6 16.6l2.8 2.8M1 12h4M19 12h4M4.6 19.4l2.8-2.8M16.6 7.4l2.8-2.8"/></svg>
+                            </div>
+                            <div><h3 class="font-semibold text-neutral-text">Quantum State</h3><span class="text-xs text-neutral-dim font-mono">Q_COMPUTE</span></div>
+                        </div>
+                        <div class="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Max Qubits</span><span class="text-sm font-mono text-purple-400">1,121</span></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Error Rate</span><span class="text-sm font-mono text-cyan-400">0.1%</span></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Q-Volume</span><span class="text-sm font-mono text-pink-400">65,536</span></div>
+                        <div class="pt-3 border-t border-graphite-700"><div class="flex gap-2"><span class="px-2 py-1 rounded bg-graphite-700 text-xs font-mono">IBM</span><span class="px-2 py-1 rounded bg-graphite-700 text-xs font-mono">Google</span><span class="px-2 py-1 rounded bg-graphite-700 text-xs font-mono">IonQ</span></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 text-center reveal"><div class="inline-flex items-center gap-2 text-xs font-mono text-neutral-dim"><div class="w-1.5 h-1.5 bg-electric-cyan rounded-full animate-pulse"></div><span>STREAMING LIVE</span><span class="text-electric-cyan" id="liveTimestamp">--:--:-- UTC</span></div></div>
+        </div>
     </section>
-
     <!-- Vision Section -->
     <section id="vision" class="py-32 px-6 bg-obsidian">
         <div class="max-w-4xl mx-auto text-center reveal">
@@ -763,6 +872,37 @@
         };
         window.addEventListener('scroll', revealOnScroll);
         revealOnScroll();
+    </script>
+    <script>
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        function updateLD(){
+            var t=document.getElementById('liveTimestamp');
+            if(t)t.textContent=new Date().toISOString().split('T')[1].split('.')[0]+' UTC';
+            var e=document.getElementById('energyConsumption');
+            if(e)e.textContent=(23+Math.random()*2).toFixed(1)+' TW';
+            var r=document.getElementById('renewableShare');
+            if(r)r.textContent=(30+Math.random()*5).toFixed(1)+'%';
+            var a=document.getElementById('attacksToday');
+            if(a)a.textContent=(2.3+Math.random()*0.4).toFixed(1)+'M';
+            var d=document.getElementById('ddosActive');
+            if(d)d.textContent=Math.floor(800+Math.random()*200);
+            var m=document.getElementById('malwareDetected');
+            if(m)m.textContent=(12+Math.random()*2).toFixed(1)+'K';
+            var b=document.getElementById('btcPrice');
+            if(b)b.textContent='
+
+</html>+(97000+Math.floor(Math.random()*1000)).toLocaleString();
+            var eth=document.getElementById('ethPrice');
+            if(eth)eth.textContent='
+
+</html>+(3800+Math.floor(Math.random()*100)).toLocaleString();
+            var cap=document.getElementById('totalCap');
+            if(cap)cap.textContent='
+
+</html>+(3.3+Math.random()*0.3).toFixed(1)+'T';
+        }
+        setInterval(updateLD,3000);
+        updateLD();
     </script>
 </body>
 
