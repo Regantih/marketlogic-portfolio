@@ -85,11 +85,26 @@
 
     <!-- Input Area -->
     <footer class="p-6 border-t border-electric-cyan/20 bg-obsidian/90 z-10">
-        <div class="max-w-4xl mx-auto flex gap-4">
-            <span class="text-electric-cyan pt-2">></span>
+        <div class="max-w-4xl mx-auto flex gap-4 items-center">
+            <span class="text-electric-cyan">></span>
+            <!-- File Upload Button & Input -->
+            <div class="relative group">
+                <input type="file" id="file-upload" class="hidden" accept=".txt,.md,.pdf,.doc,.docx" />
+                <button id="upload-btn"
+                    class="p-2 text-electric-cyan hover:bg-electric-cyan/10 border border-electric-cyan/30 rounded transition-colors"
+                    title="Upload Job Requirement / SOW">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+
             <input type="text" id="user-input"
                 class="w-full bg-transparent border-none outline-none text-electric-cyan placeholder-electric-cyan/30 font-mono text-lg"
-                placeholder="Type your objective here..." autocomplete="off">
+                placeholder="Type your objective or Upload SOW..." autocomplete="off">
             <button id="send-btn"
                 class="px-6 py-2 border border-electric-cyan/50 hover:bg-electric-cyan/10 text-electric-cyan text-xs uppercase tracking-wider transition-all">
                 Execute
@@ -101,15 +116,17 @@
         const chatContainer = document.getElementById('chat-container');
         const userInput = document.getElementById('user-input');
         const sendBtn = document.getElementById('send-btn');
+        const fileUpload = document.getElementById('file-upload');
+        const uploadBtn = document.getElementById('upload-btn');
         let step = 0;
 
-        // Knowledge Base: Simulated RAG (Retrieval Augmented Generation)
+        // Knowledge Base
         const knowledgeBase = {
             domains: {
                 "aerospace": ["space", "satellite", "orbit", "nisar", "earth observation", "aperture", "payload"],
-                "ai": ["ai", "artificial intelligence", "ml", "machine learning", "agent", "bot", "neural", "autonomous"],
+                "ai": ["ai", "artificial intelligence", "ml", "machine learning", "agent", "bot", "neural", "autonomous", "llm", "genai"],
                 "strategy": ["strategy", "cto", "leadership", "scale", "valuation", "invest", "funding", "startup"],
-                "software": ["software", "platform", "app", "web", "react", "code", "architecture", "system"]
+                "software": ["software", "platform", "app", "web", "react", "code", "architecture", "system", "full stack"]
             },
             anti_patterns: {
                 "construction": {
@@ -144,7 +161,6 @@
 
             if (sender === 'ai') {
                 bubble.innerHTML = `<span class="text-electric-cyan text-xs font-bold block mb-2">[AI_CORE]</span>`;
-                // If it's HTML content, render immediately
                 if (text.includes('<div')) {
                     bubble.innerHTML += text;
                     msgDiv.appendChild(bubble);
@@ -153,7 +169,6 @@
                     return;
                 }
 
-                // Typewriter effect
                 let i = 0;
                 msgDiv.appendChild(bubble);
                 chatContainer.appendChild(msgDiv);
@@ -163,7 +178,7 @@
                     i++;
                     chatContainer.scrollTop = chatContainer.scrollHeight;
                     if (i >= text.length) clearInterval(typeInterval);
-                }, 15);
+                }, 10);
             } else {
                 bubble.textContent = text;
                 msgDiv.appendChild(bubble);
@@ -173,10 +188,42 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         };
 
-        const analyzeIntent = (text) => {
+        const generateFitReport = (fileName, detectedDomains) => {
+            const primaryDomain = detectedDomains.length > 0 ? detectedDomains[0] : "General Technology";
+            const score = detectedDomains.length > 0 ? Math.floor(Math.random() * (99 - 85) + 85) : 65;
+            const evidenceText = detectedDomains.length > 0 ? knowledgeBase.evidence[primaryDomain] : "Hemanth's broad technical background makes him adaptable to various engineering challenges.";
+
+            return `
+                <div class="mt-2 p-4 border border-electric-cyan bg-electric-cyan/5 rounded w-full">
+                    <div class="flex justify-between items-center border-b border-electric-cyan/20 pb-2 mb-2">
+                        <span class="text-xs font-bold text-electric-cyan">FILE ANALYSIS REPORT</span>
+                        <span class="text-xs text-neutral-400">\${fileName}</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-3">
+                        <div>
+                            <span class="text-[10px] text-neutral-500 block">PRIMARY DOMAIN</span>
+                            <span class="text-sm font-bold text-white uppercase">\${primaryDomain}</span>
+                        </div>
+                         <div>
+                            <span class="text-[10px] text-neutral-500 block">COMPATIBILITY SCORE</span>
+                            <span class="text-sm font-bold text-electric-cyan">\${score}% MATCH</span>
+                        </div>
+                    </div>
+                     <div class="mb-3">
+                        <span class="text-[10px] text-neutral-500 block">ASSESSMENT</span>
+                        <p class="text-sm text-neutral-300 leading-snug">\${evidenceText}</p>
+                    </div>
+                    <div class="text-xs text-electric-cyan/70 italic border-t border-electric-cyan/20 pt-2">
+                        Recommendation: Proceed to high-priority uplink.
+                    </div>
+                </div>
+            `;
+        };
+
+        const analyzeIntent = (text, fileName = null) => {
             const lower = text.toLowerCase();
 
-            // 1. Check Anti-Patterns first
+            // 1. Anti-Patterns
             for (const [category, data] of Object.entries(knowledgeBase.anti_patterns)) {
                 if (data.keywords.some(k => lower.includes(k))) {
                     if (category === "construction" && (lower.includes("software") || lower.includes("system") || lower.includes("digital"))) {
@@ -186,7 +233,7 @@
                 }
             }
 
-            // 2. Check Positive Domains
+            // 2. Positive Domains
             let detectedDomains = [];
             for (const [domain, keywords] of Object.entries(knowledgeBase.domains)) {
                 if (keywords.some(k => lower.includes(k))) {
@@ -194,11 +241,15 @@
                 }
             }
 
+            if (fileName) {
+                return { type: 'file_match', response: generateFitReport(fileName, detectedDomains), domains: detectedDomains };
+            }
+
             if (detectedDomains.length > 0) {
                 const primaryDomain = detectedDomains[0];
                 return {
                     type: 'match',
-                    response: `Affirmative. <span class="text-electric-cyan">Fit Score: 98%</span><br><br>Analysis: Your request aligns with Hemanth's core competency in <strong>${primaryDomain.toUpperCase()}</strong>.<br><br>Evidence: ${knowledgeBase.evidence[primaryDomain]}`
+                    response: `Affirmative. <span class="text-electric-cyan">Fit Score: 98%</span><br><br>Analysis: Your request aligns with Hemanth's core competency in <strong>\${primaryDomain.toUpperCase()}</strong>.<br><br>Evidence: \${knowledgeBase.evidence[primaryDomain]}`
                 };
             }
 
@@ -209,6 +260,66 @@
             };
         };
 
+        const processFile = (file) => {
+            addMessage(`Uploading: \${file.name}...`, 'user');
+
+            // Disable UI
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+            uploadBtn.disabled = true;
+
+            setTimeout(() => {
+                addMessage("File received. Scanning content vectors...");
+
+                // Simulate processing delay
+                setTimeout(() => {
+                    let contentToAnalyze = file.name; // Analyzing filename by default
+
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        // If text file, append content to analysis
+                        if (file.type.startsWith('text/') || file.name.endsWith('.md') || file.name.endsWith('.json')) {
+                            contentToAnalyze += " " + e.target.result.substring(0, 1000); // Analyze first 1000 chars
+                        }
+
+                        const result = analyzeIntent(contentToAnalyze, file.name);
+                        addMessage(result.response);
+
+                        // Always lead to contact for files
+                        setTimeout(() => {
+                            addMessage("Analysis complete. This document indicates a significant opportunity for collaboration. Shall we fast-track a meeting?");
+                            step = 1;
+                            // Re-enable UI
+                            userInput.disabled = false;
+                            sendBtn.disabled = false;
+                            uploadBtn.disabled = false;
+                            userInput.value = '';
+                            userInput.focus();
+                        }, 1500);
+                    };
+
+                    // Trigger read
+                    if (file.type.startsWith('text/') || file.name.endsWith('.md')) {
+                        reader.readAsText(file);
+                    } else {
+                        // Binary file - just analyze filename
+                        const result = analyzeIntent(contentToAnalyze, file.name);
+                        addMessage(result.response);
+                        setTimeout(() => {
+                            addMessage("Analysis complete. This document indicates a significant opportunity for collaboration. Shall we fast-track a meeting?");
+                            step = 1;
+                            userInput.disabled = false;
+                            sendBtn.disabled = false;
+                            uploadBtn.disabled = false;
+                            userInput.value = '';
+                            userInput.focus();
+                        }, 1500);
+                    }
+
+                }, 2000);
+            }, 800);
+        };
+
         const processInput = () => {
             const text = userInput.value.trim();
             if (!text) return;
@@ -216,7 +327,6 @@
             addMessage(text, 'user');
             userInput.value = '';
 
-            // disable input briefly
             userInput.disabled = true;
             sendBtn.disabled = true;
 
@@ -268,11 +378,20 @@
             }, 500);
         };
 
+        // File Upload Listeners
+        uploadBtn.addEventListener('click', () => fileUpload.click());
+        fileUpload.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                processFile(e.target.files[0]);
+                fileUpload.value = ''; // Reset
+            }
+        });
+
         // Initial Sequence
         setTimeout(() => addMessage("INITIALIZING UPLINK..."), 500);
         setTimeout(() => addMessage("CONNECTION ESTABLISHED."), 1200);
         setTimeout(() => addMessage("Greetings. I am Hemanth's Personal AI. My function is to analyze fit and capabilities."), 2000);
-        setTimeout(() => addMessage("Tell me about your project or objective. Are you looking for Strategic Leadership, AI Implementation, or Deep Tech Engineering?"), 3500);
+        setTimeout(() => addMessage("Tell me about your project, or UPLOAD a Requirement Doc/SOW for analysis."), 3500);
 
         // Event Listeners
         userInput.addEventListener('keypress', (e) => {
