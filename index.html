@@ -245,6 +245,7 @@
 </head>
 
 <body>
+    <div class="loading-screen" id="loader"><div class="loading-spinner"></div></div>
     <!-- Navbar -->
     <nav class="fixed top-0 left-0 right-0 z-50 glass">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -356,8 +357,7 @@
                 <!-- Subtext -->
                 <p
                     class="text-lg md:text-xl text-neutral-muted max-w-2xl mx-auto leading-relaxed mb-12 animate-fade-up opacity-0 stagger-3">
-                    We don't trade stocks. We engineer the logic behind the things you eat, wear, and use. <span
-                        class="text-neutral-text">Deeptech, deployed for humanity.</span>
+                    <span class="text-neutral-text">Deeptech, deployed for humanity.</span>
                 </p>
 
                 <!-- CTA -->
@@ -490,7 +490,7 @@
             </div>
 
             <!-- Bento Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <!-- Card 1: Predictive Supply -->
                 <div class="glass-card rounded-2xl p-8 reveal" style="transition-delay: 0.1s;">
                     <div
@@ -635,7 +635,7 @@
                 <h2 class="text-4xl md:text-5xl font-bold mt-4 tracking-tight">Real-Time <span class="text-gradient">Global Intelligence</span></h2>
                 <p class="text-neutral-muted mt-4 max-w-2xl mx-auto">Monitoring planetary systems in real-time.</p>
             </div>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <!-- Energy Grid -->
                 <div class="glass-card rounded-2xl p-6 reveal">
                     <div class="flex items-center justify-between mb-4">
@@ -690,11 +690,47 @@
                         <div class="pt-3 border-t border-graphite-700 flex justify-between"><span class="text-xs text-neutral-dim">Arctic Ice</span><span class="text-xs font-mono text-cyan-400">4.2M km2</span></div>
                     </div>
                 </div>
+                <!-- Crypto Markets -->
+                <div class="glass-card rounded-2xl p-6 reveal" style="transition-delay: 0.3s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-orange-500/20 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-orange-400"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                            </div>
+                            <div><h3 class="font-semibold text-neutral-text">Crypto Markets</h3><span class="text-xs text-neutral-dim font-mono">BLOCKCHAIN</span></div>
+                        </div>
+                        <div class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">BTC</span><span class="text-sm font-mono text-orange-400" id="btcPrice">$97,234</span></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">ETH</span><span class="text-sm font-mono text-blue-400" id="ethPrice">$3,847</span></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Total Cap</span><span class="text-sm font-mono text-green-400" id="totalCap">$3.4T</span></div>
+                        <div class="pt-3 border-t border-graphite-700 flex justify-between"><span class="text-xs text-neutral-dim">24h Volume</span><span class="text-xs font-mono text-neutral-muted" id="volume24h">$142B</span></div>
+                    </div>
+                </div>
+                <!-- Quantum Computing -->
+                <div class="glass-card rounded-2xl p-6 reveal" style="transition-delay: 0.4s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-purple-400"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.6 4.6l2.8 2.8M16.6 16.6l2.8 2.8M1 12h4M19 12h4M4.6 19.4l2.8-2.8M16.6 7.4l2.8-2.8"/></svg>
+                            </div>
+                            <div><h3 class="font-semibold text-neutral-text">Quantum State</h3><span class="text-xs text-neutral-dim font-mono">Q_COMPUTING</span></div>
+                        </div>
+                        <div class="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Leading Qubits</span><span class="text-sm font-mono text-purple-400">1,121</span></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Error Rate</span><span class="text-sm font-mono text-cyan-400">0.1%</span></div>
+                        <div class="flex justify-between"><span class="text-sm text-neutral-muted">Q-Volume</span><span class="text-sm font-mono text-pink-400">65,536</span></div>
+                        <div class="pt-3 border-t border-graphite-700"><div class="text-xs text-neutral-dim mb-2">Leaders</div><div class="flex gap-2"><span class="px-2 py-1 rounded bg-graphite-700 text-xs font-mono">IBM</span><span class="px-2 py-1 rounded bg-graphite-700 text-xs font-mono">Google</span><span class="px-2 py-1 rounded bg-graphite-700 text-xs font-mono">IonQ</span></div></div>
+                    </div>
+                </div>
             </div>
             <div class="mt-12 text-center reveal"><div class="inline-flex items-center gap-2 text-xs font-mono text-neutral-dim"><div class="w-1.5 h-1.5 bg-electric-cyan rounded-full animate-pulse"></div><span>STREAMING LIVE</span><span class="text-electric-cyan" id="liveTimestamp">--:--:-- UTC</span></div></div>
         </div>
     </section>
-    <script>function updateLiveData(){document.getElementById('liveTimestamp').textContent=new Date().toISOString().split('T')[1].split('.')[0]+' UTC';document.getElementById('energyConsumption').textContent=(23+Math.random()*2).toFixed(1)+' TW';document.getElementById('renewableShare').textContent=(30+Math.random()*5).toFixed(1)+'%';document.getElementById('attacksToday').textContent=(2.3+Math.random()*0.4).toFixed(1)+'M';document.getElementById('ddosActive').textContent=Math.floor(800+Math.random()*200);document.getElementById('malwareDetected').textContent=(12+Math.random()*2).toFixed(1)+'K';}setInterval(updateLiveData,3000);updateLiveData();</script>
+    <script>function updateLiveData(){document.getElementById('liveTimestamp').textContent=new Date().toISOString().split('T')[1].split('.')[0]+' UTC';document.getElementById('energyConsumption').textContent=(23+Math.random()*2).toFixed(1)+' TW';document.getElementById('renewableShare').textContent=(30+Math.random()*5).toFixed(1)+'%';document.getElementById('attacksToday').textContent=(2.3+Math.random()*0.4).toFixed(1)+'M';document.getElementById('ddosActive').textContent=Math.floor(800+Math.random()*200);document.getElementById('malwareDetected').textContent=(12+Math.random()*2).toFixed(1)+'K';document.getElementById('btcPrice').textContent='document.getElementById('btcPrice').textContent='setInterval(updateLiveData,3000);updateLiveData();</script>
 
     <!-- Vision Section -->
     <section id="vision" class="py-32 px-6 bg-obsidian">
@@ -825,6 +861,2047 @@
             });
         };
         window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(97000+Math.floor(Math.random()*1000)).toLocaleString();document.getElementById('ethPrice').textContent='setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(3800+Math.floor(Math.random()*100)).toLocaleString();document.getElementById('totalCap').textContent='setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(3.3+Math.random()*0.3).toFixed(1)+'T';}setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(97000+Math.floor(Math.random()*1000)).toLocaleString();document.getElementById('ethPrice').textContent='document.getElementById('btcPrice').textContent='setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(97000+Math.floor(Math.random()*1000)).toLocaleString();document.getElementById('ethPrice').textContent='setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(3800+Math.floor(Math.random()*100)).toLocaleString();document.getElementById('totalCap').textContent='setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(3.3+Math.random()*0.3).toFixed(1)+'T';}setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(3800+Math.floor(Math.random()*100)).toLocaleString();document.getElementById('totalCap').textContent='document.getElementById('btcPrice').textContent='setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(97000+Math.floor(Math.random()*1000)).toLocaleString();document.getElementById('ethPrice').textContent='setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(3800+Math.floor(Math.random()*100)).toLocaleString();document.getElementById('totalCap').textContent='setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(3.3+Math.random()*0.3).toFixed(1)+'T';}setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(3.3+Math.random()*0.3).toFixed(1)+'T';document.getElementById('btcPrice').textContent='setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(97000+Math.floor(Math.random()*1000)).toLocaleString();document.getElementById('ethPrice').textContent='setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(3800+Math.floor(Math.random()*100)).toLocaleString();document.getElementById('totalCap').textContent='setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
+        revealOnScroll();
+    </script>
+</body>
+
+</html>+(3.3+Math.random()*0.3).toFixed(1)+'T';}setInterval(updateLiveData,3000);updateLiveData();</script>
+
+    <!-- Vision Section -->
+    <section id="vision" class="py-32 px-6 bg-obsidian">
+        <div class="max-w-4xl mx-auto text-center reveal">
+            <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
+            <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
+                Engineering the Future of<br><span class="text-gradient">Human Utility</span>
+            </h2>
+            <p class="text-xl text-neutral-muted leading-relaxed mb-12">
+                Capital markets optimize numbers. We optimize the flow of matter. From farm to table, factory to
+                doorstep—every atom finds its purpose through MarketLogic.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4 text-sm font-mono text-neutral-dim">
+                <span class="px-4 py-2 rounded-full border border-graphite-600">NEURAL_NETWORKS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">SUPPLY_CHAIN</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">ROBOTICS</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">RETAIL_AI</span>
+                <span class="px-4 py-2 rounded-full border border-graphite-600">MOLECULAR_COMPUTE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section id="access" class="py-32 px-6 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
+
+        <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">ACCEPTING NEW NODES</span>
+            </div>
+
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                Initialize Your<br><span class="text-gradient">Connection</span>
+            </h2>
+            <p class="text-lg text-neutral-muted mb-10">
+                Join the network of enterprises optimizing reality through deeptech infrastructure.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="mailto:contact@marketlogic.org"
+                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300">
+                    Request Access
+                </a>
+                <a href="hemanthreganti/"
+                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Meet the Architect</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+                <div>
+                    <div class="flex items-center gap-2 mb-6">
+                        <div class="w-8 h-8 relative flex items-center justify-center">
+                            <div class="absolute inset-0 border border-electric-cyan/30 rotate-45"></div>
+                            <div class="w-1.5 h-1.5 bg-electric-cyan rounded-full"></div>
+                        </div>
+                        <span class="font-bold">MARKETLOGIC</span>
+                    </div>
+                    <p class="text-sm text-neutral-dim leading-relaxed">Engineering the logic behind physical reality.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Protocol</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Documentation</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">API Reference</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">SDK</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Projects</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="aperture/" class="hover:text-electric-cyan transition-colors">Aperture</a></li>
+                        <li><a href="hemanthreganti/" class="hover:text-electric-cyan transition-colors">Leadership</a>
+                        </li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">Research</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-mono text-neutral-muted uppercase tracking-wider mb-4">Connect</h4>
+                    <ul class="space-y-3 text-sm text-neutral-dim">
+                        <li><a href="mailto:contact@marketlogic.org"
+                                class="hover:text-electric-cyan transition-colors">contact@marketlogic.org</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-electric-cyan transition-colors">X / Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-graphite-800 text-xs text-neutral-dim font-mono">
+                <p>© 2025 MarketLogic Org. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-electric-cyan transition-colors">Terms</a>
+                    <span>BUILD_2.0.25</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll Reveal Script -->
+    <script>
+        // Reveal on Scroll
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            reveals.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (top < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
         revealOnScroll();
     </script>
 </body>
