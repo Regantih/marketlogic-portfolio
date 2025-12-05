@@ -103,8 +103,35 @@
         const sendBtn = document.getElementById('send-btn');
         let step = 0;
 
-        // Sound effects (optional placeholder)
-        const playBeep = () => { /* Audio logic could go here */ };
+        // Knowledge Base: Simulated RAG (Retrieval Augmented Generation)
+        const knowledgeBase = {
+            domains: {
+                "aerospace": ["space", "satellite", "orbit", "nisar", "earth observation", "aperture", "payload"],
+                "ai": ["ai", "artificial intelligence", "ml", "machine learning", "agent", "bot", "neural", "autonomous"],
+                "strategy": ["strategy", "cto", "leadership", "scale", "valuation", "invest", "funding", "startup"],
+                "software": ["software", "platform", "app", "web", "react", "code", "architecture", "system"]
+            },
+            anti_patterns: {
+                "construction": {
+                    keywords: ["building", "construct", "civil", "architect", "house", "skyscraper"],
+                    response: "NEGATIVE MATCH. Hemanth is a <strong>Systems Architect</strong> (Software/Aerospace), not a Civil Architect. He builds <em>digital platforms</em> and <em>satellite constellations</em>, not physical buildings. However, if you need an IoT system <em>for</em> a smart building, he can assist."
+                },
+                "medical": {
+                    keywords: ["surgery", "medical", "doctor", "health", "clinic"],
+                    response: "NEGATIVE MATCH. Hemanth is an Engineer and Technologist, not a Medical Doctor. He can build <em>MedTech software</em> but cannot provide medical care."
+                },
+                "legal": {
+                    keywords: ["lawyer", "legal", "sue", "court", "attorney"],
+                    response: "NEGATIVE MATCH. Hemanth does not offer legal counsel. His expertise is technical and strategic leadership."
+                }
+            },
+            evidence: {
+                "aerospace": "Hemanth published work on 'Space-to-Earth' intelligence and built <strong>Aperture</strong> (an enterprise satellite platform). He has deep expertise in orbital mechanics and remote sensing.",
+                "ai": "Hemanth developed <strong>MarketLogic's AI Core</strong> and designs autonomous agentic workflows. He holds credentials in advanced data structures and algorithms.",
+                "strategy": "Hemanth has founded ventures focused on high-ROI deep tech. He bridges the gap between engineering complexity and business value.",
+                "software": "Hemanth is an expert Full Stack Engineer, capable of architecting scalable distributed systems and immersive web experiences."
+            }
+        };
 
         const addMessage = (text, sender = 'ai', delay = 0) => {
             const msgDiv = document.createElement('div');
@@ -117,24 +144,26 @@
 
             if (sender === 'ai') {
                 bubble.innerHTML = `<span class="text-electric-cyan text-xs font-bold block mb-2">[AI_CORE]</span>`;
+                // If it's HTML content, render immediately
+                if (text.includes('<div')) {
+                    bubble.innerHTML += text;
+                    msgDiv.appendChild(bubble);
+                    chatContainer.appendChild(msgDiv);
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                    return;
+                }
+
                 // Typewriter effect
                 let i = 0;
                 msgDiv.appendChild(bubble);
                 chatContainer.appendChild(msgDiv);
-
-                // If it's HTML content (like contact card), render immediately
-                if (text.includes('<div')) {
-                    bubble.innerHTML += text;
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                    return;
-                }
 
                 const typeInterval = setInterval(() => {
                     bubble.innerHTML += text.charAt(i);
                     i++;
                     chatContainer.scrollTop = chatContainer.scrollHeight;
                     if (i >= text.length) clearInterval(typeInterval);
-                }, 20); // Typing speed
+                }, 15);
             } else {
                 bubble.textContent = text;
                 msgDiv.appendChild(bubble);
@@ -144,6 +173,42 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         };
 
+        const analyzeIntent = (text) => {
+            const lower = text.toLowerCase();
+
+            // 1. Check Anti-Patterns first
+            for (const [category, data] of Object.entries(knowledgeBase.anti_patterns)) {
+                if (data.keywords.some(k => lower.includes(k))) {
+                    if (category === "construction" && (lower.includes("software") || lower.includes("system") || lower.includes("digital"))) {
+                        continue;
+                    }
+                    return { type: 'mismatch', response: data.response };
+                }
+            }
+
+            // 2. Check Positive Domains
+            let detectedDomains = [];
+            for (const [domain, keywords] of Object.entries(knowledgeBase.domains)) {
+                if (keywords.some(k => lower.includes(k))) {
+                    detectedDomains.push(domain);
+                }
+            }
+
+            if (detectedDomains.length > 0) {
+                const primaryDomain = detectedDomains[0];
+                return {
+                    type: 'match',
+                    response: `Affirmative. <span class="text-electric-cyan">Fit Score: 98%</span><br><br>Analysis: Your request aligns with Hemanth's core competency in <strong>${primaryDomain.toUpperCase()}</strong>.<br><br>Evidence: ${knowledgeBase.evidence[primaryDomain]}`
+                };
+            }
+
+            // 3. Neutral
+            return {
+                type: 'neutral',
+                response: "Input parameters acknowledged. Hemanth's multidisciplinary background allows for rapid adaptation to complex technical challenges. Could you specify if this involves <strong>Software Engineering, Aerospace, or AI Strategy</strong>?"
+            };
+        };
+
         const processInput = () => {
             const text = userInput.value.trim();
             if (!text) return;
@@ -151,28 +216,36 @@
             addMessage(text, 'user');
             userInput.value = '';
 
-            // Simple Qualification Logic
+            // disable input briefly
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+
             setTimeout(() => {
-                const lowerText = text.toLowerCase();
-
                 if (step === 0) {
-                    addMessage("Analysis complete. Detecting intent patterns...");
-                    setTimeout(() => {
-                        if (lowerText.includes('space') || lowerText.includes('satellite') || lowerText.includes('aperture')) {
-                            addMessage("Detected Interest: AEROSPACE & ANALYTICS. Hemanth's work with Aperture and NISAR is directly relevant. He specializes in 'Space-to-Earth' intelligence models.");
-                        } else if (lowerText.includes('ai') || lowerText.includes('agent') || lowerText.includes('bot')) {
-                            addMessage("Detected Interest: ARTIFICIAL INTELLIGENCE. Hemanth designs autonomous agentic workflows (like me) and enterprise AI strategies.");
-                        } else if (lowerText.includes('invest') || lowerText.includes('money') || lowerText.includes('funding')) {
-                            addMessage("Detected Interest: INVESTMENT. Hemanth has scaled ventures to significant valuations. His focus is on sustainable, high-ROI deep tech.");
-                        } else {
-                            addMessage("Input parameters acknowledged. Hemanth's multidisciplinary background allows for rapid adaptation to complex problem sets.");
-                        }
+                    addMessage("Scanning skills database... Cross-referencing publications & project history...");
 
-                        setTimeout(() => {
-                            addMessage("Would you like to schedule a direct uplink (meeting) or view specific case studies?");
-                            step = 1;
-                        }, 1500);
-                    }, 1000);
+                    setTimeout(() => {
+                        const result = analyzeIntent(text);
+                        addMessage(result.response);
+
+                        if (result.type === 'match') {
+                            setTimeout(() => {
+                                addMessage("Would you like to schedule a High-Priority Uplink (Meeting) to discuss execution parameters?");
+                                step = 1;
+                            }, 2000);
+                        } else if (result.type === 'mismatch') {
+                            setTimeout(() => {
+                                addMessage("Would you like to search for a different capability?");
+                            }, 1000);
+                            userInput.disabled = false;
+                            sendBtn.disabled = false;
+                            userInput.focus();
+                        } else {
+                            userInput.disabled = false;
+                            sendBtn.disabled = false;
+                            userInput.focus();
+                        }
+                    }, 1500);
                 } else if (step === 1) {
                     addMessage("Affirmative. Generating contact protocols...");
                     setTimeout(() => {
@@ -186,6 +259,10 @@
                                 </div>
                             </div>
                         `);
+                        step = 0;
+                        userInput.disabled = false;
+                        sendBtn.disabled = false;
+                        userInput.focus();
                     }, 1000);
                 }
             }, 500);
