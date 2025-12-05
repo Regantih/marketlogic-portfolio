@@ -282,13 +282,79 @@
         <svg id="sOn" class="text-cyan-400 hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
         <svg id="sOff" class="text-gray-500" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
     </button>
-    <script>var ctx,osc,gn,on=0;function playOm(){if(!ctx){ctx=new AudioContext();osc=ctx.createOscillator();gn=ctx.createGain();osc.frequency.value=136.1;osc.connect(gn);gn.connect(ctx.destination);osc.start();}if(on){gn.gain.value=0;document.getElementById("sOn").classList.add("hidden");document.getElementById("sOff").classList.remove("hidden");}else{ctx.resume();gn.gain.value=0.1;document.getElementById("sOn").classList.remove("hidden");document.getElementById("sOff").classList.add("hidden");}on=!on;}</script>
+        <script>
+        var ctx, osc, gn, on = false;
+        function playOm() {
+            if (!ctx) {
+                var AudioContext = window.AudioContext || window.webkitAudioContext;
+                ctx = new AudioContext();
+                osc = ctx.createOscillator();
+                gn = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = 136.1; // Om frequency
+                osc.connect(gn);
+                gn.connect(ctx.destination);
+                osc.start();
+                gn.gain.value = 0; // Start silent
+            }
+            
+            var sOn = document.getElementById("sOn");
+            var sOff = document.getElementById("sOff");
+            
+            if (on) {
+                // Turn Off
+                gn.gain.setTargetAtTime(0, ctx.currentTime, 0.1);
+                sOn.classList.add("hidden");
+                sOff.classList.remove("hidden");
+            } else {
+                // Turn On
+                if (ctx.state === 'suspended') ctx.resume();
+                gn.gain.setTargetAtTime(0.5, ctx.currentTime, 0.1); // Increased volume
+                sOn.classList.remove("hidden");
+                sOff.classList.add("hidden");
+            }
+            on = !on;
+        }
+    </script>
     <!-- Om Audio 136.1Hz -->
     <button id="omBtn" onclick="playOm()" class="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full border border-cyan-400/30 bg-black/50 backdrop-blur flex items-center justify-center hover:bg-cyan-400/10 transition-all" title="Om 136.1Hz">
         <svg id="sOn" class="text-cyan-400 hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
         <svg id="sOff" class="text-gray-500" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" y1="9" x2="16" y2="15"/><line x1="16" y1="9" x2="22" y2="15"/></svg>
     </button>
-    <script>var ctx,osc,gn,on=0;function playOm(){if(!ctx){ctx=new AudioContext();osc=ctx.createOscillator();gn=ctx.createGain();osc.frequency.value=136.1;osc.connect(gn);gn.connect(ctx.destination);osc.start();}if(on){gn.gain.value=0;document.getElementById("sOn").classList.add("hidden");document.getElementById("sOff").classList.remove("hidden");}else{ctx.resume();gn.gain.value=0.1;document.getElementById("sOn").classList.remove("hidden");document.getElementById("sOff").classList.add("hidden");}on=!on;}</script>
+        <script>
+        var ctx, osc, gn, on = false;
+        function playOm() {
+            if (!ctx) {
+                var AudioContext = window.AudioContext || window.webkitAudioContext;
+                ctx = new AudioContext();
+                osc = ctx.createOscillator();
+                gn = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.value = 136.1; // Om frequency
+                osc.connect(gn);
+                gn.connect(ctx.destination);
+                osc.start();
+                gn.gain.value = 0; // Start silent
+            }
+            
+            var sOn = document.getElementById("sOn");
+            var sOff = document.getElementById("sOff");
+            
+            if (on) {
+                // Turn Off
+                gn.gain.setTargetAtTime(0, ctx.currentTime, 0.1);
+                sOn.classList.add("hidden");
+                sOff.classList.remove("hidden");
+            } else {
+                // Turn On
+                if (ctx.state === 'suspended') ctx.resume();
+                gn.gain.setTargetAtTime(0.5, ctx.currentTime, 0.1); // Increased volume
+                sOn.classList.remove("hidden");
+                sOff.classList.add("hidden");
+            }
+            on = !on;
+        }
+    </script>
 
     <!-- Om Audio with Mute Toggle (136.1Hz - Sacred Om Frequency) -->
     <button id="audioToggle" onclick="toggleOm()"
@@ -750,7 +816,7 @@
     </section>
 
     <!-- CTA Section -->
-    <section id="access" class="py-32 px-6 relative overflow-hidden">
+    <section id="access" class="py-12 px-6 relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
 
         <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
