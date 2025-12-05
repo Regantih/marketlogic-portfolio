@@ -7,69 +7,31 @@
     <title>Aperture - Space-to-Earth Analytics Platform</title>
     <meta name="description"
         content="Aperture transforms satellite data into predictive business intelligence. Next-generation space-to-earth analytics platform powered by NVIDIA ARC-Pro Edge Computing.">
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
-
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        space: {
-                            bg: '#0a1628',
-                            card: '#0f2744',
-                            border: '#1e4976',
-                            hover: '#164066',
-                            text: '#e2e8f0',
-                            muted: '#94a3b8'
-                        },
-                        accent: {
-                            cyan: '#22d3ee',
-                            blue: '#38bdf8',
-                            teal: '#2dd4bf',
-                            glow: '#00e5ff'
-                        }
+                        space: { bg: '#0a1628', card: '#0f2744', border: '#1e4976', hover: '#164066', text: '#e2e8f0', muted: '#94a3b8' },
+                        accent: { cyan: '#22d3ee', blue: '#38bdf8', teal: '#2dd4bf', glow: '#00e5ff' }
                     },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace']
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.8s ease-out',
-                        'slide-up': 'slideUp 0.6s ease-out',
-                        'pulse-glow': 'pulseGlow 2s infinite',
-                        'float': 'float 6s ease-in-out infinite',
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    animation: { 'fade-in': 'fadeIn 0.8s ease-out', 'slide-up': 'slideUp 0.6s ease-out', 'pulse-glow': 'pulseGlow 2s infinite' },
                     keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { transform: 'translateY(30px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        },
-                        pulseGlow: {
-                            '0%, 100%': { boxShadow: '0 0 20px rgba(34, 211, 238, 0.3)' },
-                            '50%': { boxShadow: '0 0 40px rgba(34, 211, 238, 0.6)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-10px)' },
-                        }
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { transform: 'translateY(30px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+                        pulseGlow: { '0%, 100%': { boxShadow: '0 0 20px rgba(34, 211, 238, 0.3)' }, '50%': { boxShadow: '0 0 40px rgba(34, 211, 238, 0.6)' } }
                     }
                 }
             }
         }
     </script>
-
     <style>
         body {
             background: linear-gradient(180deg, #0a1628 0%, #0f2744 50%, #0a1628 100%);
@@ -77,27 +39,9 @@
             min-height: 100vh;
         }
 
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #0a1628;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #1e4976;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #2d6aa3;
-        }
-
         .glass-panel {
             background: rgba(15, 39, 68, 0.8);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(30, 73, 118, 0.5);
         }
 
@@ -119,17 +63,6 @@
             transform: translateY(-5px);
         }
 
-        .gradient-border {
-            background: linear-gradient(135deg, rgba(34, 211, 238, 0.3) 0%, rgba(56, 189, 248, 0.1) 100%);
-            padding: 1px;
-            border-radius: 1rem;
-        }
-
-        .gradient-border>div {
-            background: #0f2744;
-            border-radius: calc(1rem - 1px);
-        }
-
         .stat-glow {
             text-shadow: 0 0 20px rgba(34, 211, 238, 0.8);
         }
@@ -149,7 +82,7 @@
                 <div
                     class="w-10 h-10 rounded-xl bg-gradient-to-br from-accent-cyan to-accent-blue flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        stroke="white" stroke-width="2">
                         <circle cx="12" cy="12" r="10" />
                         <circle cx="12" cy="12" r="6" />
                         <circle cx="12" cy="12" r="2" />
@@ -158,9 +91,10 @@
                 <span class="font-bold text-xl tracking-wide">Aperture</span>
             </div>
             <div class="hidden md:flex items-center gap-8 text-sm">
-                <a href="#opportunity" class="text-space-muted hover:text-accent-cyan transition-colors">Opportunity</a>
-                <a href="#problems" class="text-space-muted hover:text-accent-cyan transition-colors">Challenges</a>
-                <a href="#solution" class="text-space-muted hover:text-accent-cyan transition-colors">Solution</a>
+                <a href="#agents" class="text-space-muted hover:text-accent-cyan transition-colors">AI Agents</a>
+                <a href="#nisar" class="text-space-muted hover:text-accent-cyan transition-colors">NISAR</a>
+                <a href="#roi" class="text-space-muted hover:text-accent-cyan transition-colors">ROI</a>
+                <a href="#team" class="text-space-muted hover:text-accent-cyan transition-colors">Team</a>
                 <a href="#contact"
                     class="px-5 py-2 rounded-full bg-accent-cyan text-space-bg font-semibold hover:bg-accent-blue transition-all">Get
                     Started</a>
@@ -171,27 +105,11 @@
     <!-- Hero Section -->
     <section class="min-h-screen flex flex-col justify-center items-center px-4 relative overflow-hidden pt-20">
         <div class="absolute inset-0 hero-gradient pointer-events-none"></div>
-
-        <!-- Animated background satellites -->
-        <div class="absolute top-20 left-10 w-2 h-2 bg-accent-cyan rounded-full animate-pulse opacity-50"></div>
-        <div class="absolute top-40 right-20 w-1 h-1 bg-accent-blue rounded-full animate-pulse opacity-40"
-            style="animation-delay: 0.5s"></div>
-        <div class="absolute bottom-40 left-1/4 w-1.5 h-1.5 bg-accent-teal rounded-full animate-pulse opacity-30"
-            style="animation-delay: 1s"></div>
-
         <div class="max-w-5xl mx-auto text-center z-10 animate-fade-in">
             <div
                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-cyan/10 text-accent-cyan text-sm font-medium border border-accent-cyan/20 mb-8">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path
-                        d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
-                    <path
-                        d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
-                </svg>
                 <span>Next-Generation Space-to-Earth Analytics</span>
             </div>
-
             <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight mb-6">
                 <span class="glow-text text-white">Aperture</span>
                 <span class="block text-2xl md:text-3xl lg:text-4xl font-normal text-space-muted mt-4">Transforming
@@ -200,31 +118,20 @@
                     class="block bg-gradient-to-r from-accent-cyan to-accent-blue bg-clip-text text-transparent">Predictive
                     Business Intelligence</span>
             </h1>
-
             <p class="text-lg md:text-xl text-space-muted max-w-3xl mx-auto leading-relaxed mb-10">
                 Powered by <span class="text-accent-cyan font-semibold">NVIDIA ARC-Pro Edge Computing</span>, delivering
                 real-time insights for Agriculture, Logistics, and Energy Sectors.
             </p>
-
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="#solution"
-                    class="px-8 py-4 rounded-full bg-gradient-to-r from-accent-cyan to-accent-blue text-space-bg font-bold text-lg hover:opacity-90 transition-all animate-pulse-glow flex items-center justify-center gap-2">
-                    Explore Platform
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14" />
-                        <path d="m12 5 7 7-7 7" />
-                    </svg>
-                </a>
+                    class="px-8 py-4 rounded-full bg-gradient-to-r from-accent-cyan to-accent-blue text-space-bg font-bold text-lg hover:opacity-90 transition-all animate-pulse-glow">Explore
+                    Platform →</a>
                 <a href="#contact"
-                    class="px-8 py-4 rounded-full glass-panel text-white font-semibold text-lg hover:bg-space-hover transition-all flex items-center justify-center gap-2 border border-space-border">
-                    Schedule Demo
-                </a>
+                    class="px-8 py-4 rounded-full glass-panel text-white font-semibold text-lg hover:bg-space-hover transition-all border border-space-border">Schedule
+                    Demo</a>
             </div>
         </div>
-
-        <!-- Hero Image -->
-        <div class="mt-16 max-w-5xl mx-auto px-4 animate-slide-up" style="animation-delay: 0.3s">
+        <div class="mt-16 max-w-5xl mx-auto px-4 animate-slide-up">
             <div class="rounded-2xl overflow-hidden card-glow border border-space-border">
                 <img src="hero.png" alt="Aperture Platform Overview" class="w-full">
             </div>
@@ -244,12 +151,12 @@
                     <div class="text-sm text-space-muted mt-1">Advance Insights</div>
                 </div>
                 <div>
-                    <div class="text-3xl md:text-4xl font-bold text-accent-cyan stat-glow">3+</div>
-                    <div class="text-sm text-space-muted mt-1">Sensor Fusion</div>
+                    <div class="text-3xl md:text-4xl font-bold text-accent-cyan stat-glow">13:1</div>
+                    <div class="text-sm text-space-muted mt-1">ROI Average</div>
                 </div>
                 <div>
-                    <div class="text-3xl md:text-4xl font-bold text-accent-cyan stat-glow">Real-Time</div>
-                    <div class="text-sm text-space-muted mt-1">Edge Processing</div>
+                    <div class="text-3xl md:text-4xl font-bold text-accent-cyan stat-glow">90 Days</div>
+                    <div class="text-sm text-space-muted mt-1">To First Insights</div>
                 </div>
             </div>
         </div>
@@ -258,73 +165,13 @@
     <!-- Opportunity Section -->
     <section id="opportunity" class="py-24 px-4">
         <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16 animate-fade-in">
+            <div class="text-center mb-16">
                 <span class="text-accent-cyan font-mono text-sm uppercase tracking-wider">The Opportunity</span>
                 <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-6">The Multi-Trillion Dollar Opportunity<br><span
                         class="text-accent-cyan">You're Missing</span></h2>
-                <p class="text-xl text-space-muted max-w-3xl mx-auto">
-                    Thousands of <span class="text-accent-cyan">New Satellites</span> Are Creating Unprecedented
-                    Data—But <span class="text-white">Enterprises Can't Use It</span>
-                </p>
             </div>
-
-            <div class="rounded-2xl overflow-hidden card-glow border border-space-border mb-12">
-                <img src="opportunity.png" alt="Space Data Opportunity" class="w-full">
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="gradient-border">
-                    <div class="p-6 h-full">
-                        <div
-                            class="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center text-accent-cyan mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10" />
-                                <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" />
-                                <path d="M2 12h20" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">Space Data Explosion</h3>
-                        <p class="text-space-muted text-sm">LEO constellations producing massive amounts of
-                            Hyperspectral, SAR, and IoT data.</p>
-                    </div>
-                </div>
-
-                <div class="gradient-border">
-                    <div class="p-6 h-full">
-                        <div
-                            class="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center text-accent-cyan mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M3 3v18h18" />
-                                <path d="m19 9-5 5-4-4-3 3" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">$1.8 Trillion by 2035</h3>
-                        <p class="text-space-muted text-sm">Commercial space economy projected for explosive growth in
-                            the coming decade.</p>
-                    </div>
-                </div>
-
-                <div class="gradient-border">
-                    <div class="p-6 h-full">
-                        <div
-                            class="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center text-accent-cyan mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M12 20h9" />
-                                <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-bold mb-2">The Enterprise Gap</h3>
-                        <p class="text-space-muted text-sm">Businesses struggle to extract actionable insights due to
-                            technical barriers.</p>
-                    </div>
-                </div>
-            </div>
+            <div class="rounded-2xl overflow-hidden card-glow border border-space-border"><img src="opportunity.png"
+                    alt="Space Data Opportunity" class="w-full"></div>
         </div>
     </section>
 
@@ -337,75 +184,9 @@
                 <span class="text-accent-cyan font-mono text-sm uppercase tracking-wider">The Challenge</span>
                 <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-6">Three Critical Problems<br><span
                         class="text-accent-cyan">Blocking Your Success</span></h2>
-                <p class="text-xl text-space-muted max-w-3xl mx-auto">
-                    Data Overload, Sensor Fragmentation, and Translation Gaps Are Costing You Millions
-                </p>
             </div>
-
-            <div class="rounded-2xl overflow-hidden card-glow border border-space-border mb-12">
-                <img src="problems.jpg" alt="Critical Problems" class="w-full">
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass-panel rounded-2xl p-8 card-glow">
-                    <div class="w-14 h-14 rounded-2xl bg-red-500/10 flex items-center justify-center text-red-400 mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <ellipse cx="12" cy="5" rx="9" ry="3" />
-                            <path d="M3 5V19A9 3 0 0 0 21 19V5" />
-                            <path d="M3 12A9 3 0 0 0 21 12" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Data <span class="text-red-400">Overload</span> & Latency</h3>
-                    <p class="text-space-muted">Too massive to process in cloud. Insights arrive too late for actionable
-                        decisions.</p>
-                </div>
-
-                <div class="glass-panel rounded-2xl p-8 card-glow">
-                    <div
-                        class="w-14 h-14 rounded-2xl bg-orange-500/10 flex items-center justify-center text-orange-400 mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
-                            <path d="M12 13V7" />
-                            <path d="M12 17h.01" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">Lack of <span class="text-orange-400">Sensor Fusion</span></h3>
-                    <p class="text-space-muted">Single sources are incomplete. Real-time fusion is technically
-                        difficult.</p>
-                </div>
-
-                <div class="glass-panel rounded-2xl p-8 card-glow">
-                    <div
-                        class="w-14 h-14 rounded-2xl bg-yellow-500/10 flex items-center justify-center text-yellow-400 mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                            <path d="M12 17h.01" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-3">No '<span class="text-yellow-400">Last Mile</span>' Translation
-                    </h3>
-                    <p class="text-space-muted">Raw data is meaningless. Leaders need clear, predictive answers.</p>
-                </div>
-            </div>
-
-            <div class="mt-12 text-center">
-                <div
-                    class="inline-flex items-center gap-3 px-6 py-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path
-                            d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
-                        <line x1="12" x2="12" y1="9" y2="13" />
-                        <line x1="12" x2="12.01" y1="17" y2="17" />
-                    </svg>
-                    <span class="font-semibold">The Cost:</span> Delayed decisions, missed opportunities, and reactive
-                    operations.
-                </div>
-            </div>
+            <div class="rounded-2xl overflow-hidden card-glow border border-space-border"><img src="problems.jpg"
+                    alt="Critical Problems" class="w-full"></div>
         </div>
     </section>
 
@@ -418,155 +199,282 @@
                 <span class="text-accent-cyan font-mono text-sm uppercase tracking-wider">The Solution</span>
                 <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-6">Introducing <span
                         class="text-accent-cyan">Aperture</span><br>Your Intelligent Ground Station</h2>
-                <p class="text-xl text-space-muted max-w-3xl mx-auto">
-                    We Don't Launch Satellites—We Build the Platform That Makes Them Valuable
-                </p>
+                <p class="text-xl text-space-muted max-w-3xl mx-auto">We Don't Launch Satellites—We Build the Platform
+                    That Makes Them Valuable</p>
             </div>
-
-            <div class="rounded-2xl overflow-hidden card-glow border border-space-border mb-16">
-                <img src="solution.jpg" alt="Aperture Solution" class="w-full">
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="glass-panel rounded-2xl p-8 card-glow">
-                    <div class="flex items-start gap-4">
-                        <div
-                            class="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center text-accent-cyan shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <path d="M20 7h-9" />
-                                <path d="M14 17H5" />
-                                <circle cx="17" cy="17" r="3" />
-                                <circle cx="7" cy="7" r="3" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold mb-2">Strategic Positioning</h3>
-                            <p class="text-space-muted">The critical infrastructure layer bridging space and enterprise.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-panel rounded-2xl p-8 card-glow">
-                    <div class="flex items-start gap-4">
-                        <div
-                            class="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center text-accent-cyan shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <rect width="18" height="18" x="3" y="3" rx="2" />
-                                <path d="M7 7h.01" />
-                                <path d="M17 7h.01" />
-                                <path d="M7 17h.01" />
-                                <path d="M17 17h.01" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold mb-2">Core Innovation</h3>
-                            <p class="text-space-muted">Transforming 'dumb antennas' into intelligent edge data centers.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-panel rounded-2xl p-8 card-glow">
-                    <div class="flex items-start gap-4">
-                        <div
-                            class="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center text-accent-cyan shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 6 12 12 16 14" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold mb-2">Value Proposition</h3>
-                            <p class="text-space-muted">Real-time multi-sensor fusion delivering insights 72 hours in
-                                advance.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-panel rounded-2xl p-8 card-glow">
-                    <div class="flex items-start gap-4">
-                        <div
-                            class="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center text-accent-cyan shrink-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round">
-                                <line x1="12" x2="12" y1="2" y2="22" />
-                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-xl font-bold mb-2">Capital Efficiency</h3>
-                            <p class="text-space-muted">A high-margin 'picks and shovels' platform—no satellite launches
-                                required.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="rounded-2xl overflow-hidden card-glow border border-space-border mb-12"><img src="solution.jpg"
+                    alt="Aperture Solution" class="w-full"></div>
         </div>
     </section>
 
-    <!-- Industries Section -->
-    <section class="py-24 px-4 bg-space-card/30">
+    <div class="section-divider max-w-4xl mx-auto"></div>
+
+    <!-- AI Agents Section -->
+    <section id="agents" class="py-24 px-4 bg-space-card/30">
         <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16">
-                <span class="text-accent-cyan font-mono text-sm uppercase tracking-wider">Industries</span>
-                <h2 class="text-3xl md:text-4xl font-bold mt-4">Transforming Key Sectors</h2>
+                <span class="text-accent-cyan font-mono text-sm uppercase tracking-wider">AI Agents</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-6">AI Agents That Speak Your<br><span
+                        class="text-accent-cyan">Business Language</span></h2>
+                <p class="text-xl text-space-muted max-w-3xl mx-auto">Three Specialized Agents Transform Raw Data into
+                    Million-Dollar Decisions</p>
             </div>
-
+            <div class="rounded-2xl overflow-hidden card-glow border border-space-border mb-12"><img src="agents.jpg"
+                    alt="AI Agents" class="w-full"></div>
             <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <div
-                        class="w-20 h-20 rounded-2xl bg-green-500/10 flex items-center justify-center text-green-400 mx-auto mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 10a6 6 0 0 0 6 6h1.5a4.5 4.5 0 1 1 .5-9H21" />
-                            <path d="M3 6h.5a4.5 4.5 0 0 1 0 9H3" />
-                            <path d="M3.5 14.5A4.5 4.5 0 0 0 8 19h8" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Agriculture</h3>
-                    <p class="text-space-muted">Precision farming, crop yield prediction, and soil moisture monitoring.
-                    </p>
+                <div class="glass-panel rounded-2xl p-8 card-glow border-l-4 border-green-400">
+                    <h3 class="text-xl font-bold mb-2 text-green-400">Yield Forecaster</h3>
+                    <p class="text-sm text-space-muted mb-3">(Agriculture)</p>
+                    <p class="text-space-muted">Fuses hyperspectral & SAR data. Predicts crop yield <span
+                            class="text-white font-semibold">30 days in advance</span>.</p>
                 </div>
-
-                <div class="text-center">
-                    <div
-                        class="w-20 h-20 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 mx-auto mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 18H3c-.6 0-1-.4-1-1V7c0-.6.4-1 1-1h10c.6 0 1 .4 1 1v11" />
-                            <path d="M14 9h4l4 4v4c0 .6-.4 1-1 1h-2" />
-                            <circle cx="7" cy="18" r="2" />
-                            <path d="M15 18H9" />
-                            <circle cx="17" cy="18" r="2" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Logistics</h3>
-                    <p class="text-space-muted">Fleet tracking, supply chain optimization, and route intelligence.</p>
+                <div class="glass-panel rounded-2xl p-8 card-glow border-l-4 border-blue-400">
+                    <h3 class="text-xl font-bold mb-2 text-blue-400">Supply Chain Sentinel</h3>
+                    <p class="text-sm text-space-muted mb-3">(Logistics)</p>
+                    <p class="text-space-muted">Real-time port congestion scores. Predicts shipping delays <span
+                            class="text-white font-semibold">72 hours ahead</span>.</p>
                 </div>
-
-                <div class="text-center">
-                    <div
-                        class="w-20 h-20 rounded-2xl bg-yellow-500/10 flex items-center justify-center text-yellow-400 mx-auto mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Energy</h3>
-                    <p class="text-space-muted">Infrastructure monitoring, renewable optimization, and grid management.
-                    </p>
+                <div class="glass-panel rounded-2xl p-8 card-glow border-l-4 border-orange-400">
+                    <h3 class="text-xl font-bold mb-2 text-orange-400">Asset Integrity</h3>
+                    <p class="text-sm text-space-muted mb-3">(Energy)</p>
+                    <p class="text-space-muted">Monitors pipelines via LIDAR & Thermal. Predicts leaks <span
+                            class="text-white font-semibold">weeks before they happen</span>.</p>
                 </div>
             </div>
         </div>
     </section>
+
+    <div class="section-divider max-w-4xl mx-auto"></div>
+
+    <!-- Case Study Section -->
+    <section id="casestudy" class="py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-accent-cyan font-mono text-sm uppercase tracking-wider">Real-World Impact</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-6">Energy Sector Case Study<br><span
+                        class="text-green-400">$47M Disaster Prevented</span></h2>
+            </div>
+            <div class="rounded-2xl overflow-hidden card-glow border border-space-border mb-12"><img src="casestudy.jpg"
+                    alt="Pipeline Case Study" class="w-full"></div>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="glass-panel rounded-xl p-6 text-center card-glow">
+                    <div class="text-4xl font-bold text-green-400 stat-glow mb-2">$47M</div>
+                    <div class="text-sm text-space-muted">Saved</div>
+                </div>
+                <div class="glass-panel rounded-xl p-6 text-center card-glow">
+                    <div class="text-4xl font-bold text-accent-cyan stat-glow mb-2">12:1</div>
+                    <div class="text-sm text-space-muted">ROI in First Year</div>
+                </div>
+                <div class="glass-panel rounded-xl p-6 text-center card-glow">
+                    <div class="text-4xl font-bold text-accent-cyan stat-glow mb-2">100%</div>
+                    <div class="text-sm text-space-muted">Network Coverage</div>
+                </div>
+                <div class="glass-panel rounded-xl p-6 text-center card-glow">
+                    <div class="text-4xl font-bold text-accent-cyan stat-glow mb-2">65%</div>
+                    <div class="text-sm text-space-muted">Reduced Inspection Costs</div>
+                </div>
+            </div>
+            <div class="mt-12 glass-panel rounded-2xl p-8 border-l-4 border-accent-cyan">
+                <p class="text-lg italic text-space-muted">"Aperture gave us predictive capabilities we didn't know were
+                    possible."</p>
+                <p class="text-accent-cyan mt-4 font-semibold">— Pipeline Operator Executive</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider max-w-4xl mx-auto"></div>
+
+    <!-- ROI Model Section -->
+    <section id="roi" class="py-24 px-4 bg-space-card/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-accent-cyan font-mono text-sm uppercase tracking-wider">ROI Model</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-6">Your Path to<br><span
+                        class="text-green-400">Profitability</span></h2>
+                <p class="text-xl text-space-muted max-w-3xl mx-auto">Typical Enterprise Client Achieves <span
+                        class="text-green-400 font-bold">13:1 ROI</span> Over 3 Years</p>
+            </div>
+            <div class="rounded-2xl overflow-hidden card-glow border border-space-border mb-12"><img src="roi.png"
+                    alt="ROI Model" class="w-full"></div>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="glass-panel rounded-2xl p-8 card-glow text-center">
+                    <div class="text-6xl font-extrabold text-green-400 stat-glow mb-2">13:1</div>
+                    <div class="text-xl font-semibold">ROI</div>
+                </div>
+                <div class="glass-panel rounded-2xl p-8 card-glow text-center">
+                    <div class="text-3xl font-bold text-accent-cyan">7-9 Months</div>
+                    <div class="text-sm text-space-muted mt-2">Payback Period</div>
+                    <p class="text-sm text-space-muted mt-4"><strong>Total 3-Year Value:</strong> $22.5M</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider max-w-4xl mx-auto"></div>
+
+    <!-- Implementation Roadmap Section -->
+    <section id="roadmap" class="py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-accent-cyan font-mono text-sm uppercase tracking-wider">Implementation</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-6">90 Days to<br><span class="text-accent-cyan">First
+                        Insights</span></h2>
+            </div>
+            <div class="rounded-2xl overflow-hidden card-glow border border-space-border mb-12"><img src="roadmap.png"
+                    alt="Implementation Roadmap" class="w-full"></div>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="glass-panel rounded-xl p-6 card-glow">
+                    <div class="text-accent-cyan font-bold">Discovery & Design</div>
+                    <div class="text-sm text-space-muted">(Weeks 1-3)</div>
+                </div>
+                <div class="glass-panel rounded-xl p-6 card-glow">
+                    <div class="text-accent-cyan font-bold">Integration & Training</div>
+                    <div class="text-sm text-space-muted">(Weeks 4-8)</div>
+                </div>
+                <div class="glass-panel rounded-xl p-6 card-glow">
+                    <div class="text-accent-cyan font-bold">Pilot & Validation</div>
+                    <div class="text-sm text-space-muted">(Weeks 9-12)</div>
+                </div>
+                <div class="glass-panel rounded-xl p-6 card-glow">
+                    <div class="text-accent-cyan font-bold">Scale & Optimize</div>
+                    <div class="text-sm text-space-muted">(Month 4+)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider max-w-4xl mx-auto"></div>
+
+    <!-- NISAR Integration Section -->
+    <section id="nisar" class="py-24 px-4 bg-space-card/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-accent-cyan font-mono text-sm uppercase tracking-wider">Strategic Partnership</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-6">NISAR Integration<br><span
+                        class="text-accent-cyan">NASA-ISRO SAR Mission</span></h2>
+                <p class="text-xl text-space-muted max-w-3xl mx-auto">Transforming India's Premier SAR Mission into
+                    Enterprise Intelligence via <a href="https://bhoonidhi.nrsc.gov.in/NISAR/" target="_blank"
+                        class="text-accent-cyan hover:underline">Bhoonidhi Portal</a></p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="glass-panel rounded-2xl p-8 card-glow">
+                    <h3 class="text-xl font-bold mb-4 text-accent-cyan">NISAR Unique Capabilities</h3>
+                    <ul class="space-y-3 text-space-muted text-sm">
+                        <li>• All-weather, day-night L-band & S-band SAR imaging</li>
+                        <li>• Penetration depth for subsurface analysis (root-zone soil moisture)</li>
+                        <li>• 12-day repeat cycle for high temporal resolution</li>
+                        <li>• Free and open data policy via Bhoonidhi</li>
+                    </ul>
+                </div>
+                <div class="glass-panel rounded-2xl p-8 card-glow">
+                    <h3 class="text-xl font-bold mb-4 text-accent-cyan">Edge Processing Advantage</h3>
+                    <ul class="space-y-3 text-space-muted text-sm">
+                        <li>• NISAR generates 85 TB/day globally - edge processing essential</li>
+                        <li>• GPU-accelerated SAR processing (10-100x speedup)</li>
+                        <li>• Multi-sensor fusion with optical, hyperspectral, thermal data</li>
+                        <li>• $2-5 per scene vs $50-100 for cloud competitors</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass-panel rounded-xl p-6 card-glow text-center">
+                    <div class="text-4xl font-bold text-green-400 mb-2">15-25%</div>
+                    <div class="text-sm text-space-muted">Improved yield prediction</div>
+                </div>
+                <div class="glass-panel rounded-xl p-6 card-glow text-center">
+                    <div class="text-4xl font-bold text-green-400 mb-2">40-60%</div>
+                    <div class="text-sm text-space-muted">Reduction in false-positives</div>
+                </div>
+                <div class="glass-panel rounded-xl p-6 card-glow text-center">
+                    <div class="text-4xl font-bold text-green-400 mb-2">30-50%</div>
+                    <div class="text-sm text-space-muted">Better monsoon prediction</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider max-w-4xl mx-auto"></div>
+
+    <!-- Leadership Team Section -->
+    <section id="team" class="py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-accent-cyan font-mono text-sm uppercase tracking-wider">Leadership</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-6">Space Technology<br><span
+                        class="text-accent-cyan">Meets Business Strategy</span></h2>
+                <p class="text-xl text-space-muted max-w-3xl mx-auto">MIT and IISc-Trained Experts Bridging the Gap
+                    Between Space and Enterprise</p>
+            </div>
+            <div class="rounded-2xl overflow-hidden card-glow border border-space-border mb-12"><img src="team.jpg"
+                    alt="Leadership Team" class="w-full"></div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-panel rounded-2xl p-8 card-glow text-center">
+                    <h3 class="text-xl font-bold mb-2 text-accent-cyan">The Technologist (CTO)</h3>
+                    <p class="text-xs text-space-muted mb-3">MIT Alum</p>
+                    <p class="text-space-muted text-sm">Deep expertise in Aerospace & Edge Computing. Patents pending on
+                        multi-modal processing.</p>
+                </div>
+                <div class="glass-panel rounded-2xl p-8 card-glow text-center">
+                    <h3 class="text-xl font-bold mb-2 text-accent-cyan">The Strategist (CEO)</h3>
+                    <p class="text-xs text-space-muted mb-3">IISc Alum</p>
+                    <p class="text-space-muted text-sm">Former Tier-1 Consultant. Proven track record of scaling B2B
+                        technology practices.</p>
+                </div>
+                <div class="glass-panel rounded-2xl p-8 card-glow text-center">
+                    <h3 class="text-xl font-bold mb-2 text-accent-cyan">The AI Architect</h3>
+                    <p class="text-xs text-space-muted mb-3">Published Researcher</p>
+                    <p class="text-space-muted text-sm">Expert in sensor fusion and real-time inference models.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider max-w-4xl mx-auto"></div>
+
+    <!-- Partnership Section -->
+    <section id="partnership" class="py-24 px-4 bg-space-card/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-accent-cyan font-mono text-sm uppercase tracking-wider">Next Steps</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-6">Partner With Us to<br><span
+                        class="text-accent-cyan">Lead Your Industry</span></h2>
+                <p class="text-xl text-space-muted max-w-3xl mx-auto">Three Ways to Begin Your Space-to-Earth
+                    Intelligence Journey Today</p>
+            </div>
+            <div class="rounded-2xl overflow-hidden card-glow border border-space-border mb-12"><img src="nextsteps.png"
+                    alt="Partnership Options" class="w-full"></div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-panel rounded-2xl p-8 card-glow">
+                    <h3 class="text-xl font-bold mb-2">Executive Briefing</h3>
+                    <p class="text-accent-cyan text-sm mb-3">Duration: 1 Hour</p>
+                    <p class="text-space-muted text-sm">Customized presentation & preliminary ROI analysis.</p>
+                </div>
+                <div class="glass-panel rounded-2xl p-8 card-glow border-2 border-accent-cyan relative">
+                    <div
+                        class="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent-cyan text-space-bg text-xs font-bold px-3 py-1 rounded-full">
+                        Most Popular</div>
+                    <h3 class="text-xl font-bold mb-2">Proof of Concept</h3>
+                    <p class="text-accent-cyan text-sm mb-3">Duration: 30 Days</p>
+                    <p class="text-space-muted text-sm">Pilot deployment on defined operations. Validate value with real
+                        data.</p>
+                </div>
+                <div class="glass-panel rounded-2xl p-8 card-glow">
+                    <h3 class="text-xl font-bold mb-2">Strategic Partnership</h3>
+                    <p class="text-accent-cyan text-sm mb-3">Duration: Long Term</p>
+                    <p class="text-space-muted text-sm">Full deployment & custom agent co-development. Industry
+                        exclusivity potential.</p>
+                </div>
+            </div>
+            <div class="mt-12 text-center">
+                <div class="inline-block px-6 py-4 rounded-xl bg-accent-cyan/10 border border-accent-cyan/20">
+                    <p class="text-accent-cyan font-semibold">Limited Availability: Accepting 5 new enterprise clients
+                        per quarter.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider max-w-4xl mx-auto"></div>
 
     <!-- Contact Section -->
     <section id="contact" class="py-24 px-4 relative overflow-hidden">
@@ -575,24 +483,15 @@
             <span class="text-accent-cyan font-mono text-sm uppercase tracking-wider">Get Started</span>
             <h2 class="text-3xl md:text-5xl font-bold mt-4 mb-6">Ready to Transform Your<br><span
                     class="text-accent-cyan">Satellite Intelligence?</span></h2>
-            <p class="text-xl text-space-muted max-w-2xl mx-auto mb-10">
-                Join leading enterprises already leveraging Aperture for predictive business intelligence.
-            </p>
-
+            <p class="text-xl text-space-muted max-w-2xl mx-auto mb-10">Join leading enterprises already leveraging
+                Aperture for predictive business intelligence.</p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
                 <a href="mailto:aperture@marketlogic.org"
-                    class="px-8 py-4 rounded-full bg-gradient-to-r from-accent-cyan to-accent-blue text-space-bg font-bold text-lg hover:opacity-90 transition-all flex items-center justify-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect width="20" height="16" x="2" y="4" rx="2" />
-                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                    </svg>
-                    Contact Us
-                </a>
+                    class="px-8 py-4 rounded-full bg-gradient-to-r from-accent-cyan to-accent-blue text-space-bg font-bold text-lg hover:opacity-90 transition-all">Schedule
+                    Executive Briefing</a>
                 <a href="../hemanthreganti/"
-                    class="px-8 py-4 rounded-full glass-panel text-white font-semibold text-lg hover:bg-space-hover transition-all flex items-center justify-center gap-2 border border-space-border">
-                    Meet the Founder
-                </a>
+                    class="px-8 py-4 rounded-full glass-panel text-white font-semibold text-lg hover:bg-space-hover transition-all border border-space-border">Meet
+                    the Founder</a>
             </div>
         </div>
     </section>
@@ -604,7 +503,7 @@
                 <div
                     class="w-8 h-8 rounded-lg bg-gradient-to-br from-accent-cyan to-accent-blue flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        stroke="white" stroke-width="2">
                         <circle cx="12" cy="12" r="10" />
                         <circle cx="12" cy="12" r="6" />
                         <circle cx="12" cy="12" r="2" />
