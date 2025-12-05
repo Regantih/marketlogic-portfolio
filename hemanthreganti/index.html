@@ -196,16 +196,23 @@
             suggestedPrompts: ["What is Hemanth's framework for turning AI hype into real value?", "How does he think enterprises should govern agentic AI systems?", "What role does aerospace and the new space economy play in his work?", "How has his Enterprise AI and finance background shaped his AI architecture thinking?"]
         };
 
-        const Navigation = () => (
+                const Navigation = () => (
             <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex justify-between items-center glass-panel bg-opacity-50">
-                <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-primary to-blue-600 flex items-center justify-center text-white font-bold text-sm">HR</div>
-                    <span className="font-semibold text-sm tracking-wide hidden sm:block">Hemanth Reganti</span>
-                </div>
-                <div className="flex items-center gap-4">
-                    <a href="https://linkedin.com/in/hemanth-reganti-147153178" target="_blank" className="text-dark-muted hover:text-brand-primary transition-colors"><Icons.Linkedin /></a>
-                    <a href="https://x.com" target="_blank" className="text-dark-muted hover:text-brand-primary transition-colors"><Icons.X /></a>
-                    <a href="#contact" className="px-4 py-2 rounded-full bg-dark-card border border-dark-border text-xs font-medium hover:bg-dark-hover transition-all">Contact</a>
+                <a href="../" className="flex items-center gap-3 group">
+                    <div className="w-10 h-10 relative flex items-center justify-center">
+                        <div className="absolute inset-0 border border-brand-primary/30 rotate-45 group-hover:rotate-[135deg] transition-transform duration-500"></div>
+                        <div className="absolute inset-2 border border-brand-primary/50 rotate-45 group-hover:rotate-[135deg] transition-transform duration-700"></div>
+                        <div className="w-2 h-2 bg-brand-primary rounded-full"></div>
+                    </div>
+                    <span className="font-bold text-lg tracking-tight text-white">MARKETLOGIC</span>
+                </a>
+                <div className="flex items-center gap-6">
+                    <a href="../aperture/" className="text-sm text-dark-muted hover:text-brand-primary transition-colors font-mono uppercase tracking-wider hidden md:block">Aperture</a>
+                    <div className="flex items-center gap-4">
+                        <a href="https://linkedin.com/in/hemanth-reganti-147153178" target="_blank" className="text-dark-muted hover:text-brand-primary transition-colors"><Icons.Linkedin /></a>
+                        <a href="https://x.com" target="_blank" className="text-dark-muted hover:text-brand-primary transition-colors"><Icons.X /></a>
+                        <a href="#contact" className="px-4 py-2 rounded-full bg-dark-card border border-dark-border text-xs font-medium hover:bg-dark-hover transition-all">Contact</a>
+                    </div>
                 </div>
             </nav>
         );
