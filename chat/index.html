@@ -379,32 +379,7 @@
             }, 500);
         };
 
-        const addGuidanceChips = () => {
-            const chipsDiv = document.createElement('div');
-            chipsDiv.className = 'flex flex-wrap gap-2 mt-2 ml-2';
 
-            const suggestions = [
-                "🌍 Map a Digital Twin",
-                "🛰️ Satellite Strategy",
-                "🧠 AI Agent Workflow",
-                "💰 Deep Tech Investment"
-            ];
-
-            suggestions.forEach(text => {
-                const chip = document.createElement('button');
-                chip.className = 'px-3 py-1 bg-electric-cyan/5 border border-electric-cyan/30 text-electric-cyan text-xs rounded-full hover:bg-electric-cyan/20 transition-all';
-                chip.textContent = text;
-                chip.onclick = () => {
-                    userInput.value = text; // Just set text, let user hit enter or click execute, or auto-submit?
-                    processInput();
-                    chipsDiv.remove(); // Remove suggestions after selection
-                };
-                chipsDiv.appendChild(chip);
-            });
-
-            chatContainer.appendChild(chipsDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        };
 
         // File Upload Listeners
         uploadBtn.addEventListener('click', () => fileUpload.click());
@@ -419,10 +394,7 @@
         setTimeout(() => addMessage("INITIALIZING UPLINK..."), 500);
         setTimeout(() => addMessage("CONNECTION ESTABLISHED."), 1200);
         setTimeout(() => addMessage("Greetings. I am Hemanth's Personal AI. My function is to analyze fit and capabilities."), 2000);
-        setTimeout(() => {
-            addMessage("Tell me about your project, or UPLOAD a Requirement Doc/SOW for analysis.");
-            setTimeout(addGuidanceChips, 500); // Show chips after last message
-        }, 3500);
+        setTimeout(() => addMessage("Tell me about your project, or UPLOAD a Requirement Doc/SOW for analysis."), 3500);
 
         // Event Listeners
         userInput.addEventListener('keypress', (e) => {
