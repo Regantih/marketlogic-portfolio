@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hemanth's Personal AI | Qualification Interface</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#050505',
+                        electric: { cyan: '#00f0ff', blue: '#0066ff' },
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    animation: {
+                        'blink': 'blink 1s step-end infinite',
+                        'scan': 'scan 4s linear infinite',
+                    },
+                    keyframes: {
+                        blink: { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0' } },
+                        scan: { '0%': { backgroundPosition: '0% 0%' }, '100%': { backgroundPosition: '0% 100%' } }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #00f0ff;
+            font-family: 'JetBrains Mono', monospace;
+            overflow: hidden;
+        }
+
+        .crt-overlay {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .typing-cursor::after {
+            content: '█';
+            animation: blink 1s step-end infinite;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #003333;
+            border: 1px solid #00f0ff;
+        }
+    </style>
+</head>
+
+<body class="h-screen flex flex-col relative">
+    <!-- CRT Overlay -->
+    <div class="crt-overlay absolute inset-0 z-50"></div>
+
+    <!-- Header -->
+    <header class="p-6 border-b border-electric-cyan/20 flex justify-between items-center bg-obsidian/90 z-10">
+        <div class="flex items-center gap-3">
+            <div class="w-3 h-3 bg-electric-cyan rounded-full animate-pulse"></div>
+            <span class="text-sm tracking-widest uppercase">Hemanth's Digital Twin v2.0</span>
+        </div>
+        <a href="../" class="text-xs text-neutral-500 hover:text-electric-cyan transition-colors">[ TERMINATE ]</a>
+    </header>
+
+    <!-- Chat Area -->
+    <main id="chat-container" class="flex-1 overflow-y-auto p-6 space-y-6 max-w-4xl mx-auto w-full z-10">
+        <!-- Messages will be injected here -->
+    </main>
+
+    <!-- Input Area -->
+    <footer class="p-6 border-t border-electric-cyan/20 bg-obsidian/90 z-10">
+        <div class="max-w-4xl mx-auto flex gap-4">
+            <span class="text-electric-cyan pt-2">></span>
+            <input type="text" id="user-input"
+                class="w-full bg-transparent border-none outline-none text-electric-cyan placeholder-electric-cyan/30 font-mono text-lg"
+                placeholder="Type your objective here..." autocomplete="off">
+            <button id="send-btn"
+                class="px-6 py-2 border border-electric-cyan/50 hover:bg-electric-cyan/10 text-electric-cyan text-xs uppercase tracking-wider transition-all">
+                Execute
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        let step = 0;
+
+        // Sound effects (optional placeholder)
+        const playBeep = () => { /* Audio logic could go here */ };
+
+        const addMessage = (text, sender = 'ai', delay = 0) => {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
+
+            const bubble = document.createElement('div');
+            bubble.className = sender === 'user'
+                ? 'bg-electric-cyan/10 border border-electric-cyan/30 text-electric-cyan p-4 max-w-xl rounded-bl-xl rounded-tr-xl'
+                : 'text-neutral-300 max-w-xl leading-relaxed';
+
+            if (sender === 'ai') {
+                bubble.innerHTML = `<span class="text-electric-cyan text-xs font-bold block mb-2">[AI_CORE]</span>`;
+                // Typewriter effect
+                let i = 0;
+                msgDiv.appendChild(bubble);
+                chatContainer.appendChild(msgDiv);
+
+                // If it's HTML content (like contact card), render immediately
+                if (text.includes('<div')) {
+                    bubble.innerHTML += text;
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                    return;
+                }
+
+                const typeInterval = setInterval(() => {
+                    bubble.innerHTML += text.charAt(i);
+                    i++;
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                    if (i >= text.length) clearInterval(typeInterval);
+                }, 20); // Typing speed
+            } else {
+                bubble.textContent = text;
+                msgDiv.appendChild(bubble);
+                chatContainer.appendChild(msgDiv);
+            }
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        };
+
+        const processInput = () => {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            addMessage(text, 'user');
+            userInput.value = '';
+
+            // Simple Qualification Logic
+            setTimeout(() => {
+                const lowerText = text.toLowerCase();
+
+                if (step === 0) {
+                    addMessage("Analysis complete. Detecting intent patterns...");
+                    setTimeout(() => {
+                        if (lowerText.includes('space') || lowerText.includes('satellite') || lowerText.includes('aperture')) {
+                            addMessage("Detected Interest: AEROSPACE & ANALYTICS. Hemanth's work with Aperture and NISAR is directly relevant. He specializes in 'Space-to-Earth' intelligence models.");
+                        } else if (lowerText.includes('ai') || lowerText.includes('agent') || lowerText.includes('bot')) {
+                            addMessage("Detected Interest: ARTIFICIAL INTELLIGENCE. Hemanth designs autonomous agentic workflows (like me) and enterprise AI strategies.");
+                        } else if (lowerText.includes('invest') || lowerText.includes('money') || lowerText.includes('funding')) {
+                            addMessage("Detected Interest: INVESTMENT. Hemanth has scaled ventures to significant valuations. His focus is on sustainable, high-ROI deep tech.");
+                        } else {
+                            addMessage("Input parameters acknowledged. Hemanth's multidisciplinary background allows for rapid adaptation to complex problem sets.");
+                        }
+
+                        setTimeout(() => {
+                            addMessage("Would you like to schedule a direct uplink (meeting) or view specific case studies?");
+                            step = 1;
+                        }, 1500);
+                    }, 1000);
+                } else if (step === 1) {
+                    addMessage("Affirmative. Generating contact protocols...");
+                    setTimeout(() => {
+                        addMessage(`
+                            <div class="mt-4 p-4 border border-electric-cyan bg-electric-cyan/5 rounded">
+                                <h3 class="text-white font-bold mb-2">CONTACT PROTOCOL: READY</h3>
+                                <p class="mb-4 text-sm">Direct channel open for high-priority inquiries.</p>
+                                <div class="flex gap-4">
+                                    <a href="mailto:contact@marketlogic.org" class="px-4 py-2 bg-electric-cyan text-obsidian font-bold text-sm hover:opacity-90">EMAIL HEMANTH</a>
+                                    <a href="https://linkedin.com/in/hemanthreganti-147153178" target="_blank" class="px-4 py-2 border border-electric-cyan text-electric-cyan text-sm hover:bg-electric-cyan/10">LINKEDIN</a>
+                                </div>
+                            </div>
+                        `);
+                    }, 1000);
+                }
+            }, 500);
+        };
+
+        // Initial Sequence
+        setTimeout(() => addMessage("INITIALIZING UPLINK..."), 500);
+        setTimeout(() => addMessage("CONNECTION ESTABLISHED."), 1200);
+        setTimeout(() => addMessage("Greetings. I am Hemanth's Personal AI. My function is to analyze fit and capabilities."), 2000);
+        setTimeout(() => addMessage("Tell me about your project or objective. Are you looking for Strategic Leadership, AI Implementation, or Deep Tech Engineering?"), 3500);
+
+        // Event Listeners
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') processInput();
+        });
+        sendBtn.addEventListener('click', processInput);
+    </script>
+</body>
+
+</html>
