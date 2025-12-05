@@ -35,16 +35,12 @@
                         'fade-in': 'fadeIn 1s ease-out forwards',
                         'fade-up': 'fadeUp 0.8s ease-out forwards',
                         'glow-pulse': 'glowPulse 2s ease-in-out infinite',
-                        'grid-move': 'gridMove 20s linear infinite',
-                        'text-reveal': 'textReveal 0.5s ease-out forwards',
                         'float': 'float 6s ease-in-out infinite'
                     },
                     keyframes: {
                         fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
                         fadeUp: { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
                         glowPulse: { '0%, 100%': { boxShadow: '0 0 20px rgba(0, 240, 255, 0.3)' }, '50%': { boxShadow: '0 0 40px rgba(0, 240, 255, 0.6)' } },
-                        gridMove: { '0%': { transform: 'translateY(0)' }, '100%': { transform: 'translateY(-50%)' } },
-                        textReveal: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
                         float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } }
                     }
                 }
@@ -88,28 +84,58 @@
             background: #3a3a3a;
         }
 
-        /* Animated Grid Background */
-        .grid-bg {
-            position: absolute;
-            inset: 0;
-            background-image:
-                linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+        /* Video Hero */
+        .video-hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        /* Neural Network Mesh */
-        .neural-mesh {
+        .video-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 100vh;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 56.25vw;
+            /* 16:9 aspect ratio */
+            min-height: 100vh;
+            min-width: 177.78vh;
+            /* 16:9 aspect ratio */
+            transform: translate(-50%, -50%);
+        }
+
+        .video-overlay {
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 50% 50%, rgba(0, 240, 255, 0.05) 0%, transparent 50%);
+            background: linear-gradient(to bottom,
+                    rgba(5, 5, 5, 0.4) 0%,
+                    rgba(5, 5, 5, 0.2) 30%,
+                    rgba(5, 5, 5, 0.2) 70%,
+                    rgba(5, 5, 5, 0.95) 100%);
             pointer-events: none;
+        }
+
+        .video-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(5, 5, 5, 0.3) 100%);
         }
 
         /* Glassmorphism */
         .glass {
-            background: rgba(10, 10, 10, 0.7);
+            background: rgba(10, 10, 10, 0.6);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
@@ -174,24 +200,31 @@
         }
 
         .stagger-2 {
-            animation-delay: 0.2s;
-        }
-
-        .stagger-3 {
             animation-delay: 0.3s;
         }
 
-        .stagger-4 {
-            animation-delay: 0.4s;
-        }
-
-        .stagger-5 {
+        .stagger-3 {
             animation-delay: 0.5s;
         }
 
-        /* Magnetic Button Effect */
-        .magnetic-btn {
-            transition: transform 0.2s ease-out;
+        .stagger-4 {
+            animation-delay: 0.7s;
+        }
+
+        .stagger-5 {
+            animation-delay: 0.9s;
+        }
+
+        /* Section Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Atom Animation */
@@ -207,18 +240,6 @@
             100% {
                 transform: rotateZ(360deg);
             }
-        }
-
-        /* Section Reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
         }
     </style>
 </head>
@@ -250,86 +271,84 @@
             </div>
 
             <a href="#access"
-                class="magnetic-btn px-5 py-2.5 border border-neutral-dim rounded-full text-sm font-medium hover:border-electric-cyan hover:text-electric-cyan hover:bg-electric-cyan/5 transition-all duration-300">
+                class="px-5 py-2.5 border border-neutral-dim rounded-full text-sm font-medium hover:border-electric-cyan hover:text-electric-cyan hover:bg-electric-cyan/5 transition-all duration-300">
                 Initialize Access
             </a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="min-h-screen relative flex items-center justify-center overflow-hidden pt-20">
-        <!-- Animated Background -->
-        <div class="grid-bg"></div>
-        <div class="neural-mesh"></div>
-
-        <!-- Floating Particles -->
-        <div class="absolute inset-0 pointer-events-none">
-            <div class="absolute top-1/4 left-1/4 w-1 h-1 bg-electric-cyan/50 rounded-full animate-float"
-                style="animation-delay: 0s;"></div>
-            <div class="absolute top-1/3 right-1/3 w-1.5 h-1.5 bg-electric-cyan/30 rounded-full animate-float"
-                style="animation-delay: 1s;"></div>
-            <div class="absolute bottom-1/3 left-1/3 w-1 h-1 bg-electric-cyan/40 rounded-full animate-float"
-                style="animation-delay: 2s;"></div>
-            <div class="absolute top-1/2 right-1/4 w-0.5 h-0.5 bg-electric-cyan/60 rounded-full animate-float"
-                style="animation-delay: 3s;"></div>
+    <!-- Hero Section with Video Background -->
+    <section class="video-hero">
+        <!-- YouTube Video Background -->
+        <div class="video-container">
+            <iframe
+                src="https://www.youtube.com/embed/nwAyuiF_4r4?autoplay=1&mute=1&loop=1&playlist=nwAyuiF_4r4&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&enablejsapi=1&origin=https://marketlogic.org"
+                frameborder="0" allow="autoplay; encrypted-media" allowfullscreen>
+            </iframe>
         </div>
 
-        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
-            <!-- Badge -->
-            <div
-                class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 animate-fade-up opacity-0 stagger-1">
-                <div class="w-2 h-2 bg-electric-cyan rounded-full animate-pulse"></div>
-                <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">BEYOND CAPITAL
-                    MARKETS</span>
-            </div>
+        <!-- Overlay -->
+        <div class="video-overlay"></div>
 
-            <!-- Headline -->
-            <h1
-                class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9] mb-8 animate-fade-up opacity-0 stagger-2">
-                The Operating System<br>
-                <span class="text-gradient">for Reality.</span>
-            </h1>
-
-            <!-- Subtext -->
-            <p
-                class="text-lg md:text-xl text-neutral-muted max-w-2xl mx-auto leading-relaxed mb-12 animate-fade-up opacity-0 stagger-3">
-                We don't trade stocks. We engineer the logic behind the things you eat, wear, and use. <span
-                    class="text-neutral-text">Deeptech, deployed for humanity.</span>
-            </p>
-
-            <!-- CTA -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up opacity-0 stagger-4">
-                <a href="#protocol"
-                    class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300 animate-glow-pulse">
-                    Start Engine
-                </a>
-                <a href="aperture/"
-                    class="px-8 py-4 border border-graphite-500 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2">
-                    <span>Aperture Project</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M5 12h14" />
-                        <path d="m12 5 7 7-7 7" />
-                    </svg>
-                </a>
-            </div>
-
-            <!-- System Status -->
-            <div
-                class="mt-20 flex items-center justify-center gap-6 text-xs font-mono text-neutral-dim animate-fade-up opacity-0 stagger-5">
-                <div class="flex items-center gap-2">
-                    <div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-                    <span>SYSTEM_READY</span>
+        <!-- Hero Content -->
+        <div class="relative z-10 h-full flex items-center justify-center">
+            <div class="max-w-5xl mx-auto px-6 text-center">
+                <!-- Badge -->
+                <div
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 animate-fade-up opacity-0 stagger-1">
+                    <div class="w-2 h-2 bg-electric-cyan rounded-full animate-pulse"></div>
+                    <span class="text-xs font-mono uppercase tracking-widest text-neutral-muted">BEYOND CAPITAL
+                        MARKETS</span>
                 </div>
-                <div class="w-px h-4 bg-graphite-500"></div>
-                <span>v2.0.25</span>
-                <div class="w-px h-4 bg-graphite-500"></div>
-                <span>NODES: 1,247</span>
+
+                <!-- Headline -->
+                <h1
+                    class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[0.9] mb-8 animate-fade-up opacity-0 stagger-2">
+                    The Operating System<br>
+                    <span class="text-gradient">for Reality.</span>
+                </h1>
+
+                <!-- Subtext -->
+                <p
+                    class="text-lg md:text-xl text-neutral-muted max-w-2xl mx-auto leading-relaxed mb-12 animate-fade-up opacity-0 stagger-3">
+                    We don't trade stocks. We engineer the logic behind the things you eat, wear, and use. <span
+                        class="text-neutral-text">Deeptech, deployed for humanity.</span>
+                </p>
+
+                <!-- CTA -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up opacity-0 stagger-4">
+                    <a href="#protocol"
+                        class="btn-glow px-8 py-4 bg-electric-cyan text-obsidian font-semibold rounded-full hover:bg-white transition-colors duration-300 animate-glow-pulse">
+                        Start Engine
+                    </a>
+                    <a href="aperture/"
+                        class="px-8 py-4 border border-graphite-400 text-neutral-text rounded-full hover:border-electric-cyan hover:text-electric-cyan transition-all duration-300 flex items-center justify-center gap-2 glass">
+                        <span>Aperture Project</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12h14" />
+                            <path d="m12 5 7 7-7 7" />
+                        </svg>
+                    </a>
+                </div>
+
+                <!-- System Status -->
+                <div
+                    class="mt-16 flex items-center justify-center gap-6 text-xs font-mono text-neutral-dim animate-fade-up opacity-0 stagger-5">
+                    <div class="flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+                        <span>SYSTEM_READY</span>
+                    </div>
+                    <div class="w-px h-4 bg-graphite-500"></div>
+                    <span>v2.0.25</span>
+                    <div class="w-px h-4 bg-graphite-500"></div>
+                    <span>NODES: 1,247</span>
+                </div>
             </div>
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-fade-in opacity-0"
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20 animate-fade-in opacity-0"
             style="animation-delay: 1.5s;">
             <span class="text-xs font-mono text-neutral-dim">SCROLL</span>
             <div class="w-px h-10 bg-gradient-to-b from-electric-cyan/50 to-transparent"></div>
@@ -337,7 +356,7 @@
     </section>
 
     <!-- Protocol Section -->
-    <section id="protocol" class="py-32 px-6 relative">
+    <section id="protocol" class="py-32 px-6 relative bg-obsidian">
         <div class="max-w-7xl mx-auto">
             <div class="reveal mb-20">
                 <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// THE LOGIC GRID</span>
@@ -458,20 +477,15 @@
                 <!-- Atom Visualization -->
                 <div class="relative h-96 reveal" style="transition-delay: 0.2s;">
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <!-- Outer Ring -->
                         <div class="absolute w-80 h-80 border border-graphite-600 rounded-full atom-ring"></div>
-                        <!-- Middle Ring -->
                         <div class="absolute w-56 h-56 border border-electric-cyan/20 rounded-full atom-ring"
                             style="animation-direction: reverse; animation-duration: 12s;"></div>
-                        <!-- Inner Ring -->
                         <div class="absolute w-32 h-32 border border-electric-cyan/40 rounded-full atom-ring"
                             style="animation-duration: 6s;"></div>
-                        <!-- Core -->
                         <div
                             class="w-16 h-16 rounded-full bg-gradient-to-br from-electric-cyan to-electric-blue flex items-center justify-center">
                             <div class="w-8 h-8 rounded-full bg-obsidian"></div>
                         </div>
-                        <!-- Orbiting Particles -->
                         <div class="absolute w-80 h-80 atom-ring">
                             <div
                                 class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-electric-cyan rounded-full shadow-[0_0_15px_rgba(0,240,255,0.8)]">
@@ -490,7 +504,7 @@
     </section>
 
     <!-- Vision Section -->
-    <section id="vision" class="py-32 px-6">
+    <section id="vision" class="py-32 px-6 bg-obsidian">
         <div class="max-w-4xl mx-auto text-center reveal">
             <span class="text-xs font-mono text-electric-cyan uppercase tracking-widest">// OUR VISION</span>
             <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-8 tracking-tight">
@@ -514,7 +528,6 @@
     <!-- CTA Section -->
     <section id="access" class="py-32 px-6 relative overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-t from-graphite-900 to-obsidian"></div>
-        <div class="absolute inset-0 grid-bg opacity-50"></div>
 
         <div class="max-w-3xl mx-auto text-center relative z-10 reveal">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
@@ -548,7 +561,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-16 px-6 border-t border-graphite-800">
+    <footer class="py-16 px-6 border-t border-graphite-800 bg-obsidian">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
                 <div>
@@ -620,28 +633,6 @@
         };
         window.addEventListener('scroll', revealOnScroll);
         revealOnScroll();
-
-        // Parallax Effect
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const gridBg = document.querySelector('.grid-bg');
-            const neuralMesh = document.querySelector('.neural-mesh');
-            if (gridBg) gridBg.style.transform = `translateY(${scrolled * 0.3}px)`;
-            if (neuralMesh) neuralMesh.style.transform = `translateY(${scrolled * 0.2}px)`;
-        });
-
-        // Magnetic Button Effect
-        document.querySelectorAll('.magnetic-btn').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-            });
-            btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translate(0, 0)';
-            });
-        });
     </script>
 </body>
 
