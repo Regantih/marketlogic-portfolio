@@ -858,7 +858,7 @@
         window.addEventListener('scroll', revealOnScroll);
         revealOnScroll();
     </script>
-    <script>
+            <script>
         window.addEventListener('load', () => document.getElementById('loader').classList.add('hidden'));
         function updateLD(){
             var t=document.getElementById('liveTimestamp');
@@ -874,21 +874,14 @@
             var m=document.getElementById('malwareDetected');
             if(m)m.textContent=(12+Math.random()*2).toFixed(1)+'K';
             var b=document.getElementById('btcPrice');
-            if(b)b.textContent='
-
-</html>+(97000+Math.floor(Math.random()*1000)).toLocaleString();
+            if(b)b.textContent='$' + (97000+Math.floor(Math.random()*1000)).toLocaleString();
             var eth=document.getElementById('ethPrice');
-            if(eth)eth.textContent='
-
-</html>+(3800+Math.floor(Math.random()*100)).toLocaleString();
+            if(eth)eth.textContent='$' + (3800+Math.floor(Math.random()*100)).toLocaleString();
             var cap=document.getElementById('totalCap');
-            if(cap)cap.textContent='
-
-</html>+(3.3+Math.random()*0.3).toFixed(1)+'T';
+            if(cap)cap.textContent='$' + (3.3+Math.random()*0.3).toFixed(1)+'T';
         }
         setInterval(updateLD,3000);
         updateLD();
     </script>
 </body>
-
 </html>
