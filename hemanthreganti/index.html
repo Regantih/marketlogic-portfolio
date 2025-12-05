@@ -23,19 +23,37 @@
                 extend: {
                     colors: {
                         dark: {
-                            bg: '#121212',
-                            card: '#1e1e1e',
-                            border: '#2d2d2d',
-                            hover: '#2a2a2a'
+                            bg: '#0f1117', // Perplexity-ish dark
+                            card: '#1e2028',
+                            border: '#2d303a',
+                            hover: '#2a2d38',
+                            text: '#e2e8f0',
+                            muted: '#94a3b8'
                         },
-                        cyan: {
-                            accent: '#22d3ee',
-                            glow: 'rgba(34, 211, 238, 0.2)'
+                        brand: {
+                            primary: '#22d3ee', // Cyan
+                            secondary: '#818cf8', // Indigo
+                            accent: '#38bdf8'
                         }
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace']
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                        'pulse-slow': 'pulse 3s infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
                     }
                 }
             }
@@ -46,501 +64,417 @@
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide-react@latest"></script>
 
     <style>
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: #2d2d2d #121212;
+        body {
+            background-color: #0f1117;
+            color: #e2e8f0;
         }
 
-        *::-webkit-scrollbar {
-            width: 6px;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
 
-        *::-webkit-scrollbar-track {
-            background: #121212;
+        ::-webkit-scrollbar-track {
+            background: #0f1117;
         }
 
-        *::-webkit-scrollbar-thumb {
-            background-color: #2d2d2d;
-            border-radius: 3px;
+        ::-webkit-scrollbar-thumb {
+            background: #2d303a;
+            border-radius: 4px;
         }
 
-        @keyframes pulse-glow {
-
-            0%,
-            100% {
-                box-shadow: 0 0 20px rgba(34, 211, 238, 0.1);
-            }
-
-            50% {
-                box-shadow: 0 0 40px rgba(34, 211, 238, 0.2);
-            }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3e4250;
         }
 
-        @keyframes blink {
-            50% {
-                border-color: transparent
-            }
+        .glass-panel {
+            background: rgba(30, 32, 40, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .animate-pulse-glow {
-            animation: pulse-glow 3s ease-in-out infinite;
+        .glow-text {
+            text-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
         }
 
-        .gradient-vision {
-            background: linear-gradient(135deg,
-                    rgba(34, 211, 238, 0.3) 0%,
-                    rgba(99, 102, 241, 0.2) 50%,
-                    rgba(168, 85, 247, 0.2) 100%);
-        }
-
-        .glass-effect {
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .typing-cursor::after {
-            content: '|';
-            animation: blink 1s step-end infinite;
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 0%, rgba(34, 211, 238, 0.15) 0%, transparent 50%);
         }
     </style>
 </head>
 
-<body class="bg-dark-bg text-gray-100 font-sans antialiased">
+<body>
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        // Icon Components using raw SVG
+        // Icons
         const Icons = {
-            Home: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
-            ),
-            Discover: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" /></svg>
-            ),
-            Architecture: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /></svg>
-            ),
-            Stack: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" /></svg>
-            ),
-            Contact: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" /><polyline points="22,6 12,13 2,6" /></svg>
-            ),
-            Sparkles: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3Z" /></svg>
-            ),
-            Search: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>
-            ),
-            ArrowRight: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-            ),
-            Brain: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" /><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" /><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" /><path d="M17.599 6.5a3 3 0 0 0 .399-1.375" /><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5" /><path d="M3.477 10.896a4 4 0 0 1 .585-.396" /><path d="M19.938 10.5a4 4 0 0 1 .585.396" /><path d="M6 18a4 4 0 0 1-1.967-.516" /><path d="M19.967 17.484A4 4 0 0 1 18 18" /></svg>
-            ),
-            Rocket: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" /><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" /><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /></svg>
-            ),
-            LinkedIn: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg>
-            ),
-            Twitter: () => (
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
-            )
+            Sparkles: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275Z" /></svg>,
+            Search: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg>,
+            ArrowRight: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>,
+            Brain: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z" /><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z" /><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4" /><path d="M17.599 6.5a3 3 0 0 0 .399-1.375" /><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5" /><path d="M3.477 10.896a4 4 0 0 1 .585-.396" /><path d="M19.938 10.5a4 4 0 0 1 .585.396" /><path d="M6 18a4 4 0 0 1-1.967-.516" /><path d="M19.967 17.484A4 4 0 0 1 18 18" /></svg>,
+            Rocket: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" /><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" /><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /></svg>,
+            Globe: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></svg>,
+            Shield: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /></svg>,
+            Users: () => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>,
+            ChevronRight: () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>,
+            Linkedin: () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg>,
+            ExternalLink: () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
         };
 
-        // Typing Effect Component
-        const TypingEffect = ({ words }) => {
-            const [index, setIndex] = useState(0);
-            const [subIndex, setSubIndex] = useState(0);
-            const [reverse, setReverse] = useState(false);
-            const [blink, setBlink] = useState(true);
-
-            useEffect(() => {
-                if (index === words.length) return;
-
-                if (subIndex === words[index].length + 1 && !reverse) {
-                    setReverse(true);
-                    return;
+        // Data
+        const CONTENT = {
+            identity: {
+                name: "Hemanth Reganti",
+                title: "Chief Technology Architect & AI Strategist",
+                tagline: "Explore the journey of a technology architect helping enterprises navigate AI, SAP, and the new space economy.",
+            },
+            story: [
+                "Hemanth Reganti is a Chief Technology Architect and strategic advisor with over two decades of experience leading enterprise-wide transformations across finance, supply chain, and technology.",
+                "He has helped organizations modernize SAP landscapes, implement S/4HANA and Central Finance, and design future-ready architectures that integrate AI, data platforms, and cloud-native services.",
+                "Today, his work sits at the intersection of enterprise AI, SAP ecosystems, and emerging domains like aerospace and the new space economy, where he engages with industry bodies and executive programs to shape what comes next."
+            ],
+            pillars: [
+                {
+                    id: "enterprise-ai",
+                    icon: Icons.Brain,
+                    title: "Enterprise AI & SAP Transformation",
+                    summary: "Designing AI-native architectures on top of complex SAP and financial systems.",
+                    questions: [
+                        "How can large enterprises unlock AI value in SAP-heavy environments?",
+                        "What is the 'golden path' from AI experiments to production impact?",
+                        "How do you modernize finance and controlling with S/4HANA and CFIN?"
+                    ],
+                    link: "https://www.linkedin.com/in/hemanth-reganti-147153178"
+                },
+                {
+                    id: "fluid-enterprise",
+                    icon: Icons.Users,
+                    title: "Fluid Enterprise & Org Design",
+                    summary: "Reimagining operating models and org structures for AI-first organizations.",
+                    questions: [
+                        "What is a 'fluid enterprise' and why does it matter for AI?",
+                        "How should leaders rethink roles, processes, and governance?",
+                        "What are practical steps to move from pilots to AI-native ways of working?"
+                    ],
+                    link: "https://www.linkedin.com/posts/hemanth-reganti-147153178_the-fluid-enterprise-organizational-design-activity-7397449249740906496-xxxx"
+                },
+                {
+                    id: "aerospace",
+                    icon: Icons.Rocket,
+                    title: "Aerospace & New Space Economy",
+                    summary: "Bringing enterprise and AI thinking into aerospace and the emerging space economy.",
+                    questions: [
+                        "How does your aerospace and AIAA work connect to enterprise AI?",
+                        "What opportunities does the new space economy create for data and AI?",
+                        "How can space-domain thinking inform resilience on Earth?"
+                    ],
+                    link: "https://engage.aiaa.org/network/members/profile?UserKey=9ef7e255-b6a1-43ce-ae2f-019791312415"
+                },
+                {
+                    id: "governance",
+                    icon: Icons.Shield,
+                    title: "Agentic AI & Governance",
+                    summary: "Building safe, governed agentic AI systems for critical enterprise workflows.",
+                    questions: [
+                        "How should enterprises govern agentic AI beyond simple guardrails?",
+                        "What risks matter most in autonomous workflows?",
+                        "How do you combine human judgment with agents at scale?"
+                    ],
+                    link: "https://www.linkedin.com/posts/hemanth-reganti-147153178_autonomy-governance-rethinking-ai-risk-in-activity-7393676782408896513-xxxx"
+                },
+                {
+                    id: "leadership",
+                    icon: Icons.Globe,
+                    title: "Leadership, Learning & Reflection",
+                    summary: "Blending executive education, deep technical work, and reflective practice.",
+                    questions: [
+                        "How do you stay ahead of AI while leading complex transformations?",
+                        "What did you learn from recent keynotes on AI value?",
+                        "How do you think about gratitude and long-term career arcs?"
+                    ],
+                    link: "https://www.linkedin.com/posts/hemanth-reganti-147153178_thanksgiving2025-gratitude-silentsupporters-activity-7400016787599183872-xxxx"
                 }
-
-                if (subIndex === 0 && reverse) {
-                    setReverse(false);
-                    setIndex((prev) => (prev + 1) % words.length);
-                    return;
-                }
-
-                const timeout = setTimeout(() => {
-                    setSubIndex((prev) => prev + (reverse ? -1 : 1));
-                }, Math.max(reverse ? 75 : subIndex === words[index].length ? 1000 : 150, parseInt(Math.random() * 350)));
-
-                return () => clearTimeout(timeout);
-            }, [subIndex, index, reverse, words]);
-
-            return (
-                <span className="typing-cursor text-cyan-accent">
-                    {`${words[index].substring(0, subIndex)}`}
-                </span>
-            );
+            ],
+            suggestedPrompts: [
+                "What is Hemanth's framework for turning AI hype into real value?",
+                "How does he think enterprises should govern agentic AI systems?",
+                "What role does aerospace and the new space economy play in his work?",
+                "How has his SAP and finance background shaped his AI architecture thinking?"
+            ]
         };
 
-        // Animated Counter Component
-        const Counter = ({ end, duration = 2000 }) => {
-            const [count, setCount] = useState(0);
-
-            useEffect(() => {
-                let startTime = null;
-                const animate = (currentTime) => {
-                    if (!startTime) startTime = currentTime;
-                    const progress = Math.min((currentTime - startTime) / duration, 1);
-                    setCount(Math.floor(progress * end));
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    }
-                };
-                requestAnimationFrame(animate);
-            }, [end, duration]);
-
-            return <span>{count}+</span>;
-        };
-
-        // Sidebar Component
-        const Sidebar = ({ activeNav, setActiveNav }) => {
-            const navItems = [
-                { id: 'home', icon: Icons.Home, label: 'Home' },
-                { id: 'discover', icon: Icons.Discover, label: 'Discover' },
-                { id: 'architecture', icon: Icons.Architecture, label: 'Architecture' },
-                { id: 'stack', icon: Icons.Stack, label: 'Stack' }
-            ];
-
-            return (
-                <aside className="fixed left-0 top-0 h-screen w-16 lg:w-20 bg-dark-card border-r border-dark-border flex flex-col items-center py-6 z-50">
-                    <div className="mb-8">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-accent to-blue-500 flex items-center justify-center text-dark-bg font-bold text-sm">
-                            R.AI
-                        </div>
+        // Components
+        const Navigation = () => (
+            <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex justify-between items-center glass-panel bg-opacity-50">
+                <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-primary to-blue-600 flex items-center justify-center text-white font-bold text-sm">
+                        HR
                     </div>
-                    <nav className="flex-1 flex flex-col items-center gap-2">
-                        {navItems.map(({ id, icon: Icon, label }) => (
-                            <button
-                                key={id}
-                                onClick={() => setActiveNav(id)}
-                                className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-200 group relative ${activeNav === id
-                                    ? 'bg-dark-hover text-cyan-accent'
-                                    : 'text-gray-500 hover:text-gray-300 hover:bg-dark-hover'
-                                    }`}
-                                title={label}
-                            >
-                                <Icon />
-                                {activeNav === id && (
-                                    <div className="absolute left-0 w-0.5 h-6 bg-cyan-accent rounded-r" />
-                                )}
-                            </button>
-                        ))}
-                    </nav>
-                    <button
-                        className="w-12 h-12 rounded-xl bg-cyan-accent/10 text-cyan-accent hover:bg-cyan-accent/20 flex items-center justify-center transition-all duration-200"
-                        title="Contact"
-                    >
-                        <Icons.Contact />
+                    <span className="font-semibold text-sm tracking-wide hidden sm:block">Hemanth Reganti</span>
+                </div>
+                <div className="flex items-center gap-4">
+                    <a href="https://linkedin.com/in/hemanth-reganti-147153178" target="_blank" className="text-dark-muted hover:text-brand-primary transition-colors">
+                        <Icons.Linkedin />
+                    </a>
+                    <a href="#contact" className="px-4 py-2 rounded-full bg-dark-card border border-dark-border text-xs font-medium hover:bg-dark-hover transition-all">
+                        Contact
+                    </a>
+                </div>
+            </nav>
+        );
+
+        const Hero = ({ onAskClick }) => (
+            <section className="min-h-screen flex flex-col justify-center items-center px-4 relative overflow-hidden pt-20">
+                <div className="absolute inset-0 hero-gradient pointer-events-none"></div>
+
+                <div className="max-w-4xl mx-auto text-center z-10 space-y-8 animate-fade-in">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 text-brand-primary text-xs font-medium border border-brand-primary/20 mb-4">
+                        <Icons.Sparkles />
+                        <span>AI & Enterprise Transformation</span>
+                    </div>
+
+                    <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight glow-text">
+                        {CONTENT.identity.name}
+                        <span className="block text-2xl md:text-3xl text-dark-muted font-normal mt-4 font-mono">
+                            {CONTENT.identity.title}
+                        </span>
+                    </h1>
+
+                    <p className="text-lg md:text-xl text-dark-muted max-w-2xl mx-auto leading-relaxed">
+                        {CONTENT.identity.tagline}
+                    </p>
+
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+                        <button
+                            onClick={() => document.getElementById('story').scrollIntoView({ behavior: 'smooth' })}
+                            className="px-8 py-4 rounded-full bg-white text-black font-medium hover:bg-gray-200 transition-all flex items-center justify-center gap-2"
+                        >
+                            Discover Journey
+                            <Icons.ArrowRight />
+                        </button>
+                        <button
+                            onClick={onAskClick}
+                            className="px-8 py-4 rounded-full glass-panel text-white font-medium hover:bg-white/5 transition-all flex items-center justify-center gap-2 border border-white/10"
+                        >
+                            <Icons.Brain />
+                            Ask about Enterprise AI
+                        </button>
+                    </div>
+                </div>
+            </section>
+        );
+
+        const AskSection = ({ isActive, onClose }) => {
+            const [query, setQuery] = useState('');
+            const [answer, setAnswer] = useState(null);
+            const [isTyping, setIsTyping] = useState(false);
+
+            const handleSearch = (q) => {
+                setQuery(q);
+                setIsTyping(true);
+                setAnswer(null);
+                // Simulate AI response
+                setTimeout(() => {
+                    setIsTyping(false);
+                    setAnswer("Hemanth advocates for a 'fluid enterprise' model where AI agents and humans collaborate within dynamic organizational structures. His approach combines rigorous governance with the scalability of cloud-native architectures, particularly in complex SAP environments. He emphasizes that the 'golden path' to AI value lies in moving beyond pilots to integrated, governed workflows that deliver measurable business outcomes.");
+                }, 1500);
+            };
+
+            if (!isActive) return null;
+
+            return (
+                <div className="fixed inset-0 z-50 bg-dark-bg/95 backdrop-blur-xl flex flex-col items-center justify-center p-4 animate-fade-in">
+                    <button onClick={onClose} className="absolute top-6 right-6 text-dark-muted hover:text-white">
+                        Close
                     </button>
-                </aside>
-            );
-        };
 
-        // AI Summary Card Component
-        const AISummaryCard = () => {
-            const [isVisible, setIsVisible] = useState(false);
-
-            useEffect(() => {
-                setTimeout(() => setIsVisible(true), 300);
-            }, []);
-
-            return (
-                <div className={`bg-dark-card border border-dark-border rounded-2xl p-6 lg:p-8 animate-pulse-glow transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-                    <div className="flex items-center gap-2 mb-4">
-                        <div className="flex items-center gap-1.5 px-3 py-1 bg-cyan-accent/10 border border-cyan-accent/30 rounded-full">
-                            <Icons.Sparkles />
-                            <span className="text-cyan-accent text-xs font-mono uppercase tracking-wider">AI Summary</span>
+                    <div className="w-full max-w-3xl space-y-8">
+                        <div className="text-center space-y-2">
+                            <h2 className="text-3xl font-bold">Ask about Hemanth</h2>
+                            <p className="text-dark-muted">Explore his vision, experience, and perspectives.</p>
                         </div>
-                    </div>
-                    <p className="text-gray-300 leading-relaxed text-base lg:text-lg">
-                        As a <span className="text-white font-medium">Chief Technology Architect</span>, I architect and lead the future of enterprise technology, seamlessly blending cutting-edge{' '}
-                        <span className="text-cyan-accent font-medium">AI/ML</span>, <span className="text-cyan-accent font-medium">robotics</span>, and emerging{' '}
-                        <span className="text-cyan-accent font-medium">space technologies</span> with robust{' '}
-                        <span className="text-white font-medium">SAP Core enterprise systems (S/4 HANA)</span> to drive measurable business outcomes and mission success.
-                    </p>
-                    <p className="text-gray-400 mt-4 leading-relaxed">
-                        My expertise lies in transforming complex technological visions into scalable, ROI-driven solutions that position organizations at the forefront of{' '}
-                        <span className="text-white font-medium">digital innovation</span>.
-                    </p>
-                    <div className="mt-6 pt-4 border-t border-dark-border flex items-center gap-2 text-sm text-gray-500">
-                        <span className="font-mono">Source:</span>
-                        <a href="https://upmdgezb.manus.space" className="text-cyan-accent hover:underline">upmdgezb.manus.space</a>
-                    </div>
-                </div>
-            );
-        };
 
-        // Stats Card Component
-        const StatsCard = () => (
-            <div className="bg-dark-card border border-dark-border rounded-2xl p-6 flex flex-col justify-between h-full">
-                <div className="flex items-center gap-2 mb-6">
-                    <div className="w-8 h-8 rounded-lg bg-cyan-accent/10 flex items-center justify-center text-cyan-accent">
-                        <Icons.Rocket />
-                    </div>
-                    <span className="font-mono text-xs text-gray-500 uppercase tracking-wider">Metrics</span>
-                </div>
-
-                <div className="space-y-6">
-                    <div>
-                        <div className="text-4xl lg:text-5xl font-bold text-white mb-1">
-                            <Counter end={15} />
-                        </div>
-                        <div className="text-gray-500 text-sm">Years Experience</div>
-                    </div>
-                    <div>
-                        <div className="text-4xl lg:text-5xl font-bold text-cyan-accent mb-1">
-                            <Counter end={50} />
-                        </div>
-                        <div className="text-gray-500 text-sm">Enterprise Projects</div>
-                    </div>
-                </div>
-            </div>
-        );
-
-        // Experience Card Component
-        const ExperienceCard = () => (
-            <div className="bg-dark-card border border-dark-border rounded-2xl p-6 lg:p-8 h-full">
-                <div className="flex items-center gap-2 mb-6">
-                    <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400">
-                        <Icons.Brain />
-                    </div>
-                    <span className="font-mono text-xs text-gray-500 uppercase tracking-wider">Experience</span>
-                </div>
-
-                <div className="space-y-6">
-                    <div className="group">
-                        <div className="flex items-start justify-between">
-                            <div>
-                                <h3 className="text-white font-semibold text-lg group-hover:text-cyan-accent transition-colors">hibot.ai</h3>
-                                <p className="text-gray-400 text-sm">Founder & Visionary</p>
+                        <div className="relative">
+                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-muted">
+                                <Icons.Search />
                             </div>
-                            <span className="text-xs font-mono text-gray-600 bg-dark-hover px-2 py-1 rounded">Current</span>
-                        </div>
-                        <p className="text-gray-500 text-sm mt-2">Founded hibot.ai with an innovative approach to conversational AI technology.</p>
-                    </div>
-
-                    <div className="border-t border-dark-border pt-6">
-                        <div className="flex items-start justify-between">
-                            <div>
-                                <h3 className="text-white font-semibold text-lg group-hover:text-cyan-accent transition-colors">Mai Solutions</h3>
-                                <p className="text-gray-400 text-sm">Chief Technology Architect</p>
-                            </div>
-                            <span className="text-xs font-mono text-gray-600 bg-dark-hover px-2 py-1 rounded">Enterprise</span>
-                        </div>
-                        <p className="text-gray-500 text-sm mt-2">Leading enterprise technology transformation with SAP S/4 HANA and emerging tech.</p>
-                    </div>
-                </div>
-            </div>
-        );
-
-        // Vision Card Component
-        const VisionCard = () => (
-            <div className="relative bg-dark-card border border-dark-border rounded-2xl overflow-hidden h-full min-h-[200px]">
-                <div className="absolute inset-0 gradient-vision opacity-60" />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-card via-transparent to-transparent" />
-                <div className="absolute inset-0 overflow-hidden">
-                    {[...Array(20)].map((_, i) => (
-                        <div
-                            key={i}
-                            className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                                animationDelay: `${Math.random() * 2}s`,
-                                opacity: Math.random() * 0.5 + 0.3
-                            }}
-                        />
-                    ))}
-                </div>
-                <div className="relative z-10 p-6 h-full flex flex-col justify-end">
-                    <span className="font-mono text-xs text-cyan-accent uppercase tracking-wider mb-2">Vision</span>
-                    <h3 className="text-white text-xl font-semibold mb-2">Terraforming Concepts</h3>
-                    <p className="text-gray-400 text-sm">Digital Twins for predictive analytics and system optimization in space technology.</p>
-                </div>
-            </div>
-        );
-
-        // Stack Card Component
-        const StackCard = () => {
-            const skills = [
-                { name: 'AI/ML', highlight: true },
-                { name: 'Python', highlight: false },
-                { name: 'React', highlight: false },
-                { name: 'AWS', highlight: false },
-                { name: 'SAP S/4 HANA', highlight: true },
-                { name: 'Robotics', highlight: true },
-                { name: 'Digital Twins', highlight: false },
-                { name: 'TypeScript', highlight: false },
-                { name: 'Node.js', highlight: false },
-                { name: 'Kubernetes', highlight: false },
-                { name: 'Conversational AI', highlight: true },
-                { name: 'Intelligent Automation', highlight: false }
-            ];
-
-            return (
-                <div className="bg-dark-card border border-dark-border rounded-2xl p-6 h-full">
-                    <div className="flex items-center gap-2 mb-6">
-                        <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400">
-                            <Icons.Stack />
-                        </div>
-                        <span className="font-mono text-xs text-gray-500 uppercase tracking-wider">Tech Stack</span>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                        {skills.map((skill, index) => (
-                            <span
-                                key={index}
-                                className={`px-3 py-1.5 rounded-lg font-mono text-xs transition-all duration-200 cursor-default ${skill.highlight
-                                    ? 'bg-cyan-accent/10 text-cyan-accent border border-cyan-accent/30 hover:bg-cyan-accent/20'
-                                    : 'bg-dark-hover text-gray-400 border border-dark-border hover:text-gray-300'
-                                    }`}
-                            >
-                                {skill.name}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-            );
-        };
-
-        // Insights Card Component
-        const InsightsCard = () => (
-            <div className="bg-dark-card border border-dark-border rounded-2xl p-6">
-                <div className="flex items-center gap-2 mb-4">
-                    <div className="w-8 h-8 rounded-lg bg-orange-500/10 flex items-center justify-center text-orange-400">
-                        <Icons.Discover />
-                    </div>
-                    <span className="font-mono text-xs text-gray-500 uppercase tracking-wider">Latest Insights</span>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {[
-                        { title: 'The Future of Symbiotic AI', date: 'Dec 2024' },
-                        { title: 'Enterprise Automation Strategies', date: 'Nov 2024' },
-                        { title: 'Quantum Computing in Business', date: 'Oct 2024' },
-                        { title: 'SpaceTech: The Next Frontier', date: 'Sep 2024' }
-                    ].map((item, index) => (
-                        <div key={index} className="group flex items-center justify-between p-3 rounded-xl bg-dark-hover/50 hover:bg-dark-hover border border-transparent hover:border-dark-border transition-all cursor-pointer">
-                            <div className="flex items-center gap-3">
-                                <div className="w-2 h-2 rounded-full bg-cyan-accent/50 group-hover:bg-cyan-accent transition-colors"></div>
-                                <span className="text-gray-300 text-sm group-hover:text-white transition-colors">{item.title}</span>
-                            </div>
-                            <span className="text-xs text-gray-600 font-mono">{item.date}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        );
-
-        // Social Links Component
-        const SocialLinks = () => (
-            <div className="bg-dark-card border border-dark-border rounded-2xl p-6">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <span className="font-mono text-xs text-gray-500 uppercase tracking-wider">Connect</span>
-                        <p className="text-gray-400 text-sm mt-1">Navigating AI Transformation</p>
-                    </div>
-                    <div className="flex gap-3">
-                        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-dark-hover flex items-center justify-center text-gray-400 hover:text-cyan-accent hover:bg-cyan-accent/10 transition-all duration-200"><Icons.LinkedIn /></a>
-                        <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-dark-hover flex items-center justify-center text-gray-400 hover:text-cyan-accent hover:bg-cyan-accent/10 transition-all duration-200"><Icons.Twitter /></a>
-                    </div>
-                </div>
-            </div>
-        );
-
-        // Floating Action Bar Component
-        const FloatingActionBar = () => {
-            const [isFocused, setIsFocused] = useState(false);
-
-            return (
-                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-2xl px-4 z-40">
-                    <div className={`bg-dark-card/95 glass-effect border rounded-2xl p-2 transition-all duration-300 ${isFocused ? 'border-cyan-accent shadow-lg shadow-cyan-accent/10' : 'border-dark-border'
-                        }`}>
-                        <div className="flex items-center gap-3 px-4 py-2">
-                            <Icons.Search />
                             <input
                                 type="text"
-                                placeholder="Ask about Hemanth's vision for Symbiotic AI..."
-                                className="flex-1 bg-transparent text-gray-300 placeholder-gray-500 focus:outline-none text-sm"
-                                onFocus={() => setIsFocused(true)}
-                                onBlur={() => setIsFocused(false)}
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)}
+                                placeholder="Ask a question..."
+                                className="w-full bg-dark-card border border-dark-border rounded-2xl py-4 pl-12 pr-4 text-lg focus:outline-none focus:border-brand-primary transition-colors"
+                                onKeyDown={(e) => e.key === 'Enter' && handleSearch(query)}
                             />
-                            <button className="px-4 py-2 bg-cyan-accent/10 text-cyan-accent rounded-xl text-sm font-medium hover:bg-cyan-accent/20 transition-colors flex items-center gap-2">
-                                <Icons.Sparkles />
-                                Ask AI
-                            </button>
                         </div>
+
+                        {!answer && !isTyping && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {CONTENT.suggestedPrompts.map((prompt, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => handleSearch(prompt)}
+                                        className="text-left p-4 rounded-xl bg-dark-card/50 border border-dark-border hover:border-brand-primary/50 hover:bg-dark-card transition-all text-sm text-dark-muted hover:text-white"
+                                    >
+                                        {prompt}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+
+                        {isTyping && (
+                            <div className="flex items-center gap-2 text-brand-primary animate-pulse">
+                                <Icons.Sparkles />
+                                <span>Analyzing Hemanth's profile...</span>
+                            </div>
+                        )}
+
+                        {answer && (
+                            <div className="bg-dark-card border border-dark-border rounded-2xl p-6 animate-slide-up">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-8 h-8 rounded-lg bg-brand-primary/10 flex items-center justify-center text-brand-primary shrink-0">
+                                        <Icons.Brain />
+                                    </div>
+                                    <div className="space-y-4">
+                                        <p className="leading-relaxed text-gray-300">{answer}</p>
+                                        <div className="flex gap-2">
+                                            <span className="text-xs text-dark-muted bg-dark-bg px-2 py-1 rounded border border-dark-border">Source: Public Profile</span>
+                                            <span className="text-xs text-dark-muted bg-dark-bg px-2 py-1 rounded border border-dark-border">Context: Enterprise AI</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             );
         };
 
-        // Main App Component
-        const App = () => {
-            const [activeNav, setActiveNav] = useState('home');
+        const StorySection = () => (
+            <section id="story" className="py-24 px-4 bg-dark-bg relative">
+                <div className="max-w-4xl mx-auto space-y-12">
+                    <div className="space-y-2 border-l-2 border-brand-primary pl-6">
+                        <span className="text-brand-primary font-mono text-sm uppercase tracking-wider">The Journey</span>
+                        <h2 className="text-3xl md:text-4xl font-bold">Architecting the Future</h2>
+                    </div>
+
+                    <div className="space-y-6 text-lg text-gray-400 leading-relaxed font-light">
+                        {CONTENT.story.map((paragraph, i) => (
+                            <p key={i} className="animate-slide-up" style={{ animationDelay: `${i * 0.1}s` }}>
+                                {paragraph}
+                            </p>
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+
+        const PillarCard = ({ pillar, index }) => {
+            const [isHovered, setIsHovered] = useState(false);
 
             return (
-                <div className="min-h-screen bg-dark-bg">
-                    <Sidebar activeNav={activeNav} setActiveNav={setActiveNav} />
-                    <main className="pl-16 lg:pl-20 min-h-screen pb-24">
-                        <div className="max-w-6xl mx-auto px-4 lg:px-8 py-8">
-                            <div className="flex items-center gap-2 text-sm mb-6">
-                                <span className="text-gray-500 font-mono">Profile</span>
-                                <span className="text-gray-600">/</span>
-                                <span className="text-cyan-accent font-mono">Chief Technology Architect</span>
-                            </div>
+                <div
+                    className="group relative bg-dark-card border border-dark-border rounded-2xl p-8 hover:border-brand-primary/30 transition-all duration-300 overflow-hidden"
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                >
+                    <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity text-brand-primary transform group-hover:scale-110 duration-500">
+                        <pillar.icon />
+                    </div>
 
-                            <header className="mb-8">
-                                <h1 className="text-4xl lg:text-5xl font-bold text-white mb-2">
-                                    Hemanth Reganti
-                                </h1>
-                                <p className="text-gray-400 text-lg h-8">
-                                    <TypingEffect words={['Pioneering Intelligent Enterprise Transformation', 'Architecting the Future of AI & Robotics', 'Bridging Quantum Computing & Business']} />
-                                </p>
-                            </header>
-
-                            <section className="mb-8">
-                                <AISummaryCard />
-                            </section>
-
-                            <section className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
-                                <div className="lg:col-span-2">
-                                    <ExperienceCard />
-                                </div>
-                                <div className="lg:row-span-2">
-                                    <StatsCard />
-                                </div>
-                                <div>
-                                    <VisionCard />
-                                </div>
-                                <div>
-                                    <StackCard />
-                                </div>
-                                <div className="lg:col-span-2">
-                                    <InsightsCard />
-                                </div>
-                                <div>
-                                    <SocialLinks />
-                                </div>
-                            </section>
+                    <div className="space-y-6 relative z-10">
+                        <div className="w-12 h-12 rounded-xl bg-dark-bg border border-dark-border flex items-center justify-center text-brand-primary group-hover:scale-110 transition-transform duration-300">
+                            <pillar.icon />
                         </div>
-                    </main>
-                    <FloatingActionBar />
+
+                        <div>
+                            <h3 className="text-xl font-bold mb-2 group-hover:text-brand-primary transition-colors">{pillar.title}</h3>
+                            <p className="text-dark-muted text-sm leading-relaxed">{pillar.summary}</p>
+                        </div>
+
+                        <div className={`space-y-3 transition-all duration-300 ${isHovered ? 'opacity-100 translate-y-0' : 'opacity-60'}`}>
+                            <div className="h-px w-full bg-dark-border"></div>
+                            <p className="text-xs font-mono text-brand-primary uppercase tracking-wider">Key Questions</p>
+                            <ul className="space-y-2">
+                                {pillar.questions.map((q, i) => (
+                                    <li key={i} className="text-xs text-gray-400 flex items-start gap-2">
+                                        <span className="text-brand-primary mt-0.5">•</span>
+                                        {q}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <a
+                            href={pillar.link}
+                            target="_blank"
+                            className="inline-flex items-center gap-2 text-sm font-medium text-white hover:text-brand-primary transition-colors mt-4"
+                        >
+                            Explore More <Icons.ExternalLink />
+                        </a>
+                    </div>
+                </div>
+            );
+        };
+
+        const PillarsSection = () => (
+            <section className="py-24 px-4 bg-dark-bg/50">
+                <div className="max-w-6xl mx-auto">
+                    <div className="text-center mb-16 space-y-4">
+                        <h2 className="text-3xl md:text-4xl font-bold">Areas of Expertise</h2>
+                        <p className="text-dark-muted max-w-2xl mx-auto">
+                            Deep dives into the core pillars of Hemanth's work and vision.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {CONTENT.pillars.map((pillar, i) => (
+                            <PillarCard key={i} pillar={pillar} index={i} />
+                        ))}
+                    </div>
+                </div>
+            </section>
+        );
+
+        const Footer = () => (
+            <footer id="contact" className="py-12 px-4 border-t border-dark-border bg-dark-card">
+                <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div className="text-center md:text-left">
+                        <h3 className="font-bold text-lg">Hemanth Reganti</h3>
+                        <p className="text-sm text-dark-muted">Chief Technology Architect</p>
+                    </div>
+
+                    <div className="flex gap-6">
+                        <a href="https://linkedin.com/in/hemanth-reganti-147153178" className="text-dark-muted hover:text-white transition-colors">LinkedIn</a>
+                        <a href="https://engage.aiaa.org/network/members/profile?UserKey=9ef7e255-b6a1-43ce-ae2f-019791312415" className="text-dark-muted hover:text-white transition-colors">AIAA Profile</a>
+                        <a href="mailto:contact@marketlogic.org" className="text-dark-muted hover:text-white transition-colors">Email</a>
+                    </div>
+
+                    <div className="text-xs text-dark-muted">
+                        © 2024 Avant-Garde Solutions, Ltd.
+                    </div>
+                </div>
+            </footer>
+        );
+
+        const App = () => {
+            const [showAsk, setShowAsk] = useState(false);
+
+            return (
+                <div className="min-h-screen bg-dark-bg text-dark-text selection:bg-brand-primary/30">
+                    <Navigation />
+                    <Hero onAskClick={() => setShowAsk(true)} />
+                    <StorySection />
+                    <PillarsSection />
+                    <Footer />
+                    <AskSection isActive={showAsk} onClose={() => setShowAsk(false)} />
                 </div>
             );
         };
