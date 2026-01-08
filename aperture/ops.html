@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aperture Recruitment Ops | Command Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Orbitron:wght@400;700;900&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: '#050a14',
+                        panel: 'rgba(10, 25, 47, 0.7)',
+                        cyan: '#00f2ff',
+                        alert: '#ff003c',
+                        green: '#00ff41'
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'monospace'],
+                        display: ['Orbitron', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050a14;
+            color: #00f2ff;
+            background-image: radial-gradient(#00f2ff1a 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .glass {
+            background: rgba(10, 25, 47, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+        }
+
+        .scan-line {
+            height: 2px;
+            width: 100%;
+            background: #00f2ff;
+            position: absolute;
+            animation: scan 3s linear infinite;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0%;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body class="h-screen overflow-hidden flex flex-col p-4">
+
+    <!-- Header -->
+    <header class="flex justify-between items-center mb-4 p-4 glass rounded">
+        <div>
+            <h1 class="font-display text-2xl font-bold tracking-widest text-white">RECRUITMENT <span
+                    class="text-cyan">OPS_CENTER</span></h1>
+            <p class="text-xs font-mono text-cyan/60">AI EVALUATION ENGINE // LIVE FEED</p>
+        </div>
+        <div class="flex gap-4 font-mono text-xs">
+            <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-green animate-pulse"></div> SYSTEM_ONLINE
+            </div>
+            <div class="flex items-center gap-2 text-alert">
+                <div class="w-2 h-2 rounded-full bg-alert animate-blink"></div> PROCESSING_BATCH
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="flex-1 grid grid-cols-12 gap-4 overflow-hidden">
+
+        <!-- Sidebar: Live Feed -->
+        <div class="col-span-4 glass rounded p-4 flex flex-col overflow-hidden relative">
+            <div class="scan-line"></div>
+            <h2 class="font-mono text-sm border-b border-cyan/30 pb-2 mb-4 tracking-wider flex justify-between">
+                <span>INCOMING_TRANSMISSIONS</span>
+                <span id="candidate-count" class="text-white">0</span>
+            </h2>
+            <div id="feed-list" class="space-y-2 overflow-y-auto pr-2 custom-scrollbar flex-1">
+                <!-- Candidates injected here -->
+                <div class="text-center text-cyan/40 mt-10 animate-pulse">WAITING FOR SATELLITE UPLINK...</div>
+            </div>
+            <button onclick="fetchBatch()"
+                class="mt-4 border border-cyan/50 text-cyan hover:bg-cyan/10 py-2 font-mono text-xs uppercase tracking-widest transition-all">Refresh
+                Uplink</button>
+        </div>
+
+        <!-- Main Panel: Analysis -->
+        <div class="col-span-8 glass rounded p-6 relative flex flex-col">
+            <div class="absolute top-0 right-0 p-2 border-l border-b border-cyan/30 text-[10px] font-mono opacity-50">
+                ANALYSIS_PROTOCOL_V4</div>
+
+            <!-- Selected Candidate Info -->
+            <div id="analysis-panel" class="hidden h-full flex flex-col">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 id="selected-name" class="text-3xl font-display font-bold text-white mb-1">CANDIDATE_NAME
+                        </h2>
+                        <div id="selected-role" class="text-sm font-mono text-cyan/70">ROLE_DESIGNATION</div>
+                    </div>
+                    <div id="selected-status"
+                        class="px-4 py-2 border border-white/20 text-white font-mono font-bold text-xl tracking-widest rounded bg-white/5">
+                        STATUS
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-8 flex-1">
+                    <!-- Metrics -->
+                    <div class="space-y-6">
+                        <div class="bg-black/40 p-4 rounded border border-cyan/10">
+                            <h3 class="text-xs font-mono text-cyan/50 mb-3 uppercase">Psychometric Profile</h3>
+                            <div class="flex justify-between items-end h-32 gap-2 mt-4">
+                                <!-- Bars created dynamically or replace with Chart -->
+                                <canvas id="radarChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="bg-black/40 p-4 rounded border border-cyan/10 flex-1">
+                            <h3 class="text-xs font-mono text-cyan/50 mb-2 uppercase">AI Determination</h3>
+                            <p id="selected-feedback" class="text-sm font-mono leading-relaxed text-white/90">
+                                Analying...
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Raw Data -->
+                    <div
+                        class="font-mono text-xs space-y-2 text-cyan/60 bg-black/20 p-4 rounded border border-cyan/5 overflow-y-auto">
+                        <div class="flex justify-between border-b border-cyan/10 pb-1"><span>INTEREST_INDEX</span><span
+                                id="score-interest" class="text-white">0</span></div>
+                        <div class="flex justify-between border-b border-cyan/10 pb-1"><span>IQ_COMPLEXITY</span><span
+                                id="score-iq" class="text-white">0</span></div>
+                        <div class="flex justify-between border-b border-cyan/10 pb-1"><span>EQ_DYNAMICS</span><span
+                                id="score-eq" class="text-white">0</span></div>
+                        <div class="flex justify-between border-b border-cyan/10 pb-1"><span>DRIVE_velocity</span><span
+                                id="score-drive" class="text-white">0</span></div>
+                        <div class="mt-4 pt-4 border-t border-cyan/20">
+                            <div class="text-[10px] opacity-50 mb-1">RAW_SIGNALS</div>
+                            <div id="raw-signals" class="opacity-80"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Idle State -->
+            <div id="idle-state"
+                class="absolute inset-0 flex items-center justify-center flex-col opacity-30 pointer-events-none">
+                <div class="w-32 h-32 border border-cyan rounded-full animate-spin mb-4"></div>
+                <div class="font-mono tracking-widest">SELECT TARGET</div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        let currentChart = null;
+
+        async function fetchBatch() {
+            try {
+                // In production, fetch from /api/recruitment/live
+                // For demo without running server, we can mock or try fetch
+                const res = await fetch('http://localhost:8000/api/recruitment/live?count=6');
+                const json = await res.json();
+                renderFeed(json.data);
+            } catch (e) {
+                console.error("API Error - Using Fallback Mock Data");
+                // Fallback Logic for static file viewing
+                renderFeed(mockData());
+            }
+        }
+
+        function renderFeed(candidates) {
+            const feed = document.getElementById('feed-list');
+            document.getElementById('candidate-count').innerText = candidates.length;
+            feed.innerHTML = '';
+
+            candidates.forEach((c, idx) => {
+                const el = document.createElement('div');
+                el.className = 'p-3 border border-cyan/20 bg-black/40 hover:bg-cyan/10 cursor-pointer transition-all flex justify-between items-center group';
+                el.onclick = () => selectCandidate(c);
+
+                // Color Code Status
+                let statusColor = 'text-cyan';
+                if (c.evaluation.status === 'ACCEPT') statusColor = 'text-green';
+                if (c.evaluation.status === 'REJECT') statusColor = 'text-alert';
+                if (c.evaluation.status === 'REVIEW') statusColor = 'text-yellow-400';
+
+                el.innerHTML = `
+                    <div>
+                        <div class="font-bold text-white text-sm group-hover:text-cyan transition-colors">${c.name}</div>
+                        <div class="text-[10px] text-cyan/50 font-mono">${c.role}</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-mono text-lg font-bold ${statusColor}">${c.evaluation.utils ? c.evaluation.metrics.average : c.evaluation.metrics.average}%</div>
+                        <div class="text-[9px] ${statusColor} tracking-wider">${c.evaluation.status}</div>
+                    </div>
+                `;
+                feed.appendChild(el);
+
+                // Auto-select first
+                if (idx === 0) selectCandidate(c);
+            });
+        }
+
+        function selectCandidate(c) {
+            document.getElementById('idle-state').classList.add('hidden');
+            document.getElementById('analysis-panel').classList.remove('hidden');
+
+            document.getElementById('selected-name').innerText = c.name;
+            document.getElementById('selected-role').innerText = c.role.toUpperCase();
+
+            const statusEl = document.getElementById('selected-status');
+            statusEl.innerText = c.evaluation.status;
+            statusEl.className = `px-4 py-2 border font-mono font-bold text-xl tracking-widest rounded transition-colors duration-500 `;
+
+            if (c.evaluation.status === 'ACCEPT') statusEl.classList.add('border-green', 'text-green', 'bg-green/10');
+            else if (c.evaluation.status === 'REJECT') statusEl.classList.add('border-alert', 'text-alert', 'bg-alert/10');
+            else statusEl.classList.add('border-yellow-400', 'text-yellow-400', 'bg-yellow-400/10');
+
+            document.getElementById('selected-feedback').innerText = c.evaluation.feedback;
+
+            document.getElementById('score-interest').innerText = c.evaluation.metrics.interest;
+            document.getElementById('score-iq').innerText = c.evaluation.metrics.iq;
+            document.getElementById('score-eq').innerText = c.evaluation.metrics.eq;
+            document.getElementById('score-drive').innerText = c.evaluation.metrics.drive;
+
+            renderChart(c.evaluation.metrics);
+        }
+
+        function renderChart(metrics) {
+            const ctx = document.getElementById('radarChart').getContext('2d');
+
+            if (currentChart) currentChart.destroy();
+
+            currentChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['INTEREST', 'IQ (Complexity)', 'EQ (Empathy)', 'DRIVE (Execution)'],
+                    datasets: [{
+                        label: 'Candidate Profile',
+                        data: [metrics.interest, metrics.iq, metrics.eq, metrics.drive],
+                        backgroundColor: 'rgba(0, 242, 255, 0.2)',
+                        borderColor: '#00f2ff',
+                        pointBackgroundColor: '#fff',
+                        pointBorderColor: '#00f2ff'
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            pointLabels: { color: '#00f2ff', font: { family: 'JetBrains Mono', size: 10 } },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: { legend: { display: false } },
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        function mockData() {
+            return [
+                {
+                    name: "Alex Chen", role: "AI Researcher",
+                    evaluation: {
+                        status: "ACCEPT", feedback: "Elite balance of IQ and Drive.",
+                        metrics: { interest: 90, iq: 95, eq: 85, drive: 92, average: 90 }
+                    }
+                },
+                {
+                    name: "Sarah Jones", role: "Backend Eng",
+                    evaluation: {
+                        status: "REJECT", feedback: "High technical skill but lacks mission alignment.",
+                        metrics: { interest: 40, iq: 85, eq: 50, drive: 60, average: 58 }
+                    }
+                }
+            ];
+        }
+
+        // Init
+        fetchBatch();
+        // setInterval(fetchBatch, 10000); // Live refresh
+    </script>
+</body>
+
+</html>
