@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aperture Uplink | Neural Link</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #050505;
+            color: #00f0ff;
+            font-family: 'JetBrains Mono', monospace;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .scanline::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .blinking-cursor::after {
+            content: "|";
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .ai-msg {
+            color: #00f0ff;
+            margin-bottom: 1rem;
+            white-space: pre-wrap;
+        }
+
+        .user-msg {
+            color: #ffffff;
+            margin-bottom: 1rem;
+            text-align: right;
+            opacity: 0.8;
+        }
+
+        .system-msg {
+            color: #ff003c;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            width: 80%;
+            font-family: inherit;
+        }
+
+        /* Identity Form Overlay */
+        .identity-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(10, 20, 30, 0.95);
+            border: 1px solid #00f0ff;
+            padding: 2rem;
+            width: 90%;
+            max-width: 600px;
+            z-index: 100;
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.2);
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .identity-overlay.active {
+            display: block;
+            animation: openWindow 0.5s ease-out;
+        }
+
+        @keyframes openWindow {
+            from {
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body class="scanline flex flex-col p-6 relative">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center border-b border-[#00f0ff]/30 pb-4 mb-4">
+        <div class="text-xs tracking-[0.2em] text-[#00f0ff]/60">SECURE_CHANNEL_V9</div>
+        <div class="text-xs tracking-[0.2em] text-[#00f0ff]/60 flex items-center gap-2">
+            <div class="w-2 h-2 bg-[#00f0ff] rounded-full animate-pulse"></div>
+            LIVE_UPLINK
+        </div>
+    </div>
+
+    <!-- Chat Log (The Terminal) -->
+    <div id="chat-container" class="flex-1 overflow-y-auto mb-4 scrollbar-hide">
+        <!-- Messages will be injected here -->
+        <div class="system-msg">INITIALIZING NEURAL HANDSHAKE...</div>
+    </div>
+
+    <!-- Input Area -->
+    <div id="input-area" class="border-t border-[#00f0ff]/30 pt-4 flex items-center relative z-10">
+        <span class="mr-2 text-[#00f0ff]">></span>
+        <input type="text" id="user-input" placeholder="Awaiting Input..." autocomplete="off">
+    </div>
+
+    <!-- Hidden Identity Form (The Prize) -->
+    <div id="identity-form" class="identity-overlay">
+        <h2 class="text-2xl font-bold mb-1 tracking-widest text-[#00f0ff]">ACCESS GRANTED</h2>
+        <p class="text-xs text-gray-400 mb-6 font-mono">ENCRYPTION BYPASSED. SUBMIT BIODATA.</p>
+
+        <form class="space-y-4" id="final-form">
+            <div>
+                <label class="block text-xs uppercase text-[#00f0ff]/70 mb-1">Designation (Name)</label>
+                <input type="text" class="w-full bg-black/50 border border-[#00f0ff]/30 p-2 text-white input-glow"
+                    required>
+            </div>
+            <div>
+                <label class="block text-xs uppercase text-[#00f0ff]/70 mb-1">Neural Link (Email)</label>
+                <input type="email" class="w-full bg-black/50 border border-[#00f0ff]/30 p-2 text-white input-glow"
+                    required>
+            </div>
+            <div>
+                <label class="block text-xs uppercase text-[#00f0ff]/70 mb-1">Data Archive (LinkedIn/Portfolio)</label>
+                <input type="url" class="w-full bg-black/50 border border-[#00f0ff]/30 p-2 text-white input-glow"
+                    required>
+            </div>
+            <button type="submit"
+                class="w-full bg-[#00f0ff]/10 border border-[#00f0ff] py-3 text-sm font-bold tracking-widest hover:bg-[#00f0ff]/20 transition-all mt-4">
+                FINALIZE UPLOAD
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const userInput = document.getElementById('user-input');
+        const identityForm = document.getElementById('identity-form');
+        const inputArea = document.getElementById('input-area');
+
+        let currentStage = 'start';
+        const SESSION_ID = 'session_' + Math.random().toString(36).substr(2, 9);
+
+        // Auto-focus input
+        userInput.focus();
+        document.addEventListener('click', () => userInput.focus());
+
+        // Typewriter Effect
+        async function typeWriter(text, element) {
+            const chars = text.split('');
+            element.innerHTML = '';
+            for (let i = 0; i < chars.length; i++) {
+                element.innerHTML += chars[i];
+                // Random typing delay for realism
+                await new Promise(r => setTimeout(r, Math.random() * 20 + 10));
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
+
+        async function addMessage(text, type) {
+            const div = document.createElement('div');
+            div.className = type;
+            chatContainer.appendChild(div);
+
+            if (type === 'ai-msg') {
+                await typeWriter(text, div);
+            } else {
+                div.innerText = text;
+            }
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        async function interact(message) {
+            try {
+                const response = await fetch('http://localhost:8000/api/interview/interact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        session_id: SESSION_ID,
+                        current_stage: currentStage,
+                        message: message
+                    })
+                });
+
+                const data = await response.json();
+
+                // Update State
+                currentStage = data.next_stage;
+
+                // Show AI Reply
+                await addMessage(data.message, 'ai-msg');
+
+                // Check Status
+                if (data.status === 'ACCESS_GRANTED') {
+                    setTimeout(() => {
+                        identityForm.classList.add('active');
+                        inputArea.style.opacity = '0.2';
+                        userInput.disabled = true;
+                    }, 1000);
+                } else if (data.status === 'RETRY') {
+                    // Shake effect or warning?
+                }
+
+            } catch (e) {
+                addMessage("CONNECTION LOST. SERVER OFFLINE.", "system-msg");
+            }
+        }
+
+        // Initial Greeting
+        window.onload = () => interact("INIT");
+
+        // Handle User Input
+        userInput.addEventListener('keypress', async (e) => {
+            if (e.key === 'Enter' && userInput.value.trim() !== '') {
+                const msg = userInput.value;
+                userInput.value = '';
+
+                addMessage(msg, 'user-msg');
+                await interact(msg);
+            }
+        });
+
+        // Final Submission (Mock for now)
+        document.getElementById('final-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert("UPLOAD COMPLETE. WELCOME TO APERTURE.");
+            window.location.href = '../index.html';
+        });
+
+    </script>
+</body>
+
+</html>
