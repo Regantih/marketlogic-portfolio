@@ -94,7 +94,7 @@
     </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+<body class="min-h-screen flex items-center justify-center p-4 relative overflow-x-hidden">
 
     <!-- Ambient Orbital Visuals -->
     <div
@@ -447,6 +447,40 @@
             void overlay.offsetWidth;
             overlay.classList.remove('opacity-0');
         }
+    </script>
+    <script>
+        // Real-Time Submission to Python AI Engine
+        async function submitToAI() {
+            const formData = {
+                name: document.querySelector('input[name="entry.996343045"]').value, // Name
+                role: "Candidate",
+                origin_response: "Protocol 1: " + document.querySelector('input[name="entry.1186439601"]').value, // Using the mapping fields
+                iq_response: "See Video",
+                eq_response: "See Video"
+            };
+
+            // Note: In a full implementation, we would extract text from the video URL transcript.
+            // For this 'Working Solution', we are sending the text inputs directly if available, 
+            // or sending a signal that a video is pending.
+
+            try {
+                // Submit to Local Python API
+                await fetch('http://localhost:8000/api/recruitment/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                console.log("AI Uplink Successful");
+            } catch (e) {
+                console.warn("AI Uplink Failed (Backend Offline?)", e);
+            }
+
+            // Allow Google Form to submit as backup
+            return true;
+        }
+
+        // Attach to form
+        document.querySelector('form').addEventListener('submit', submitToAI);
     </script>
 </body>
 
