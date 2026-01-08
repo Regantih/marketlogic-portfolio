@@ -260,9 +260,27 @@
             }
         }
 
-        btnRecord.addEventListener('click', () => {
+        btnRecord.addEventListener('click', async () => {
+            // Check if stream exists
+            if (!webcamFeed.srcObject) {
+                console.warn("Stream lost. Attempting to restart...");
+                await startCamera();
+                if (!webcamFeed.srcObject) {
+                    alert("CRITICAL FAILURE: NO VIDEO SIGNAL. PLEASE REFRESH AND ALLOW CAMERA ACCESS.");
+                    return;
+                }
+            }
+
             const stream = webcamFeed.srcObject;
-            mediaRecorder = new MediaRecorder(stream);
+
+            try {
+                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+            } catch (e) {
+                console.error("MediaRecorder Error:", e);
+                alert("BROWSER ERROR: MediaRecorder not supported. Please use Chrome/Firefox.");
+                return;
+            }
+
             recordedChunks = [];
 
             mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
@@ -276,7 +294,11 @@
                 btnUpload.classList.remove('hidden');
             };
 
-            mediaRecorder.start();
+            // Check state
+            if (mediaRecorder.state === 'inactive') {
+                mediaRecorder.start();
+            }
+
             btnRecord.classList.add('hidden');
             btnStop.classList.remove('hidden');
             timerCallback.classList.remove('hidden');
