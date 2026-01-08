@@ -103,7 +103,19 @@
         .identity-overlay.active {
             display: flex !important;
             opacity: 1 !important;
-            transform: translateX(0) !important;
+            animation: slideInPanel 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards !important;
+        }
+
+        @keyframes slideInPanel {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         @media (max-width: 768px) {
@@ -194,6 +206,12 @@
     </div>
 
     <script>
+        // Global Error Handler
+        window.onerror = function (msg, url, line) {
+            alert(`SYSTEM ERROR: ${msg} (Line ${line})`);
+            return false;
+        };
+
         const chatContainer = document.getElementById('chat-container');
         const userInput = document.getElementById('user-input');
         const inputArea = document.getElementById('input-area');
@@ -213,7 +231,6 @@
         let countdown;
 
         // Chat Logic 
-        // Auto-focus input
         userInput.focus();
         document.addEventListener('click', () => userInput.focus());
 
@@ -222,7 +239,7 @@
             element.innerHTML = '';
             for (let i = 0; i < chars.length; i++) {
                 element.innerHTML += chars[i];
-                await new Promise(r => setTimeout(r, Math.random() * 10 + 5));
+                await new Promise(r => setTimeout(r, 10)); // Fixed speed
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
         }
@@ -236,43 +253,49 @@
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
+        async function triggerVideoPanel() {
+            addMessage("SYSTEM: BYPASSING SECURITY...", "system-msg");
+            addMessage("SYSTEM: OPENING VISUAL LINK...", "system-msg");
+
+            setTimeout(async () => {
+                videoUplink.classList.add('active');
+                inputArea.style.opacity = '0';
+                userInput.disabled = true;
+                await startCamera();
+            }, 1000);
+        }
+
         async function interact(message) {
+            // CHEAT CODE: OPEN SESAME
+            if (message === "SKIP_AUTH" || message === "skip") {
+                triggerVideoPanel();
+                return;
+            }
+
             try {
-                const response = await fetch('http://localhost:8000/api/interview/interact', {
+                // Use 127.0.0.1 to avoid localhost resolution issues
+                const response = await fetch('http://127.0.0.1:8000/api/interview/interact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ session_id: SESSION_ID, current_stage: currentStage, message: message })
                 });
+
+                if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
+
                 const data = await response.json();
                 currentStage = data.next_stage;
                 await addMessage(data.message, 'ai-msg');
 
-                // DEBUG LOGGING
                 console.log("Status:", data.status);
 
                 if (data.status === 'ACCESS_GRANTED') {
-                    addMessage("SYSTEM: ACCESS GRANTED SIGNAL RECEIVED.", "system-msg");
-                    addMessage("SYSTEM: INITIATING VIDEO PROTOCOL...", "system-msg");
-
-                    // Start Video Protocol
-                    setTimeout(async () => {
-                        try {
-                            videoUplink.classList.add('active');
-                            addMessage("SYSTEM: PANEL ACTIVATED.", "system-msg");
-
-                            inputArea.style.opacity = '0';
-                            userInput.disabled = true;
-
-                            addMessage("SYSTEM: STARTING CAMERA...", "system-msg");
-                            await startCamera();
-                            addMessage("SYSTEM: CAMERA SIGNAL ACQUIRED.", "system-msg");
-                        } catch (err) {
-                            addMessage("CRITICAL ERROR: " + err.message, "system-msg");
-                        }
-                    }, 1500);
+                    addMessage("SYSTEM: ACCESS GRANTED.", "system-msg");
+                    triggerVideoPanel();
                 }
             } catch (e) {
-                addMessage("CONNECTION LOST. SERVER OFFLINE. " + e.message, "system-msg");
+                console.error(e);
+                addMessage("CONNECTION FAIL: " + e.message, "system-msg");
+                addMessage("TRY TYPING 'SKIP_AUTH' TO FORCE ENTRY.", "system-msg");
             }
         }
 
@@ -283,33 +306,25 @@
                 webcamFeed.srcObject = stream;
             } catch (err) {
                 console.error("Camera Access Denied", err);
-                alert("VISUAL LINK FAILED. CAMERA REQUIRED.");
+                alert("CAMERA BLOCKED. PLEASE ALLOW PERMISSION.");
             }
         }
 
         btnRecord.addEventListener('click', async () => {
-            // Check if stream exists
             if (!webcamFeed.srcObject) {
-                console.warn("Stream lost. Attempting to restart...");
                 await startCamera();
-                if (!webcamFeed.srcObject) {
-                    alert("CRITICAL FAILURE: NO VIDEO SIGNAL. PLEASE REFRESH AND ALLOW CAMERA ACCESS.");
-                    return;
-                }
+                if (!webcamFeed.srcObject) return;
             }
 
             const stream = webcamFeed.srcObject;
-
             try {
                 mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
             } catch (e) {
-                console.error("MediaRecorder Error:", e);
-                alert("BROWSER ERROR: MediaRecorder not supported. Please use Chrome/Firefox.");
+                alert("MediaRecorder not supported.");
                 return;
             }
 
             recordedChunks = [];
-
             mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
             mediaRecorder.onstop = () => {
                 videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
@@ -321,17 +336,12 @@
                 btnUpload.classList.remove('hidden');
             };
 
-            // Check state
-            if (mediaRecorder.state === 'inactive') {
-                mediaRecorder.start();
-            }
-
+            mediaRecorder.start();
             btnRecord.classList.add('hidden');
             btnStop.classList.remove('hidden');
             timerCallback.classList.remove('hidden');
             recIndicator.classList.remove('hidden');
 
-            // Timer Logic
             let timeLeft = 30;
             countdown = setInterval(() => {
                 timeLeft--;
@@ -351,9 +361,8 @@
         btnStop.addEventListener('click', stopRecording);
 
         btnUpload.addEventListener('click', async () => {
-            const name = document.getElementById('meta-name').value || "Unknown Operative";
-            const role = document.getElementById('meta-role').value || "Generalist";
-
+            const name = document.getElementById('meta-name').value || "Unknown";
+            const role = document.getElementById('meta-role').value || "Agent";
             if (!videoBlob) return;
 
             const formData = new FormData();
@@ -367,17 +376,17 @@
             document.getElementById('upload-status').classList.remove('hidden');
 
             try {
-                const res = await fetch('http://localhost:8000/api/recruitment/upload', {
+                const res = await fetch('http://127.0.0.1:8000/api/recruitment/upload', {
                     method: 'POST',
                     body: formData
                 });
                 const result = await res.json();
                 if (result.status === 'success') {
-                    alert("TRANSMISSION COMPLETE. WELCOME TO APERTURE.");
+                    alert("UPLOAD SUCCESS.");
                     window.location.href = '../index.html';
                 }
             } catch (e) {
-                alert("UPLOAD FAILED.");
+                alert("UPLOAD FAILED: " + e.message);
             }
         });
 
