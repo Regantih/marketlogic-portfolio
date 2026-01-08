@@ -170,14 +170,14 @@
         </div>
     </main>
 
+    <script src="config.js?v=3"></script>
     <script>
         let currentChart = null;
 
         async function fetchBatch() {
             try {
                 // In production, fetch from /api/recruitment/live
-                // For demo without running server, we can mock or try fetch
-                const res = await fetch('http://localhost:8000/api/recruitment/live?count=6');
+                const res = await fetch(`${CONFIG.API_BASE_URL}/api/recruitment/live?count=6`);
                 const json = await res.json();
                 renderFeed(json.data);
             } catch (e) {
@@ -225,10 +225,15 @@
             document.getElementById('analysis-panel').classList.remove('hidden');
 
             document.getElementById('selected-name').innerText = c.name;
-            document.getElementById('selected-role').innerText = c.role.toUpperCase();
+            document.getElementById('selected-role').innerText = (c.role || "Unknown Role").toUpperCase();
+
+            // EMAIL DISPLAY
+            const contactEl = document.getElementById('selected-contact') || createContactEl();
+            contactEl.innerText = c.email || "No Email Provided";
 
             const statusEl = document.getElementById('selected-status');
             statusEl.innerText = c.evaluation.status;
+            // Reset classes
             statusEl.className = `px-4 py-2 border font-mono font-bold text-xl tracking-widest rounded transition-colors duration-500 `;
 
             if (c.evaluation.status === 'ACCEPT') statusEl.classList.add('border-green', 'text-green', 'bg-green/10');
@@ -237,12 +242,57 @@
 
             document.getElementById('selected-feedback').innerText = c.evaluation.feedback;
 
+            // SCORES
             document.getElementById('score-interest').innerText = c.evaluation.metrics.interest;
             document.getElementById('score-iq').innerText = c.evaluation.metrics.iq;
             document.getElementById('score-eq').innerText = c.evaluation.metrics.eq;
             document.getElementById('score-drive').innerText = c.evaluation.metrics.drive;
 
+            // VIDEO EVIDENCE RENDERER
+            const signalsContainer = document.getElementById('raw-signals');
+            signalsContainer.innerHTML = ''; // Clear previous
+
+            if (c.segments) {
+                // Render Video Player for each stage
+                for (const [stage, path] of Object.entries(c.segments)) {
+                    const vidBlock = document.createElement('div');
+                    vidBlock.className = 'mb-4 border border-cyan/20 p-2 bg-black/50 rounded';
+
+                    // Helper to map stage to label
+                    let label = stage.replace("protocol_", "").toUpperCase();
+
+                    // Assuming path is relative or needs adjustments. 
+                    // Backend saves as absolute path, but browser needs relative or served path.
+                    // IMPORTANT: Since we are just testing locally, we'll try to use the filename served from uploads dir if possible.
+                    // However, 'file:///' won't work in browser. 
+                    // For this demo, let's assume we can fetch via an API or just show the metadata.
+                    // Actually, we can serve it if we had a static mount. 
+                    // For now, let's display the metadata and a "Download/View" link that assumes /api/uploads/ serves it, 
+                    // OR just display the path text for verification.
+
+                    // Optimization: Just display the filename so user can verify it exists.
+                    const filename = path.split('/').pop();
+
+                    vidBlock.innerHTML = `
+                        <div class="text-[10px] text-cyan mb-1 font-bold">${label}</div>
+                        <div class="text-[9px] text-gray-400 break-all">${filename}</div>
+                     `;
+                    signalsContainer.appendChild(vidBlock);
+                }
+            } else {
+                signalsContainer.innerText = "NO DATA PACKETS FOUND.";
+            }
+
             renderChart(c.evaluation.metrics);
+        }
+
+        function createContactEl() {
+            const container = document.getElementById('selected-role').parentNode;
+            const el = document.createElement('div');
+            el.id = 'selected-contact';
+            el.className = 'text-xs font-mono text-cyan/50 mt-1';
+            container.appendChild(el);
+            return el;
         }
 
         function renderChart(metrics) {

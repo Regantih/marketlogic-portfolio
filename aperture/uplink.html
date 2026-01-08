@@ -198,6 +198,8 @@
         <div class="w-full mt-4 space-y-2" id="meta-fields">
             <input type="text" id="meta-name" placeholder="OPERATIVE NAME"
                 class="w-full bg-black/50 border border-[#00f0ff]/30 p-2 text-white text-xs font-mono">
+            <input type="email" id="meta-email" placeholder="CONTACT EMAIL"
+                class="w-full bg-black/50 border border-[#00f0ff]/30 p-2 text-white text-xs font-mono">
             <input type="text" id="meta-role" placeholder="TARGET DESIGNATION (ROLE)"
                 class="w-full bg-black/50 border border-[#00f0ff]/30 p-2 text-white text-xs font-mono">
         </div>
@@ -205,6 +207,7 @@
         <div id="upload-status" class="mt-2 text-xs text-[#00f0ff] hidden">UPLOADING PACKET...</div>
     </div>
 
+    <script src="config.js?v=3"></script>
     <script>
         const chatContainer = document.getElementById('chat-container');
         const userInput = document.getElementById('user-input');
@@ -258,7 +261,7 @@
         async function interact(message) {
             try {
                 // Interrogate AI
-                const response = await fetch('http://127.0.0.1:8000/api/interview/interact', {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/api/interview/interact`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ session_id: SESSION_ID, current_stage: currentStage, message: message })
@@ -405,17 +408,28 @@
             btnUpload.disabled = true;
 
             const name = document.getElementById('meta-name').value || "Unknown Candidate";
+            const email = document.getElementById('meta-email').value || "";
             const role = document.getElementById('meta-role').value || "Applicant";
+
+            // SECURE VALIDATION: EMAIL
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert("SECURITY ALERT: INVALID EMAIL IDENTIFIER REQUIRED.");
+                btnUpload.disabled = false;
+                btnUpload.innerText = "RETRY TRANSMIT";
+                return;
+            }
 
             const formData = new FormData();
             formData.append('session_id', SESSION_ID);
             formData.append('stage', currentStage); // Current Protocol Stage
             formData.append('name', name);
+            formData.append('email', email);
             formData.append('role', role);
             formData.append('video', videoBlob, `${SESSION_ID}_${currentStage}.webm`);
 
             try {
-                const res = await fetch('http://127.0.0.1:8000/api/recruitment/upload', {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/api/recruitment/upload`, {
                     method: 'POST',
                     body: formData
                 });
