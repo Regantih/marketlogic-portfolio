@@ -1,7 +1,10 @@
 const CONFIG = {
     // API_BASE_URL: 'http://127.0.0.1:8000', // Local Dev
-    API_BASE_URL: 'YOUR_CLOUD_RUN_URL_HERE' // Production: Replace with actual URL
+    // API_BASE_URL: 'YOUR_CLOUD_RUN_URL_HERE' // Production: Replace with actual URL
 };
+
+const PROD_API = 'https://antigravity-ai-ev5oigp77q-uc.a.run.app'; // Production: Replace with actual URL
+CONFIG.API_BASE_URL = PROD_API; // Set default to production URL
 
 // Auto-detect for convenience if needed, or just force user to set it.
 // For now, default to localhost if not changed, BUT invalid for prod.
