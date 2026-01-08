@@ -75,37 +75,38 @@
             font-family: inherit;
         }
 
-        /* Identity Form Overlay */
+        /* Identity Form / Video Uplink Overlay */
         .identity-overlay {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(10, 20, 30, 0.95);
-            border: 1px solid #00f0ff;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 50%;
+            /* Integrated Split Screen */
+            background: rgba(10, 20, 30, 0.98);
+            border-left: 1px solid #00f0ff;
             padding: 2rem;
-            width: 90%;
-            max-width: 600px;
             z-index: 100;
-            box-shadow: 0 0 50px rgba(0, 240, 255, 0.2);
-            display: none;
+            box-shadow: -10px 0 50px rgba(0, 240, 255, 0.1);
+            transform: translateX(100%);
+            /* Start off-screen right */
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            /* Ensure flex context for children */
+            flex-direction: column;
+            justify-content: center;
             backdrop-filter: blur(10px);
         }
 
         .identity-overlay.active {
-            display: block;
-            animation: openWindow 0.5s ease-out;
+            transform: translateX(0);
         }
 
-        @keyframes openWindow {
-            from {
-                transform: translate(-50%, -50%) scale(0.9);
-                opacity: 0;
-            }
-
-            to {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
+        @media (max-width: 768px) {
+            .identity-overlay {
+                width: 100%;
+                border-left: none;
+                border-top: 1px solid #00f0ff;
             }
         }
     </style>
