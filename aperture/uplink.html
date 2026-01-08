@@ -75,7 +75,7 @@
             font-family: inherit;
         }
 
-        /* Video Uplink Side Panel */
+        /* Video Uplink Side Panel - Simplified for Stability */
         .identity-overlay {
             position: fixed;
             top: 0;
@@ -86,13 +86,14 @@
             border-left: 1px solid #00f0ff;
             padding: 2rem;
             z-index: 9999;
-            /* Max Z-Index */
             box-shadow: -10px 0 50px rgba(0, 240, 255, 0.1);
 
-            /* Hidden by default */
+            /* Hidden State */
             display: none;
             opacity: 0;
-            transform: translateX(50px);
+            transform: translateX(100%);
+            /* Fully off-screen */
+            transition: opacity 0.5s ease, transform 0.5s ease;
 
             flex-direction: column;
             justify-content: center;
@@ -100,15 +101,9 @@
         }
 
         .identity-overlay.active {
-            display: flex;
-            animation: slideInPanel 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        }
-
-        @keyframes slideInPanel {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            display: flex !important;
+            opacity: 1 !important;
+            transform: translateX(0) !important;
         }
 
         @media (max-width: 768px) {
@@ -118,19 +113,11 @@
                 border-top: 1px solid #00f0ff;
                 top: auto;
                 height: 60%;
-                /* Slide up from bottom on mobile */
-                transform: translateY(50px);
+                transform: translateY(100%);
             }
 
             .identity-overlay.active {
-                animation: slideUpPanel 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-            }
-        }
-
-        @keyframes slideUpPanel {
-            to {
-                opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) !important;
             }
         }
     </style>
