@@ -206,12 +206,6 @@
     </div>
 
     <script>
-        // Global Error Handler
-        window.onerror = function (msg, url, line) {
-            alert(`SYSTEM ERROR: ${msg} (Line ${line})`);
-            return false;
-        };
-
         const chatContainer = document.getElementById('chat-container');
         const userInput = document.getElementById('user-input');
         const inputArea = document.getElementById('input-area');
@@ -219,7 +213,7 @@
         const webcamFeed = document.getElementById('webcam-feed');
         const btnRecord = document.getElementById('btn-record');
         const btnStop = document.getElementById('btn-stop');
-        const btnUpload = document.getElementById('btn-upload');
+        const btnUpload = document.getElementById('btn-upload'); // Now "Submit Response"
         const timerCallback = document.getElementById('timer');
         const recIndicator = document.getElementById('rec-indicator');
 
@@ -229,18 +223,25 @@
         let recordedChunks = [];
         let videoBlob;
         let countdown;
+        let isRecordingLogicActive = false;
 
-        // Chat Logic 
-        userInput.focus();
-        document.addEventListener('click', () => userInput.focus());
+        // Force Video Panel to be always visible for this mode
+        videoUplink.classList.add('active');
+        inputArea.style.opacity = '0'; // Hide text input
+        userInput.disabled = true;
+
+        // Auto-scroll logic
+        function scrollToBottom() {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
 
         async function typeWriter(text, element) {
             const chars = text.split('');
             element.innerHTML = '';
             for (let i = 0; i < chars.length; i++) {
                 element.innerHTML += chars[i];
-                await new Promise(r => setTimeout(r, 10)); // Fixed speed
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+                await new Promise(r => setTimeout(r, 10));
+                scrollToBottom();
             }
         }
 
@@ -250,30 +251,13 @@
             chatContainer.appendChild(div);
             if (type === 'ai-msg') await typeWriter(text, div);
             else div.innerText = text;
-            chatContainer.scrollTop = chatContainer.scrollHeight;
+            scrollToBottom();
         }
 
-        async function triggerVideoPanel() {
-            addMessage("SYSTEM: BYPASSING SECURITY...", "system-msg");
-            addMessage("SYSTEM: OPENING VISUAL LINK...", "system-msg");
-
-            setTimeout(async () => {
-                videoUplink.classList.add('active');
-                inputArea.style.opacity = '0';
-                userInput.disabled = true;
-                await startCamera();
-            }, 1000);
-        }
-
+        // --- CORE INTERACTION LOOP ---
         async function interact(message) {
-            // CHEAT CODE: OPEN SESAME
-            if (message === "SKIP_AUTH" || message === "skip") {
-                triggerVideoPanel();
-                return;
-            }
-
             try {
-                // Use 127.0.0.1 to avoid localhost resolution issues
+                // Interrogate AI
                 const response = await fetch('http://127.0.0.1:8000/api/interview/interact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -284,56 +268,110 @@
 
                 const data = await response.json();
                 currentStage = data.next_stage;
+                console.log(`Updated Stage: ${currentStage}`);
+
+                // AI Speaks
                 await addMessage(data.message, 'ai-msg');
 
-                console.log("Status:", data.status);
-
                 if (data.status === 'ACCESS_GRANTED') {
-                    addMessage("SYSTEM: ACCESS GRANTED.", "system-msg");
-                    triggerVideoPanel();
+                    addMessage("SYSTEM: UPLINK ESTABLISHED. WELCOME TO APERTURE.", "system-msg");
+                    confettiEffect(); // Celebration
+                    return;
                 }
+
+                // Enable Recording for the user's turn
+                resetRecordingUI();
+
             } catch (e) {
                 console.error(e);
-                addMessage("CONNECTION FAIL: " + e.message, "system-msg");
-                addMessage("TRY TYPING 'SKIP_AUTH' TO FORCE ENTRY.", "system-msg");
+                addMessage("CONNECTION LOST: " + e.message, "system-msg");
             }
         }
 
-        // Camera Logic
+        function resetRecordingUI() {
+            // Reset UI for next question
+            btnRecord.classList.remove('hidden');
+            btnRecord.innerText = "INITIATE VIDEO RESPONSE";
+            btnStop.classList.add('hidden');
+            btnUpload.classList.add('hidden');
+            webcamFeed.srcObject = null;
+            startCamera(); // Restart stream
+        }
+
+        // --- CAMERA & UPLOAD LOGIC ---
         async function startCamera() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                 webcamFeed.srcObject = stream;
+                webcamFeed.muted = true; // Mute local echo
+                // Ensure it plays
+                await webcamFeed.play();
             } catch (err) {
                 console.error("Camera Access Denied", err);
-                alert("CAMERA BLOCKED. PLEASE ALLOW PERMISSION.");
+                addMessage("SYSTEM ERROR: CAMERA ACCESS REQUIRED.", "system-msg");
             }
         }
 
+        function getSupportedMimeType() {
+            const types = [
+                'video/webm;codecs=vp9',
+                'video/webm;codecs=vp8',
+                'video/webm',
+                'video/mp4'
+            ];
+            for (const t of types) {
+                if (MediaRecorder.isTypeSupported(t)) return t;
+            }
+            return '';
+        }
+
         btnRecord.addEventListener('click', async () => {
-            if (!webcamFeed.srcObject) {
-                await startCamera();
-                if (!webcamFeed.srcObject) return;
+            if (!webcamFeed.srcObject) await startCamera();
+            const stream = webcamFeed.srcObject;
+
+            const mimeType = getSupportedMimeType();
+            if (!mimeType) {
+                alert("CRITICAL ERROR: No supported video MIME type found.");
+                return;
             }
 
-            const stream = webcamFeed.srcObject;
+            console.log("Using MIME:", mimeType);
+
             try {
-                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
+                mediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
             } catch (e) {
-                alert("MediaRecorder not supported.");
+                alert("MediaRecorder Init Failed: " + e.message);
                 return;
             }
 
             recordedChunks = [];
             mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+
             mediaRecorder.onstop = () => {
-                videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                videoBlob = new Blob(recordedChunks, { type: mimeType });
+                console.log("Blob Size:", videoBlob.size);
+
+                if (videoBlob.size === 0) {
+                    alert("ERROR: NO VIDEO DATA CAPTURED. TRY AGAIN.");
+                    resetRecordingUI();
+                    return;
+                }
+
+                // Playback
                 webcamFeed.srcObject = null;
                 webcamFeed.src = URL.createObjectURL(videoBlob);
+                webcamFeed.muted = false; // Unmute for playback
                 webcamFeed.controls = true;
-                webcamFeed.play();
+
+                try {
+                    webcamFeed.play();
+                } catch (e) {
+                    console.error("Playback failed", e);
+                }
+
                 btnStop.classList.add('hidden');
                 btnUpload.classList.remove('hidden');
+                btnUpload.innerText = "TRANSMIT RESPONSE (SIZE: " + Math.ceil(videoBlob.size / 1024) + "KB)";
             };
 
             mediaRecorder.start();
@@ -342,7 +380,7 @@
             timerCallback.classList.remove('hidden');
             recIndicator.classList.remove('hidden');
 
-            let timeLeft = 30;
+            let timeLeft = 60; // Increased time
             countdown = setInterval(() => {
                 timeLeft--;
                 timerCallback.innerText = `00:${timeLeft < 10 ? '0' + timeLeft : timeLeft}`;
@@ -357,23 +395,24 @@
                 recIndicator.classList.add('hidden');
             }
         }
-
         btnStop.addEventListener('click', stopRecording);
 
         btnUpload.addEventListener('click', async () => {
-            const name = document.getElementById('meta-name').value || "Unknown";
-            const role = document.getElementById('meta-role').value || "Agent";
             if (!videoBlob) return;
 
+            // UI Feedback
+            btnUpload.innerText = "TRANSMITTING...";
+            btnUpload.disabled = true;
+
+            const name = document.getElementById('meta-name').value || "Unknown Candidate";
+            const role = document.getElementById('meta-role').value || "Applicant";
+
             const formData = new FormData();
-            formData.append('video', videoBlob, `uplink_${SESSION_ID}.webm`);
+            formData.append('session_id', SESSION_ID);
+            formData.append('stage', currentStage); // Current Protocol Stage
             formData.append('name', name);
             formData.append('role', role);
-            formData.append('origin_response', 'Video Uplink');
-            formData.append('iq_response', 'Video Uplink');
-            formData.append('eq_response', 'Video Uplink');
-
-            document.getElementById('upload-status').classList.remove('hidden');
+            formData.append('video', videoBlob, `${SESSION_ID}_${currentStage}.webm`);
 
             try {
                 const res = await fetch('http://127.0.0.1:8000/api/recruitment/upload', {
@@ -381,24 +420,32 @@
                     body: formData
                 });
                 const result = await res.json();
+
                 if (result.status === 'success') {
-                    alert("UPLOAD SUCCESS.");
-                    window.location.href = '../index.html';
+                    addMessage("SYSTEM: DATA PACKET RECEIVED.", "system-msg");
+                    // Advance the AI
+                    await interact("VIDEO_UPLOAD_COMPLETE");
                 }
             } catch (e) {
                 alert("UPLOAD FAILED: " + e.message);
+                btnUpload.disabled = false;
+                btnUpload.innerText = "RETRY TRANSMIT";
             }
         });
 
-        window.onload = () => interact("INIT");
-        userInput.addEventListener('keypress', async (e) => {
-            if (e.key === 'Enter' && userInput.value.trim() !== '') {
-                const msg = userInput.value;
-                userInput.value = '';
-                addMessage(msg, 'user-msg');
-                await interact(msg);
-            }
-        });
+        // Initialize
+        window.onload = async () => {
+            // Ask Name first? For now just start.
+            await interact("INIT");
+            // Ensure panel is open
+            videoUplink.classList.add('active');
+        };
+
+        function confettiEffect() {
+            // Placeholder for celebration
+            document.body.style.backgroundColor = "#001a1a";
+        }
+
     </script>
 </body>
 
