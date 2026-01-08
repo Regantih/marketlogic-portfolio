@@ -134,55 +134,83 @@
         <input type="text" id="user-input" placeholder="Awaiting Input..." autocomplete="off">
     </div>
 
-    <!-- Hidden Identity Form (The Prize) -->
-    <div id="identity-form" class="identity-overlay">
-        <h2 class="text-2xl font-bold mb-1 tracking-widest text-[#00f0ff]">ACCESS GRANTED</h2>
-        <p class="text-xs text-gray-400 mb-6 font-mono">ENCRYPTION BYPASSED. SUBMIT BIODATA.</p>
+    <!-- Video Manifesto Interface (The Uplink) -->
+    <div id="video-uplink" class="identity-overlay flex flex-col items-center">
+        <h2 class="text-2xl font-bold mb-1 tracking-widest text-[#ff003c] animate-pulse">ESTABLISHING VISUAL LINK...
+        </h2>
+        <p class="text-xs text-gray-400 mb-4 font-mono">REC. PROTOCOL ACTIVE. STATE YOUR MANIFESTO (30s).</p>
 
-        <form class="space-y-4" id="final-form">
-            <div>
-                <label class="block text-xs uppercase text-[#00f0ff]/70 mb-1">Designation (Name)</label>
-                <input type="text" class="w-full bg-black/50 border border-[#00f0ff]/30 p-2 text-white input-glow"
-                    required>
+        <div class="relative w-full aspect-video bg-black border border-[#ff003c]/50 mb-4 overflow-hidden group">
+            <video id="webcam-feed" class="w-full h-full object-cover" autoplay muted playsinline></video>
+
+            <!-- HUD Overlay -->
+            <div class="absolute inset-0 border-[1px] border-[#ff003c]/20 pointer-events-none"></div>
+            <div class="absolute top-2 left-2 text-[10px] text-[#ff003c] font-mono">REC_MODE: MANIFESTO</div>
+            <div class="absolute bottom-2 right-2 text-[10px] text-[#ff003c] font-mono flex items-center gap-1">
+                <div class="w-2 h-2 bg-[#ff003c] rounded-full animate-blink hidden" id="rec-indicator"></div>
+                LIVE
             </div>
-            <div>
-                <label class="block text-xs uppercase text-[#00f0ff]/70 mb-1">Neural Link (Email)</label>
-                <input type="email" class="w-full bg-black/50 border border-[#00f0ff]/30 p-2 text-white input-glow"
-                    required>
-            </div>
-            <div>
-                <label class="block text-xs uppercase text-[#00f0ff]/70 mb-1">Data Archive (LinkedIn/Portfolio)</label>
-                <input type="url" class="w-full bg-black/50 border border-[#00f0ff]/30 p-2 text-white input-glow"
-                    required>
-            </div>
-            <button type="submit"
-                class="w-full bg-[#00f0ff]/10 border border-[#00f0ff] py-3 text-sm font-bold tracking-widest hover:bg-[#00f0ff]/20 transition-all mt-4">
-                FINALIZE UPLOAD
+
+            <!-- Recording Timer -->
+            <div class="absolute top-2 right-2 text-xl font-bold text-[#ff003c] hidden" id="timer">00:30</div>
+        </div>
+
+        <div class="flex gap-4 w-full" id="controls">
+            <button id="btn-record"
+                class="flex-1 bg-[#ff003c]/10 border border-[#ff003c] py-3 text-sm font-bold tracking-widest hover:bg-[#ff003c]/20 transition-all text-[#ff003c]">
+                INITIATE RECORDING
             </button>
-        </form>
+            <button id="btn-stop"
+                class="hidden flex-1 bg-gray-800 border border-gray-600 py-3 text-sm font-bold tracking-widest hover:bg-gray-700 transition-all text-white">
+                TERMINATE LINK
+            </button>
+            <button id="btn-upload"
+                class="hidden flex-1 bg-[#00f0ff]/10 border border-[#00f0ff] py-3 text-sm font-bold tracking-widest hover:bg-[#00f0ff]/20 transition-all text-[#00f0ff]">
+                TRANSMIT DATA
+            </button>
+        </div>
+
+        <!-- Metadata Form (Hidden but submitted with video) -->
+        <div class="w-full mt-4 space-y-2" id="meta-fields">
+            <input type="text" id="meta-name" placeholder="OPERATIVE NAME"
+                class="w-full bg-black/50 border border-[#00f0ff]/30 p-2 text-white text-xs font-mono">
+            <input type="text" id="meta-role" placeholder="TARGET DESIGNATION (ROLE)"
+                class="w-full bg-black/50 border border-[#00f0ff]/30 p-2 text-white text-xs font-mono">
+        </div>
+
+        <div id="upload-status" class="mt-2 text-xs text-[#00f0ff] hidden">UPLOADING PACKET...</div>
     </div>
 
     <script>
         const chatContainer = document.getElementById('chat-container');
         const userInput = document.getElementById('user-input');
-        const identityForm = document.getElementById('identity-form');
         const inputArea = document.getElementById('input-area');
+        const videoUplink = document.getElementById('video-uplink');
+        const webcamFeed = document.getElementById('webcam-feed');
+        const btnRecord = document.getElementById('btn-record');
+        const btnStop = document.getElementById('btn-stop');
+        const btnUpload = document.getElementById('btn-upload');
+        const timerCallback = document.getElementById('timer');
+        const recIndicator = document.getElementById('rec-indicator');
 
         let currentStage = 'start';
         const SESSION_ID = 'session_' + Math.random().toString(36).substr(2, 9);
+        let mediaRecorder;
+        let recordedChunks = [];
+        let videoBlob;
+        let countdown;
 
+        // Chat Logic 
         // Auto-focus input
         userInput.focus();
         document.addEventListener('click', () => userInput.focus());
 
-        // Typewriter Effect
         async function typeWriter(text, element) {
             const chars = text.split('');
             element.innerHTML = '';
             for (let i = 0; i < chars.length; i++) {
                 element.innerHTML += chars[i];
-                // Random typing delay for realism
-                await new Promise(r => setTimeout(r, Math.random() * 20 + 10));
+                await new Promise(r => setTimeout(r, Math.random() * 10 + 5));
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
         }
@@ -191,12 +219,8 @@
             const div = document.createElement('div');
             div.className = type;
             chatContainer.appendChild(div);
-
-            if (type === 'ai-msg') {
-                await typeWriter(text, div);
-            } else {
-                div.innerText = text;
-            }
+            if (type === 'ai-msg') await typeWriter(text, div);
+            else div.innerText = text;
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
@@ -205,58 +229,118 @@
                 const response = await fetch('http://localhost:8000/api/interview/interact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        session_id: SESSION_ID,
-                        current_stage: currentStage,
-                        message: message
-                    })
+                    body: JSON.stringify({ session_id: SESSION_ID, current_stage: currentStage, message: message })
                 });
-
                 const data = await response.json();
-
-                // Update State
                 currentStage = data.next_stage;
-
-                // Show AI Reply
                 await addMessage(data.message, 'ai-msg');
 
-                // Check Status
                 if (data.status === 'ACCESS_GRANTED') {
+                    // Start Video Protocol
                     setTimeout(() => {
-                        identityForm.classList.add('active');
-                        inputArea.style.opacity = '0.2';
+                        videoUplink.classList.add('active');
+                        inputArea.style.opacity = '0';
                         userInput.disabled = true;
-                    }, 1000);
-                } else if (data.status === 'RETRY') {
-                    // Shake effect or warning?
+                        startCamera();
+                    }, 1500);
                 }
-
             } catch (e) {
                 addMessage("CONNECTION LOST. SERVER OFFLINE.", "system-msg");
             }
         }
 
-        // Initial Greeting
-        window.onload = () => interact("INIT");
+        // Camera Logic
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                webcamFeed.srcObject = stream;
+            } catch (err) {
+                console.error("Camera Access Denied", err);
+                alert("VISUAL LINK FAILED. CAMERA REQUIRED.");
+            }
+        }
 
-        // Handle User Input
+        btnRecord.addEventListener('click', () => {
+            const stream = webcamFeed.srcObject;
+            mediaRecorder = new MediaRecorder(stream);
+            recordedChunks = [];
+
+            mediaRecorder.ondataavailable = e => { if (e.data.size > 0) recordedChunks.push(e.data); };
+            mediaRecorder.onstop = () => {
+                videoBlob = new Blob(recordedChunks, { type: 'video/webm' });
+                webcamFeed.srcObject = null;
+                webcamFeed.src = URL.createObjectURL(videoBlob);
+                webcamFeed.controls = true;
+                webcamFeed.play();
+                btnStop.classList.add('hidden');
+                btnUpload.classList.remove('hidden');
+            };
+
+            mediaRecorder.start();
+            btnRecord.classList.add('hidden');
+            btnStop.classList.remove('hidden');
+            timerCallback.classList.remove('hidden');
+            recIndicator.classList.remove('hidden');
+
+            // Timer Logic
+            let timeLeft = 30;
+            countdown = setInterval(() => {
+                timeLeft--;
+                timerCallback.innerText = `00:${timeLeft < 10 ? '0' + timeLeft : timeLeft}`;
+                if (timeLeft <= 0) stopRecording();
+            }, 1000);
+        });
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                clearInterval(countdown);
+                recIndicator.classList.add('hidden');
+            }
+        }
+
+        btnStop.addEventListener('click', stopRecording);
+
+        btnUpload.addEventListener('click', async () => {
+            const name = document.getElementById('meta-name').value || "Unknown Operative";
+            const role = document.getElementById('meta-role').value || "Generalist";
+
+            if (!videoBlob) return;
+
+            const formData = new FormData();
+            formData.append('video', videoBlob, `uplink_${SESSION_ID}.webm`);
+            formData.append('name', name);
+            formData.append('role', role);
+            formData.append('origin_response', 'Video Uplink');
+            formData.append('iq_response', 'Video Uplink');
+            formData.append('eq_response', 'Video Uplink');
+
+            document.getElementById('upload-status').classList.remove('hidden');
+
+            try {
+                const res = await fetch('http://localhost:8000/api/recruitment/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await res.json();
+                if (result.status === 'success') {
+                    alert("TRANSMISSION COMPLETE. WELCOME TO APERTURE.");
+                    window.location.href = '../index.html';
+                }
+            } catch (e) {
+                alert("UPLOAD FAILED.");
+            }
+        });
+
+        window.onload = () => interact("INIT");
         userInput.addEventListener('keypress', async (e) => {
             if (e.key === 'Enter' && userInput.value.trim() !== '') {
                 const msg = userInput.value;
                 userInput.value = '';
-
                 addMessage(msg, 'user-msg');
                 await interact(msg);
             }
         });
-
-        // Final Submission (Mock for now)
-        document.getElementById('final-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert("UPLOAD COMPLETE. WELCOME TO APERTURE.");
-            window.location.href = '../index.html';
-        });
-
     </script>
 </body>
 
