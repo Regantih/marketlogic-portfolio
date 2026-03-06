@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Articles | Hemanth Reganti</title>
+    <meta name="description" content="Insights on enterprise AI, digital transformation, space technology, and strategic leadership by Hemanth Reganti.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0f;
+            --text: #e0ddd5;
+            --accent: #00f0ff;
+            --muted: #6b6b7b;
+            --serif: 'Playfair Display', Georgia, serif;
+            --sans: 'Inter', -apple-system, sans-serif;
+        }
+        html { scroll-behavior: smooth; }
+        body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.7; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; }
+
+        /* Nav */
+        nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(10,10,15,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        nav a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; }
+        nav a:hover, nav a.active { color: var(--accent); }
+        .nav-logo { font-weight: 600; color: var(--text); font-size: 0.95rem; letter-spacing: 0.15em; }
+        .nav-links { display: flex; gap: 2rem; }
+
+        /* Hero */
+        .hero { position: relative; padding: 10rem 1.5rem 5rem; text-align: center; background: linear-gradient(135deg, #0a0a2e 0%, #1a1a3e 30%, #2a1a4e 60%, #0a0a2e 100%); overflow: hidden; }
+        .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0,240,255,0.05) 0%, transparent 70%); }
+        .hero h1 { position: relative; z-index: 2; font-family: var(--serif); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; line-height: 1.15; margin-bottom: 0.5em; }
+        .hero h1 em { font-style: italic; color: var(--accent); }
+        .hero .subtitle { position: relative; z-index: 2; font-size: clamp(1rem, 2vw, 1.25rem); color: var(--muted); font-weight: 300; letter-spacing: 0.05em; max-width: 600px; margin: 0 auto; }
+
+        /* Articles Grid */
+        .articles-section { max-width: 900px; margin: 0 auto; padding: 5rem 1.5rem; }
+        .articles-section h2 { font-family: var(--serif); font-size: 1.5rem; color: var(--muted); margin-bottom: 2rem; letter-spacing: 0.05em; }
+        .article-card { display: block; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; transition: transform 0.3s, border-color 0.3s; }
+        .article-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+        .article-meta { font-size: 0.75rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; }
+        .article-card h3 { font-family: var(--serif); font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--text); }
+        .article-card p { font-size: 0.95rem; color: var(--muted); line-height: 1.6; }
+        .read-more { display: inline-block; margin-top: 1rem; font-size: 0.85rem; color: var(--accent); letter-spacing: 0.05em; transition: opacity 0.3s; }
+        .read-more:hover { opacity: 0.7; }
+
+        /* Footer */
+        footer { text-align: center; padding: 4rem 1.5rem 2rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        footer p { color: var(--muted); font-size: 0.85rem; }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        /* Animations */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-up { animation: fadeUp 0.8s ease-out both; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { gap: 1rem; }
+            nav { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="https://marketlogic.org" class="nav-logo">MARKETLOGIC</a>
+        <div class="nav-links">
+            <a href="https://marketlogic.org/aperture/">Aperture</a>
+            <a href="https://marketlogic.org/hemanthreganti/year-one/">Year One</a>
+            <a href="https://marketlogic.org/agenthire/">AgentHire</a>
+            <a href="https://marketlogic.org/chat/">Personal AI</a>
+            <a href="https://marketlogic.org/hemanthreganti/">About</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1 class="fade-up">Thinking in <em>Public</em></h1>
+        <p class="subtitle fade-up" style="animation-delay: 0.2s;">Essays on enterprise transformation, emerging technology, and the future of strategic leadership.</p>
+    </section>
+
+    <section class="articles-section">
+        <h2>Featured</h2>
+
+        <a href="https://marketlogic.org/hemanthreganti/year-one/" class="article-card fade-up">
+            <div class="article-meta">Essay &middot; 2025</div>
+            <h3>Year One</h3>
+            <p>The journey of architecting enterprise transformation with AI, space tech, and deep conviction. A personal reflection on two decades of building what comes next.</p>
+            <span class="read-more">Read essay &rarr;</span>
+        </a>
+
+    </section>
+
+    <footer>
+        <p>Hemanth Reganti &middot; Irving, Texas</p>
+        <p style="margin-top: 0.5rem;"><a href="https://linkedin.com/in/hemanth-reganti-147153178">LinkedIn</a> &middot; <a href="https://marketlogic.org">MarketLogic</a> &middot; <a href="https://marketlogic.org/aperture/">Aperture</a></p>
+        <p style="margin-top: 1.5rem;">&copy; 2026 Hemanth Reganti. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
