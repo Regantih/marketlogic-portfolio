@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hemanth Reganti | Year One</title>
+<meta name="description" content="The journey of architecting enterprise transformation with AI, space tech, and deep conviction.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+--bg: #0a0a0f;
+--text: #e0ddd5;
+--accent: #00f0ff;
+--muted: #6b6b7b;
+--serif: 'Playfair Display', Georgia, serif;
+--sans: 'Inter', -apple-system, sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.7; overflow-x: hidden; }
+
+/* Hero */
+.hero { position: relative; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: linear-gradient(135deg, #0a0a2e 0%, #1a1a3e 30%, #2a1a4e 60%, #0a0a2e 100%); overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(0,240,255,0.05) 0%, transparent 70%); }
+.hero-text { position: relative; z-index: 2; }
+.hero h1 { font-family: var(--serif); font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 400; line-height: 1.15; margin-bottom: 0.5em; }
+.hero h1 em { font-style: italic; color: var(--accent); }
+.hero .subtitle { font-size: clamp(1rem, 2vw, 1.25rem); color: var(--muted); font-weight: 300; letter-spacing: 0.05em; }
+.scroll-hint { position: absolute; bottom: 2rem; color: var(--muted); font-size: 0.85rem; animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 0.4; } 50% { opacity: 1; } }
+@keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+.fade-up { animation: fadeUp 0.8s ease-out both; }
+
+/* Content */
+.content { max-width: 720px; margin: 0 auto; padding: 6rem 1.5rem; }
+.content h2 { font-family: var(--serif); font-size: clamp(1.8rem, 4vw, 2.8rem); margin: 3rem 0 1.5rem; }
+.content p { margin-bottom: 1.5rem; font-weight: 300; font-size: 1.05rem; color: #c0bdb5; }
+.content strong { color: var(--text); font-weight: 600; }
+blockquote { border-left: 3px solid var(--accent); padding: 1.5rem 2rem; margin: 2.5rem 0; background: rgba(0,240,255,0.03); }
+blockquote p { color: var(--text); font-family: var(--serif); font-size: 1.15rem; font-style: italic; margin-bottom: 0.5rem; }
+blockquote cite { color: var(--muted); font-size: 0.9rem; font-style: normal; }
+
+/* Nav */
+nav { position: fixed; top: 0; width: 100%; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(10,10,15,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+nav a { color: var(--muted); text-decoration: none; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.3s; }
+nav a:hover, nav a.active { color: var(--accent); }
+.nav-logo { font-weight: 600; color: var(--text); font-size: 0.95rem; letter-spacing: 0.15em; }
+.nav-links { display: flex; gap: 2rem; }
+
+/* Cards */
+.cards-section { padding: 4rem 1.5rem; background: rgba(255,255,255,0.02); }
+.cards-section h2 { font-family: var(--serif); text-align: center; font-size: 2rem; margin-bottom: 3rem; }
+.cards-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+.card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 2rem; transition: transform 0.3s, border-color 0.3s; }
+.card:hover { transform: translateY(-4px); border-color: var(--accent); }
+.card-date { font-size: 0.75rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.75rem; }
+.card h3 { font-family: var(--serif); font-size: 1.25rem; margin-bottom: 0.5rem; }
+.card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+/* Footer */
+footer { text-align: center; padding: 4rem 1.5rem 2rem; border-top: 1px solid rgba(255,255,255,0.05); }
+footer p { color: var(--muted); font-size: 0.85rem; }
+footer a { color: var(--accent); text-decoration: none; }
+.sign-off { font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: var(--text); margin-bottom: 1rem; }
+</style>
+</head>
+<body>
+
+<nav>
+<a href="https://marketlogic.org" class="nav-logo">MARKETLOGIC</a>
+<div class="nav-links">
+<a href="https://marketlogic.org/aperture/">Aperture</a>
+<a href="https://marketlogic.org/chat/">Personal AI</a>
+<a href="https://marketlogic.org/hemanthreganti/">About</a>
+<a href="https://linkedin.com/in/hemanth-reganti-147153178" target="_blank">LinkedIn</a>
+</div>
+</nav>
+
+<section class="hero">
+<div class="hero-text fade-up">
+<h1>Technology<br>shouldn't just <em>exist,</em><br>it should <em>transform.</em></h1>
+<p class="subtitle">The journey so far. Ep. 1</p>
+</div>
+<div class="scroll-hint">&#8595; Scroll to read</div>
+</section>
+
+<div class="content">
+
+<blockquote>
+<p>The best technology leaders don't just implement systems. They architect the future their organizations will inhabit.</p>
+<cite>-- Hemanth Reganti</cite>
+</blockquote>
+
+<p>It started with a simple conviction: enterprise technology should not merely automate what exists. It should fundamentally reimagine how organizations operate, compete, and grow.</p>
+
+<p>Two decades ago, I began this journey as an engineer. Today, I stand at the intersection of enterprise AI, space technologies, and strategic leadership -- building what comes next.</p>
+
+<h2>Where it began</h2>
+
+<p><strong>2004.</strong> A young engineer from Visvesvaraya Technological University, armed with a degree in Electronics and Communication, stepped into the world of enterprise consulting. The mission was clear even then: technology should serve transformation, not just transactions.</p>
+
+<p><strong>2006 - 2017.</strong> Eleven years across global consultancies, driving large-scale SAP and digital transformations for Fortune 500 clients. Verizon. Mercedes-Benz. General Motors. Caterpillar. Each engagement deepened a conviction: the gap between what technology <em>could</em> do and what enterprises <em>actually did</em> with it was enormous.</p>
+
+<p><strong>2017.</strong> The pivot. I became Chief Technology Architect at Avant-Garde Solutions, leading enterprise transformation with AI and emerging technologies. This was no longer about implementing systems. It was about architecting entirely new operating models.</p>
+
+<h2>What I build for</h2>
+
+<p><strong>The PE-backed turnaround.</strong> Varsity Brands needed a technology transformation that moved at private equity speed. We delivered an enterprise architecture that compressed years of digital debt into months of decisive action.</p>
+
+<p><strong>The Fortune 500 reinvention.</strong> When Verizon needed to rethink its delivery model, we created Convergence -- a rapid delivery framework that won the SAP Process Innovator Award in 2019. Not for the technology. For the <em>thinking</em> behind it.</p>
+
+<p><strong>The builder who refuses to stop learning.</strong> Harvard PLD. MIT Sloan. Berkeley CTO Program. Stanford d.school. IISc Space Technologies. Sutton Capital Fellow. Not credentials for a wall -- fuel for what comes next.</p>
+
+<h2>The next chapter</h2>
+
+<p>Today, I see three forces converging that will reshape enterprise technology forever:</p>
+
+<p><strong>Agentic AI</strong> -- autonomous systems that don't just assist but execute. The question is no longer whether AI can do the work, but how we govern it when it does.</p>
+
+<p><strong>The Fluid Enterprise</strong> -- organizations that reconfigure themselves in real-time. Static org charts and rigid processes are artifacts of a slower era. The future belongs to adaptive, AI-native operating models.</p>
+
+<p><strong>Space-to-Earth Intelligence</strong> -- satellite data, geospatial analytics, and the new space economy creating entirely new categories of enterprise insight. This is why I founded Aperture at MarketLogic.</p>
+
+<p>A year from today, come back and see how far we've gone.</p>
+
+<h2>Thank you</h2>
+
+<p>Thank you to every client who trusted me with their transformation. Thank you to the mentors, professors, and fellow builders who sharpened my thinking. Thank you to my family for their patience during late nights and early mornings.</p>
+
+<p>We mark this one small step, take a pause, reflect, and keep going.</p>
+
+<p><em>See you in Ep. 2.</em></p>
+
+</div>
+
+<section class="cards-section">
+<h2>Milestones</h2>
+<div class="cards-grid">
+
+<div class="card">
+<div class="card-date">2019</div>
+<h3>SAP Process Innovator Award</h3>
+<p>Recognized for the Verizon Convergence rapid delivery model that redefined enterprise implementation speed.</p>
+</div>
+
+<div class="card">
+<div class="card-date">2025</div>
+<h3>Harvard PLD</h3>
+<p>Enrolled in Harvard Business School's Program for Leadership Development. Strategic leadership at the highest level.</p>
+</div>
+
+<div class="card">
+<div class="card-date">2025</div>
+<h3>Aperture Launch</h3>
+<p>Founded Aperture at MarketLogic -- a space-to-earth analytics platform bridging satellite intelligence with enterprise decision-making.</p>
+</div>
+
+<div class="card">
+<div class="card-date">2025</div>
+<h3>IISc Space Technologies</h3>
+<p>Advanced certification in space biotechnology and radar from the Indian Institute of Science.</p>
+</div>
+
+<div class="card">
+<div class="card-date">2025</div>
+<h3>MIT New Space Economy</h3>
+<p>Completed MIT Professional Education program on space technologies, products, and services.</p>
+</div>
+
+<div class="card">
+<div class="card-date">2025</div>
+<h3>Sutton Capital Fellow</h3>
+<p>Fellowship in venture capital and private equity. Bridging deep tech expertise with investment strategy.</p>
+</div>
+
+</div>
+</section>
+
+<footer>
+<p class="sign-off">Thank you for making it here.</p>
+<p>Hemanth Reganti &middot; Irving, Texas</p>
+<p style="margin-top: 1rem;"><a href="https://linkedin.com/in/hemanth-reganti-147153178" target="_blank">LinkedIn</a> &middot; <a href="https://marketlogic.org">MarketLogic</a> &middot; <a href="https://marketlogic.org/aperture/">Aperture</a></p>
+<p style="margin-top: 2rem;">&copy; 2026 Hemanth Reganti. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
